@@ -2,11 +2,10 @@
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.0",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.16.4",
-    "nodemon": "^3.1.10"
+    "mongoose": "^8.17.1"
   },
   "name": "tripgenius",
   "version": "1.0.0",
@@ -15,7 +14,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server/app.js"
-    },
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Puspaldas17/TripGenius.git"
@@ -27,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/Puspaldas17/TripGenius/issues"
   },
-  "homepage": "https://github.com/Puspaldas17/TripGenius#readme"
+  "homepage": "https://github.com/Puspaldas17/TripGenius#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }

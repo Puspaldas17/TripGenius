@@ -106,50 +106,65 @@ TripGenius uses AI to create personalized travel itineraries with real-time weat
 ## 📁 Project File Structure
 
 ```
-TripGeniue/
-├── client/                           # Frontend
-│   ├── assets/                       # Images, icons, fonts
-│   ├── css/                          # Custom styles (Tailwind, Bootstrap overrides)
-│   │   ├── tailwind.css
-│   │   └── styles.css
-│   ├── js/                           # Vanilla JS modules or enhancements
-│   │   └── main.js
-│   ├── components/                   # Reusable HTML components
-│   ├── pages/                        # Individual pages
-│   │   ├── index.html
-│   │   ├── planner.html
-│   │   ├── login.html
-│   │   └── dashboard.html
-│   └── partials/                     # Shared HTML snippets (header, footer)
+TripGenius/
 │
-├── server/                           # Backend
-│   ├── controllers/                  # Route handlers / logic
+├── backend/                         # Node.js + Express + MongoDB backend
+│   ├── config/                       # DB connection, environment configs
+│   │   └── db.js
+│   ├── controllers/                  # Route logic
 │   │   ├── authController.js
 │   │   ├── tripController.js
-│   │   └── aiController.js
-│   ├── models/                       # Mongoose models
+│   │   └── userController.js
+│   ├── models/                       # MongoDB models
 │   │   ├── User.js
-│   │   ├── Trip.js
-│   │   └── Template.js
-│   ├── routes/                       # Express route files
+│   │   └── Trip.js
+│   ├── routes/                       # Express routes
 │   │   ├── authRoutes.js
-│   │   ├── tripRoutes.js
-│   │   └── aiRoutes.js
-│   ├── middlewares/                 # Auth, error handling, validators
-│   ├── utils/                        # Helper functions (e.g., currency.js, weather.js)
-│   ├── config/                       # DB & environment config
-│   ├── app.js                        # Main Express app
-│   └── .env                          # Environment variables
+│   │   └── tripRoutes.js
+│   ├── middleware/                   # Auth & error middleware
+│   │   ├── authMiddleware.js
+│   │   └── errorMiddleware.js
+│   ├── utils/                         # Helper functions
+│   │   └── generateToken.js
+│   ├── .env                           # Environment variables
+│   ├── app.js                         # Express app setup
+│   ├── server.js                      # Server entry point
+│   ├── package.json
+│   └── package-lock.json
 │
-├── public/                           # Static assets served to frontend
-│   └── uploads/                      # Profile pics, documents, etc.
+├── frontend/                          # React + Vite + SCSS + Bootstrap 5 frontend
+│   ├── public/                        # Static assets
+│   │   └── favicon.ico
+│   ├── src/
+│   │   ├── assets/                    # Images, icons
+│   │   │   ├── images/
+│   │   │   └── icons/
+│   │   ├── components/                # Reusable UI components
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── HeroSection.jsx
+│   │   │   └── TripCard.jsx
+│   │   ├── pages/                     # Full pages
+│   │   │   ├── Home.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── Signup.jsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   └── Planner.jsx
+│   │   ├── styles/                    # SCSS styling
+│   │   │   ├── _variables.scss
+│   │   │   ├── _mixins.scss
+│   │   │   └── main.scss
+│   │   ├── App.jsx                    # Main app
+│   │   ├── main.jsx                   # Entry point
+│   │   └── router.jsx                 # React Router config
+│   ├── index.html
+│   ├── package.json
+│   └── vite.config.js
 │
-├── README.md
-├── package.json
 ├── .gitignore
-└── tailwind.config.js
+├── README.md
+└── package.json                       # If root-level scripts for full-stack
 
-```
 
 ---
 

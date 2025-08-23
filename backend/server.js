@@ -12,6 +12,9 @@ app.use(express.json());
 // Routes
 app.use("/api/users", userRoutes); // ✅ this must be a router
 
+app.use("/api/trips", require("./routes/tripRoutes"));
+
+
 // MongoDB connection + server start
 const PORT = process.env.PORT || 5000;
 

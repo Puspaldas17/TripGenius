@@ -1,17 +1,24 @@
-const express = require("express");
+// backend/routes/expenseRoutes.js
+const express = require('express');
+const router = express.Router({ mergeParams: true });
 const {
   getExpenses,
-  addExpense,
+  createExpense,
   updateExpense,
   deleteExpense,
-} = require("../controllers/expenseController");
-const { protect } = require("../middleware/authMiddleware");
+  getExpenseSummary,
+} = require('../controllers/expenseController');
+const { protect } = require('../middleware/authMiddleware');
 
-const router = express.Router({ mergeParams: true });
+// list + create
+router.get('/', protect, getExpenses);
+router.post('/', protect, createExpense);
 
-router.get("/", protect, getExpenses);              // Get all expenses
-router.post("/", protect, addExpense);              // Add expense
-router.put("/:expenseId", protect, updateExpense);  // Update expense
-router.delete("/:expenseId", protect, deleteExpense); // Delete expense
+// update + delete
+router.put('/:expenseId', protect, updateExpense);
+router.delete('/:expenseId', protect, deleteExpense);
+
+// ✅ summary
+router.get('/summary', protect, getExpenseSummary);
 
 module.exports = router;

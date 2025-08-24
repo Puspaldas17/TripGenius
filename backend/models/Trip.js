@@ -1,5 +1,11 @@
-// backend/models/Trip.js
 const mongoose = require("mongoose");
+
+const itinerarySchema = new mongoose.Schema({
+  day: { type: Number, required: true },
+  activity: { type: String, required: true },
+  time: { type: String }, // optional (e.g. "10:00 AM")
+  notes: { type: String }, // optional
+});
 
 const tripSchema = new mongoose.Schema(
   {
@@ -8,28 +14,11 @@ const tripSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    destination: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    startDate: {
-      type: Date,
-    },
-    endDate: {
-      type: Date,
-    },
-    itinerary: [
-      {
-        day: { type: Number },
-        activity: { type: String },
-        location: { type: String },
-      },
-    ],
-    budget: {
-      type: Number,
-      default: 0,
-    },
+    destination: { type: String, required: true },
+    startDate: { type: Date, required: true },
+    endDate: { type: Date, required: true },
+    budget: { type: Number },
+    itinerary: [itinerarySchema], // embedded itinerary
   },
   { timestamps: true }
 );

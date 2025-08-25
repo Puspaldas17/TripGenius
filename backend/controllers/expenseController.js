@@ -3,32 +3,37 @@ const mongoose = require('mongoose');
 const Trip = require('../models/Trip');
 const Expense = require('../models/Expense');
 
-// helper to verify trip ownership (optional; assume req.user is set by auth middleware)
+// helper to check trip ownership (optional)
 const ensureTripAccessible = async (tripId, userId) => {
   if (!mongoose.Types.ObjectId.isValid(tripId)) return null;
   const trip = await Trip.findById(tripId);
   if (!trip) return null;
-  // if you want strict ownership checks, uncomment:
+
+  // Uncomment if you want strict ownership check:
   // if (trip.user.toString() !== userId.toString()) return 'forbidden';
+
   return trip;
 };
 
-// GET /api/trips/:tripId/expenses
+// @desc Get all expenses for a trip
+// @route GET /api/trips/:tripId/expenses
+// @access Private
 exports.getExpenses = async (req, res) => {
   try {
     const { tripId } = req.params;
     const trip = await ensureTripAccessible(tripId, req.user?._id);
     if (!trip) return res.status(404).json({ message: 'Trip not found' });
-    if (trip === 'forbidden') return res.status(403).json({ message: 'Forbidden' });
 
-    const expenses = await Expense.find({ trip: tripId }).sort({ date: -1, createdAt: -1 });
+    const expenses = await Expense.find({ trip: tripId }).sort({ date: -1 });
     res.json(expenses);
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };
 
-// POST /api/trips/:tripId/expenses
+// @desc Create a new expense
+// @route POST /api/trips/:tripId/expenses
+// @access Private
 exports.createExpense = async (req, res) => {
   try {
     const { tripId } = req.params;
@@ -36,7 +41,6 @@ exports.createExpense = async (req, res) => {
 
     const trip = await ensureTripAccessible(tripId, req.user?._id);
     if (!trip) return res.status(404).json({ message: 'Trip not found' });
-    if (trip === 'forbidden') return res.status(403).json({ message: 'Forbidden' });
 
     const expense = await Expense.create({
       trip: tripId,
@@ -55,14 +59,15 @@ exports.createExpense = async (req, res) => {
   }
 };
 
-// PUT /api/trips/:tripId/expenses/:expenseId
+// @desc Update an expense
+// @route PUT /api/trips/:tripId/expenses/:expenseId
+// @access Private
 exports.updateExpense = async (req, res) => {
   try {
     const { tripId, expenseId } = req.params;
 
     const trip = await ensureTripAccessible(tripId, req.user?._id);
     if (!trip) return res.status(404).json({ message: 'Trip not found' });
-    if (trip === 'forbidden') return res.status(403).json({ message: 'Forbidden' });
 
     const expense = await Expense.findOneAndUpdate(
       { _id: expenseId, trip: tripId },
@@ -77,14 +82,15 @@ exports.updateExpense = async (req, res) => {
   }
 };
 
-// DELETE /api/trips/:tripId/expenses/:expenseId
+// @desc Delete an expense
+// @route DELETE /api/trips/:tripId/expenses/:expenseId
+// @access Private
 exports.deleteExpense = async (req, res) => {
   try {
     const { tripId, expenseId } = req.params;
 
     const trip = await ensureTripAccessible(tripId, req.user?._id);
     if (!trip) return res.status(404).json({ message: 'Trip not found' });
-    if (trip === 'forbidden') return res.status(403).json({ message: 'Forbidden' });
 
     const expense = await Expense.findOneAndDelete({ _id: expenseId, trip: tripId });
     if (!expense) return res.status(404).json({ message: 'Expense not found' });
@@ -95,16 +101,17 @@ exports.deleteExpense = async (req, res) => {
   }
 };
 
-// ✅ GET /api/trips/:tripId/expenses/summary
+// ✅ @desc Get expense summary (total vs budget)
+// @route GET /api/trips/:tripId/expenses/summary
+// @access Private
 exports.getExpenseSummary = async (req, res) => {
   try {
     const { tripId } = req.params;
 
     const trip = await ensureTripAccessible(tripId, req.user?._id);
     if (!trip) return res.status(404).json({ message: 'Trip not found' });
-    if (trip === 'forbidden') return res.status(403).json({ message: 'Forbidden' });
 
-    // use aggregation for performance
+    // Aggregate for better performance
     const [agg] = await Expense.aggregate([
       { $match: { trip: new mongoose.Types.ObjectId(tripId) } },
       { $group: { _id: null, totalExpenses: { $sum: '$amount' } } },

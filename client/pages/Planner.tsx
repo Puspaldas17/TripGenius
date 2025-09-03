@@ -93,7 +93,7 @@ export default function Planner() {
       setItinerary(ai);
       setCalendar(ai.days.map((d)=>({ day: d.day, activities: [...d.activities] })));
       setWeather(w);
-      await fetchTravel();
+      // travel options will refresh via effect
     } catch (e) {
       console.error(e);
     } finally {

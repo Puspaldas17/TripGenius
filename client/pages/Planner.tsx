@@ -550,6 +550,42 @@ function ShareTrip() {
   );
 }
 
+function buildTransportLinks(mode: string | null, origin: string, destination: string, from?: Date) {
+  if (!mode) return [] as { label: string; href: string }[];
+  const o = encodeURIComponent(origin.trim());
+  const d = encodeURIComponent(destination.trim());
+  const dateISO = from ? from.toISOString().slice(0, 10) : "";
+  const dateCompact = from ? `${from.getFullYear()}${String(from.getMonth()+1).padStart(2,'0')}${String(from.getDate()).padStart(2,'0')}` : "";
+  switch (mode) {
+    case "train":
+      return [
+        { label: "Google: Trains (live)", href: `https://www.google.com/search?q=trains+from+${o}+to+${d}+on+${dateISO}` },
+        { label: "IRCTC", href: `https://www.irctc.co.in/nget/train-search` },
+      ];
+    case "flight":
+      return [
+        { label: "Google Flights", href: `https://www.google.com/travel/flights?q=flights%20from%20${o}%20to%20${d}%20on%20${dateISO}` },
+        { label: "MakeMyTrip Flights", href: `https://www.makemytrip.com/flights/` },
+      ];
+    case "bus":
+      return [
+        { label: "redBus", href: `https://www.redbus.in/search?fromCityName=${o}&toCityName=${d}&onward=${dateISO}` },
+        { label: "Google: Buses", href: `https://www.google.com/search?q=buses+from+${o}+to+${d}+on+${dateISO}` },
+      ];
+    case "car":
+      return [
+        { label: "Google Maps Driving", href: `https://www.google.com/maps/dir/?api=1&origin=${o}&destination=${d}&travelmode=driving` },
+        { label: "Fuel/Costs Tips", href: `https://www.google.com/search?q=road+trip+${o}+to+${d}+costs` },
+      ];
+    case "waterway":
+      return [
+        { label: "Google: Ferry/Boat", href: `https://www.google.com/search?q=ferry+boat+from+${o}+to+${d}+on+${dateISO}` },
+      ];
+    default:
+      return [];
+  }
+}
+
 function cryptoRandom(length: number) {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   let out = "";

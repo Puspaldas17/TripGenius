@@ -48,6 +48,24 @@ export default function Planner() {
     }
   };
 
+  const doFlightSearch = async () => {
+    const res = await fetch(`/api/search/flights?q=${encodeURIComponent(flightQuery || form.destination)}`);
+    const json = await res.json();
+    setFlights(json.results || []);
+  };
+
+  const doHotelSearch = async () => {
+    const res = await fetch(`/api/search/hotels?q=${encodeURIComponent(hotelQuery || form.destination)}`);
+    const json = await res.json();
+    setHotels(json.results || []);
+  };
+
+  const convert = async () => {
+    const res = await fetch(`/api/currency/convert?amount=${fx.amount}&from=${fx.from}&to=${fx.to}`);
+    const data = (await res.json()) as CurrencyConvertResponse;
+    setFx({ ...fx, rate: data.rate, result: data.result });
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">

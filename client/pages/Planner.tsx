@@ -359,7 +359,7 @@ export default function Planner() {
               <CardTitle className="flex items-center gap-2"><DollarSign className="h-5 w-5 text-primary"/> Currency Converter</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
+              <div className="grid grid-cols-1 gap-3 xs:grid-cols-2 md:grid-cols-4">
                 <div className="md:col-span-1">
                   <Label>Amount</Label>
                   <Input type="number" value={fx.amount} onChange={(e)=>setFx({ ...fx, amount: Number(e.target.value) })} />

@@ -5,8 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 import { Plane, CloudSun, Wallet, Users, Sparkles, Hotel, PlaneTakeoff, DollarSign, Map as MapIcon, FileDown, Calendar as CalIcon } from "lucide-react";
-import type { ItineraryRequest, ItineraryResponse, WeatherResponse, CurrencyConvertResponse } from "@shared/api";
+import type { ItineraryRequest, ItineraryResponse, WeatherResponse, CurrencyConvertResponse, TravelOptionsResponse, TravelOption } from "@shared/api";
 
 const inr = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
 function formatINR(n: number) { return inr.format(Math.round(n)); }

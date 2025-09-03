@@ -153,10 +153,37 @@ export default function Planner() {
     return ()=> clearInterval(id);
   }, [form.destination]);
 
+  // Fetch per-leg travel depending on trip type
+  const legsRequestId = useRef(0);
   useEffect(()=>{
-    const t = setTimeout(()=>{ fetchTravel().catch(()=>{}); }, 500);
+    const id = ++legsRequestId.current;
+    const run = async () => {
+      const o = origin.trim();
+      const d = form.destination.trim();
+      if (!o || !d) return setLegsTravel([]);
+      const legs: Array<[string,string]> = [];
+      if (tripType === "oneway") legs.push([o,d]);
+      if (tripType === "roundtrip") legs.push([o,d],[d,o]);
+      if (tripType === "multicity") {
+        const pts = [o, ...stops.filter(Boolean), d];
+        for (let i=0;i<pts.length-1;i++) legs.push([pts[i], pts[i+1]]);
+      }
+      const results: TravelOptionsResponse[] = [];
+      for (const [lo, ld] of legs) {
+        try {
+          const r = await fetch(`/api/travel/options?origin=${encodeURIComponent(lo)}&destination=${encodeURIComponent(ld)}`);
+          if (!r.ok) { results.push({ km: 0, coords: { origin:{lat:0,lon:0}, destination:{lat:0,lon:0} }, options: [] }); continue; }
+          const j = await r.json();
+          results.push(j);
+        } catch {
+          results.push({ km: 0, coords: { origin:{lat:0,lon:0}, destination:{lat:0,lon:0} }, options: [] });
+        }
+      }
+      if (id === legsRequestId.current) setLegsTravel(results);
+    };
+    const t = setTimeout(()=>{ run(); }, 400);
     return ()=> clearTimeout(t);
-  }, [origin, form.destination]);
+  }, [origin, form.destination, tripType, JSON.stringify(stops)]);
 
   // Derived budget suggestions
   const daysCalc = (dateRange.from && dateRange.to)

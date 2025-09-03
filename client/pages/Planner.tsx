@@ -666,6 +666,20 @@ function ShareTrip() {
   );
 }
 
+function getLegs(tripType: "oneway" | "roundtrip" | "multicity", origin: string, destination: string, stops: string[]) {
+  const o = origin.trim();
+  const d = destination.trim();
+  const legs: Array<[string,string]> = [];
+  if (!o || !d) return legs;
+  if (tripType === 'oneway') legs.push([o,d]);
+  if (tripType === 'roundtrip') legs.push([o,d],[d,o]);
+  if (tripType === 'multicity') {
+    const pts = [o, ...stops.filter(Boolean), d];
+    for (let i=0;i<pts.length-1;i++) legs.push([pts[i], pts[i+1]]);
+  }
+  return legs;
+}
+
 function buildTransportLinks(mode: string | null, origin: string, destination: string, from?: Date) {
   if (!mode) return [] as { label: string; href: string }[];
   const o = encodeURIComponent(origin.trim());

@@ -32,6 +32,7 @@ export default function Planner() {
   const [fx, setFx] = useState<{amount:number;from:string;to:string;result:number;rate:number}>({amount:1000,from:"INR",to:"USD",result:0,rate:0});
   const [travel, setTravel] = useState<TravelOptionsResponse | null>(null);
   const [mode, setMode] = useState<TravelOption["mode"] | null>(null);
+  const [members, setMembers] = useState<number>(2);
 
   const perDay = useMemo(() => (form.budget || 0) / (form.days || 1), [form.budget, form.days]);
   const [calendar, setCalendar] = useState<{ day: number; activities: string[] }[]>([]);
@@ -146,6 +147,23 @@ export default function Planner() {
     return ()=> clearTimeout(t);
   }, [origin, form.destination]);
 
+  // Derived budget suggestions
+  const daysCalc = (dateRange.from && dateRange.to)
+    ? Math.max(1, Math.round((+dateRange.to - +dateRange.from) / (1000*60*60*24)) + 1)
+    : form.days;
+  const rooms = Math.ceil(Math.max(1, members) / 2);
+  const stayPerNight = 3000;
+  const foodPerDayPerPerson = 1000;
+  const actPerDayPerPerson = 800;
+  const travelPrice = mode && travel ? (travel.options.find(o=>o.mode===mode)?.price || 0) : 0;
+  const transportPerPerson = mode === 'car' ? travelPrice / Math.max(1, members) : travelPrice;
+  const transportTotal = Math.round(transportPerPerson * Math.max(1, members));
+  const stayTotal = rooms * stayPerNight * daysCalc;
+  const foodTotal = Math.max(1, members) * foodPerDayPerPerson * daysCalc;
+  const actTotal = Math.max(1, members) * actPerDayPerPerson * daysCalc;
+  const suggestedTotal = transportTotal + stayTotal + foodTotal + actTotal;
+  const perPersonPerDay = Math.max(1, Math.round((form.budget / Math.max(1, members)) / Math.max(1, daysCalc)));
+
   const useCurrentOrigin = async () => {
     try {
       const coords = await new Promise<GeolocationPosition>((resolve, reject) => {
@@ -221,6 +239,14 @@ export default function Planner() {
                   value={form.budget}
                   onChange={(e) => setForm((f) => ({ ...f, budget: Number(e.target.value) }))}
                 />
+                <div className="text-xs text-muted-foreground">Suggested for your trip: <span className="font-medium">{formatINR(suggestedTotal)}</span>
+                  <Button size="sm" variant="ghost" className="ml-2 h-7 px-2" onClick={()=> setForm((f)=> ({ ...f, budget: suggestedTotal }))}>Set budget</Button>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Members</Label>
+                <Input type="number" min={1} value={members} onChange={(e)=> setMembers(Math.max(1, Number(e.target.value)))} />
+                <div className="text-xs text-muted-foreground">Per person per day at current budget: <span className="font-medium">{formatINR(perPersonPerDay)}</span></div>
               </div>
             </div>
             <div className="space-y-2">
@@ -248,7 +274,7 @@ export default function Planner() {
               {loading ? "Generating..." : "Generate Itinerary"}
             </Button>
             <div className="rounded-md bg-secondary p-3 text-sm text-muted-foreground">
-              Daily budget estimate: <span className="font-semibold text-foreground">{formatINR(perDay)}</span>
+              Daily budget per person: <span className="font-semibold text-foreground">{formatINR(perPersonPerDay)}</span>
             </div>
           </CardContent>
         </Card>
@@ -419,16 +445,28 @@ export default function Planner() {
                 </div>
                 <div className="mt-3 grid grid-cols-2 gap-3 text-sm md:grid-cols-4">
                   <div className="rounded-md border p-3">Transport
-                    <div className="font-semibold">{formatINR(mode && travel ? (travel.options.find(o=>o.mode===mode)?.price || 0) : 0)}</div>
+                    <div className="font-semibold">{formatINR(transportTotal)}</div>
                   </div>
                   <div className="rounded-md border p-3">Stay
-                    <div className="font-semibold">{formatINR((form.days || 1) * 3000)}</div>
+                    <div className="font-semibold">{formatINR(stayTotal)} <span className="text-xs text-muted-foreground">({rooms} rooms)</span></div>
                   </div>
                   <div className="rounded-md border p-3">Food
-                    <div className="font-semibold">{formatINR((form.days || 1) * 1000)}</div>
+                    <div className="font-semibold">{formatINR(foodTotal)}</div>
                   </div>
                   <div className="rounded-md border p-3">Activities
-                    <div className="font-semibold">{formatINR((form.days || 1) * 800)}</div>
+                    <div className="font-semibold">{formatINR(actTotal)}</div>
+                  </div>
+                </div>
+                <div className="mt-3 rounded-md border p-3 text-sm">
+                  Suggested trip total: <span className="font-semibold">{formatINR(suggestedTotal)}</span>
+                  <span className="ml-2 text-xs text-muted-foreground">({members} members, {daysCalc} days)</span>
+                  <div className="mt-1 text-xs">
+                    {form.budget >= suggestedTotal ? (
+                      <span className="text-green-600">Within budget by {formatINR(form.budget - suggestedTotal)}</span>
+                    ) : (
+                      <span className="text-red-600">Short by {formatINR(suggestedTotal - form.budget)}</span>
+                    )}
+                    <Button size="sm" variant="ghost" className="ml-2 h-7 px-2" onClick={()=> setForm((f)=> ({ ...f, budget: suggestedTotal }))}>Set as budget</Button>
                   </div>
                 </div>
               </CardContent>

@@ -153,7 +153,7 @@ export default function Planner() {
             </CardHeader>
             <CardContent>
               {weather ? (
-                <div className="grid grid-cols-2 gap-4 text-sm md:grid-cols-4">
+                <div className="grid grid-cols-2 gap-3 text-sm xs:grid-cols-3 md:grid-cols-4">
                   {weather.daily.map((d) => (
                     <div key={d.date} className="rounded-lg border p-3">
                       <div className="font-medium">{new Date(d.date).toLocaleDateString()}</div>

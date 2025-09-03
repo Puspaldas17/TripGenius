@@ -68,8 +68,8 @@ export default function Index() {
       </section>
 
       {/* Tech */}
-      <section className="mx-auto max-w-7xl px-4 pb-12 md:px-6">
-        <div className="grid grid-cols-1 gap-8 rounded-3xl border p-8 md:grid-cols-2">
+      <section className="mx-auto w-full max-w-7xl px-3 pb-12 xs:px-4 md:px-6">
+        <div className="grid grid-cols-1 gap-6 rounded-3xl border p-6 xs:gap-8 xs:p-8 md:grid-cols-2">
           <div>
             <h3 className="text-xl font-bold">Tech Stack</h3>
             <ul className="mt-3 space-y-2 text-sm text-muted-foreground">

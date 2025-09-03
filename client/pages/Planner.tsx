@@ -55,29 +55,39 @@ export default function Planner() {
     w.print();
   };
 
+  const fetchTravel = async () => {
+    try {
+      const tRes = await fetch(`/api/travel/options?origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(form.destination)}`);
+      const tr = (await tRes.json()) as TravelOptionsResponse;
+      setTravel(tr);
+      const firstAvailable = tr.options.find(o=>o.available) || tr.options[0];
+      setMode((m)=> m ?? firstAvailable?.mode ?? null);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const generate = async () => {
+    if (!origin || !form.destination) return;
+    if (dateRange.from && dateRange.to && dateRange.to < dateRange.from) return;
     setLoading(true);
     try {
       const newDays = dateRange.from && dateRange.to ? Math.max(1, Math.round((+dateRange.to - +dateRange.from) / (1000*60*60*24)) + 1) : form.days;
       const req = { ...form, days: newDays };
-      const [aiRes, wRes, tRes] = await Promise.all([
+      const [aiRes, wRes] = await Promise.all([
         fetch("/api/ai/itinerary", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(req),
         }),
         fetch(`/api/weather?location=${encodeURIComponent(form.destination)}`),
-        fetch(`/api/travel/options?origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(form.destination)}`),
       ]);
       const ai = (await aiRes.json()) as ItineraryResponse;
       const w = (await wRes.json()) as WeatherResponse;
-      const tr = (await tRes.json()) as TravelOptionsResponse;
       setItinerary(ai);
       setCalendar(ai.days.map((d)=>({ day: d.day, activities: [...d.activities] })));
       setWeather(w);
-      setTravel(tr);
-      const firstAvailable = tr.options.find(o=>o.available) || tr.options[0];
-      setMode(firstAvailable?.mode || null);
+      await fetchTravel();
     } catch (e) {
       console.error(e);
     } finally {
@@ -116,6 +126,11 @@ export default function Planner() {
     }, 600000);
     return ()=> clearInterval(id);
   }, [form.destination]);
+
+  useEffect(()=>{
+    const t = setTimeout(()=>{ fetchTravel(); }, 400);
+    return ()=> clearTimeout(t);
+  }, [origin, form.destination]);
 
   const useCurrentOrigin = async () => {
     try {
@@ -184,12 +199,27 @@ export default function Planner() {
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="range"
-                      selected={dateRange as any}
-                      onSelect={(r: any)=> setDateRange(r || {})}
-                      numberOfMonths={1}
-                    />
+                    <div className="p-3">
+                      <Calendar
+                        mode="range"
+                        selected={dateRange as any}
+                        onSelect={(r: any)=> setDateRange(r || {})}
+                        numberOfMonths={1}
+                      />
+                      <div className="mt-3 grid grid-cols-3 gap-2 text-xs">
+                        <Button variant="outline" onClick={()=>{
+                          const now = new Date();
+                          const end = new Date(now); end.setDate(now.getDate()+1);
+                          setDateRange({ from: now, to: end });
+                        }}>Weekend</Button>
+                        <Button variant="outline" onClick={()=>{
+                          const now = new Date();
+                          const end = new Date(now); end.setDate(now.getDate()+6);
+                          setDateRange({ from: now, to: end });
+                        }}>1 Week</Button>
+                        <Button variant="outline" onClick={()=> setDateRange({})}>Clear</Button>
+                      </div>
+                    </div>
                   </PopoverContent>
                 </Popover>
               </div>
@@ -309,6 +339,17 @@ export default function Planner() {
               ) : (
                 <p className="mt-2 text-xs text-muted-foreground">Generate to see route and modes.</p>
               )}
+
+              {travel?.options?.length ? (
+                <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-5">
+                  {travel.options.filter(o=>o.available).map((o)=> (
+                    <button key={o.mode} onClick={()=> setMode(o.mode)} className={`rounded-lg border p-3 text-left text-sm transition ${mode===o.mode? 'border-primary ring-2 ring-primary/30' : ''}`}>
+                      <div className="font-medium capitalize">{o.mode}</div>
+                      <div className="text-muted-foreground">{o.timeHours}h • {formatINR(o.price)}</div>
+                    </button>
+                  ))}
+                </div>
+              ) : null}
             </CardContent>
           </Card>
 

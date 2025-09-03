@@ -5,8 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Plane, CloudSun, Wallet, Users, Sparkles } from "lucide-react";
-import type { ItineraryRequest, ItineraryResponse, WeatherResponse } from "@shared/api";
+import { Plane, CloudSun, Wallet, Users, Sparkles, Hotel, PlaneTakeoff, DollarSign } from "lucide-react";
+import type { ItineraryRequest, ItineraryResponse, WeatherResponse, CurrencyConvertResponse } from "@shared/api";
 
 export default function Planner() {
   const [form, setForm] = useState<ItineraryRequest>({

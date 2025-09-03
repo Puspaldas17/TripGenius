@@ -727,6 +727,11 @@ function getLegs(tripType: "oneway" | "roundtrip" | "multicity", origin: string,
   return legs;
 }
 
+function defaultSlot(index: number) {
+  const slots = ["09:00", "13:00", "18:00", "20:00"];
+  return slots[index % slots.length];
+}
+
 function buildTransportLinks(mode: string | null, origin: string, destination: string, from?: Date) {
   if (!mode) return [] as { label: string; href: string }[];
   const o = encodeURIComponent(origin.trim());

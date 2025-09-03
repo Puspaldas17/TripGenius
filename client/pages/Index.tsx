@@ -39,8 +39,8 @@ export default function Index() {
             </div>
           </div>
           <div className="relative">
-            <div className="rounded-3xl border bg-card p-4 shadow-xl">
-              <img src="/placeholder.svg" alt="TripGenius preview" className="rounded-2xl border"/>
+            <div className="rounded-3xl border bg-card p-2 shadow-xl">
+              <img src="https://images.pexels.com/photos/5953197/pexels-photo-5953197.jpeg" alt="Modern travel planning with city skyline" className="h-auto w-full rounded-2xl border object-cover"/>
             </div>
           </div>
         </div>

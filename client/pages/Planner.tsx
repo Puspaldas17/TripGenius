@@ -60,6 +60,7 @@ export default function Planner() {
       const ai = (await aiRes.json()) as ItineraryResponse;
       const w = (await wRes.json()) as WeatherResponse;
       setItinerary(ai);
+      setCalendar(ai.days.map((d)=>({ day: d.day, activities: [...d.activities] })));
       setWeather(w);
     } catch (e) {
       console.error(e);

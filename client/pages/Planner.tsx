@@ -58,19 +58,26 @@ export default function Planner() {
   const generate = async () => {
     setLoading(true);
     try {
-      const [aiRes, wRes] = await Promise.all([
+      const newDays = dateRange.from && dateRange.to ? Math.max(1, Math.round((+dateRange.to - +dateRange.from) / (1000*60*60*24)) + 1) : form.days;
+      const req = { ...form, days: newDays };
+      const [aiRes, wRes, tRes] = await Promise.all([
         fetch("/api/ai/itinerary", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
+          body: JSON.stringify(req),
         }),
         fetch(`/api/weather?location=${encodeURIComponent(form.destination)}`),
+        fetch(`/api/travel/options?origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(form.destination)}`),
       ]);
       const ai = (await aiRes.json()) as ItineraryResponse;
       const w = (await wRes.json()) as WeatherResponse;
+      const tr = (await tRes.json()) as TravelOptionsResponse;
       setItinerary(ai);
       setCalendar(ai.days.map((d)=>({ day: d.day, activities: [...d.activities] })));
       setWeather(w);
+      setTravel(tr);
+      const firstAvailable = tr.options.find(o=>o.available) || tr.options[0];
+      setMode(firstAvailable?.mode || null);
     } catch (e) {
       console.error(e);
     } finally {

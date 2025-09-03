@@ -9,7 +9,7 @@ export interface DemoResponse {
   message: string;
 }
 
-export type Mood = "foodie" | "adventure" | "relax" | "culture";
+export type Mood = "foodie" | "adventure" | "relax" | "culture" | "romantic" | "family" | "nightlife" | "spiritual" | "shopping" | "nature" | "photography";
 
 export interface ItineraryRequest {
   destination: string;

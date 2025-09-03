@@ -331,9 +331,9 @@ export default function Planner() {
                 <CardTitle className="flex items-center gap-2"><Hotel className="h-5 w-5 text-primary"/> Hotel Search</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2 xs:flex-row">
                   <Input placeholder="City or hotel name" value={hotelQuery} onChange={(e)=>setHotelQuery(e.target.value)} />
-                  <Button onClick={doHotelSearch}>Search</Button>
+                  <Button className="w-full xs:w-auto" onClick={doHotelSearch}>Search</Button>
                 </div>
                 <div className="space-y-2 text-sm">
                   {hotels.map((h)=> (

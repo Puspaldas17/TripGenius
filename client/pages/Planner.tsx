@@ -621,58 +621,32 @@ export default function Planner() {
             </Card>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2"><PlaneTakeoff className="h-5 w-5 text-primary"/> Live Transport Search</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm">
-                <div>Selected mode: <span className="font-medium capitalize">{mode || '-'}</span> • Distance: {travel?.km ? `${travel.km} km` : '-'}</div>
-                <div className="grid grid-cols-1 gap-3">
-                  {getLegs(tripType, origin, form.destination, stops).map(([lo, ld], i)=> (
-                    <div key={i} className="space-y-2 rounded-md border p-3">
-                      <div className="text-xs text-muted-foreground">Leg {i+1}: {lo} → {ld}</div>
-                      <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-                        {buildTransportLinks(mode, lo, ld, dateRange.from)?.map((l)=> (
-                          <Button asChild key={l.href} variant="outline">
-                            <a href={l.href} target="_blank" rel="noreferrer">{l.label}</a>
-                          </Button>
-                        ))}
-                      </div>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2"><Hotel className="h-5 w-5 text-primary"/> Hotel Search</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex flex-col gap-2 xs:flex-row">
+                <Input placeholder="City or hotel name" value={hotelQuery} onChange={(e)=>setHotelQuery(e.target.value)} />
+                <Button className="w-full xs:w-auto" onClick={doHotelSearch}>Search</Button>
+              </div>
+              <div className="space-y-2 text-sm">
+                {hotels.map((h)=> (
+                  <div key={h.id} className="flex items-center justify-between rounded-md border p-3">
+                    <div className="flex flex-col">
+                      <span className="font-medium">{h.name}</span>
+                      <span className="text-muted-foreground">⭐ {h.rating}</span>
                     </div>
-                  ))}
-                </div>
-                {!mode && <div className="text-muted-foreground">Choose a mode above to see live search links.</div>}
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2"><Hotel className="h-5 w-5 text-primary"/> Hotel Search</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex flex-col gap-2 xs:flex-row">
-                  <Input placeholder="City or hotel name" value={hotelQuery} onChange={(e)=>setHotelQuery(e.target.value)} />
-                  <Button className="w-full xs:w-auto" onClick={doHotelSearch}>Search</Button>
-                </div>
-                <div className="space-y-2 text-sm">
-                  {hotels.map((h)=> (
-                    <div key={h.id} className="flex items-center justify-between rounded-md border p-3">
-                      <div className="flex flex-col">
-                        <span className="font-medium">{h.name}</span>
-                        <span className="text-muted-foreground">⭐ {h.rating}</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-lg font-bold">₹{new Intl.NumberFormat('en-IN').format(h.pricePerNight)}/night</div>
-                        <a className="text-xs text-primary underline" href={h.url} target="_blank" rel="noreferrer">View</a>
-                      </div>
+                    <div className="text-right">
+                      <div className="text-lg font-bold">₹{new Intl.NumberFormat('en-IN').format(h.pricePerNight)}/night</div>
+                      <a className="text-xs text-primary underline" href={h.url} target="_blank" rel="noreferrer">View</a>
                     </div>
-                  ))}
-                  {hotels.length === 0 && <div className="text-muted-foreground">Search to see hotel options.</div>}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                  </div>
+                ))}
+                {hotels.length === 0 && <div className="text-muted-foreground">Search to see hotel options.</div>}
+              </div>
+            </CardContent>
+          </Card>
 
           <Card>
             <CardHeader>

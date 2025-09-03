@@ -288,6 +288,30 @@ export default function Planner() {
         <div className="md:col-span-2 space-y-6">
           <Card>
             <CardHeader>
+              <CardTitle className="flex items-center gap-2"><MapIcon className="h-5 w-5 text-primary"/> Nearby Places</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {places.length ? (
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {places.slice(0,12).map((p)=> (
+                    <a key={p.id} href={p.url} target="_blank" rel="noreferrer"
+                      className="rounded-lg border p-3 hover:shadow-sm"
+                      draggable
+                      onDragStart={(e)=> e.dataTransfer.setData('text/plain', JSON.stringify({ place: p.title }))}
+                    >
+                      <div className="font-medium">{p.title}</div>
+                      <div className="text-xs text-muted-foreground">{p.summary}</div>
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-muted-foreground">Generate to load nearby places for your destination.</div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
               <CardTitle className="flex items-center gap-2"><CloudSun className="h-5 w-5 text-primary"/> Weather Preview</CardTitle>
             </CardHeader>
             <CardContent>

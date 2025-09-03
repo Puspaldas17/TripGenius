@@ -100,11 +100,14 @@ export default function Planner() {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label>Destination</Label>
-              <Input
-                value={form.destination}
-                onChange={(e) => setForm((f) => ({ ...f, destination: e.target.value }))}
-                placeholder="City, State (e.g., Mumbai, Maharashtra)"
-              />
+              <div className="flex gap-2">
+                <Input
+                  value={form.destination}
+                  onChange={(e) => setForm((f) => ({ ...f, destination: e.target.value }))}
+                  placeholder="City, State (e.g., Mumbai, Maharashtra)"
+                />
+                <Button variant="outline" onClick={useCurrentLocation} className="shrink-0">Use current</Button>
+              </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">

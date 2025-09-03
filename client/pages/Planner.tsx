@@ -137,15 +137,32 @@ export default function Planner() {
                 <Button variant="outline" onClick={useCurrentLocation} className="shrink-0">Use current</Button>
               </div>
             </div>
+            <div className="space-y-2">
+              <Label>Origin</Label>
+              <div className="flex gap-2">
+                <Input value={origin} onChange={(e)=>setOrigin(e.target.value)} placeholder="City, State (e.g., Kolkata, West Bengal)" />
+                <Button variant="outline" onClick={useCurrentOrigin} className="shrink-0">Use current</Button>
+              </div>
+            </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">
-                <Label>Days</Label>
-                <Input
-                  type="number"
-                  min={1}
-                  value={form.days}
-                  onChange={(e) => setForm((f) => ({ ...f, days: Number(e.target.value) }))}
-                />
+                <Label>Travel Dates</Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className="w-full justify-start">
+                      <CalIcon className="mr-2 h-4 w-4" />
+                      {dateRange.from ? `${dateRange.from.toLocaleDateString()}${dateRange.to ? ` - ${dateRange.to.toLocaleDateString()}` : ""}` : "Pick dates"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="range"
+                      selected={dateRange as any}
+                      onSelect={(r: any)=> setDateRange(r || {})}
+                      numberOfMonths={1}
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
               <div className="space-y-2">
                 <Label>Budget (₹)</Label>

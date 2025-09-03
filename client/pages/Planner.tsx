@@ -58,18 +58,26 @@ export default function Planner() {
   const travelAbort = useRef<AbortController | null>(null);
   const fetchTravel = async () => {
     try {
+      if (!origin || !form.destination) return;
+      if (origin.length < 3 || form.destination.length < 3) return;
       travelAbort.current?.abort();
       const ac = new AbortController();
       travelAbort.current = ac;
       const tRes = await fetch(`/api/travel/options?origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(form.destination)}`, { signal: ac.signal });
-      const tr = (await tRes.json()) as TravelOptionsResponse;
       if (travelAbort.current !== ac) return; // superseded
+      if (!tRes.ok) {
+        setTravel({ km: 0, coords: { origin: { lat: 0, lon: 0 }, destination: { lat: 0, lon: 0 } }, options: [] });
+        setMode(null);
+        return;
+      }
+      const tr = (await tRes.json()) as TravelOptionsResponse;
       setTravel(tr);
       const firstAvailable = tr.options.find(o=>o.available) || tr.options[0];
       setMode((m)=> m ?? firstAvailable?.mode ?? null);
     } catch (e) {
       if ((e as any)?.name === "AbortError") return;
-      console.error(e);
+      setTravel({ km: 0, coords: { origin: { lat: 0, lon: 0 }, destination: { lat: 0, lon: 0 } }, options: [] });
+      setMode(null);
     }
   };
 

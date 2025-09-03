@@ -34,6 +34,9 @@ export default function Planner() {
   const [mode, setMode] = useState<TravelOption["mode"] | null>(null);
   const [members, setMembers] = useState<number>(2);
   const [places, setPlaces] = useState<Place[]>([]);
+  const [tripType, setTripType] = useState<"oneway" | "roundtrip" | "multicity">("oneway");
+  const [stops, setStops] = useState<string[]>([]);
+  const [legsTravel, setLegsTravel] = useState<TravelOptionsResponse[]>([]);
 
   const perDay = useMemo(() => (form.budget || 0) / (form.days || 1), [form.budget, form.days]);
   const [calendar, setCalendar] = useState<{ day: number; activities: string[] }[]>([]);

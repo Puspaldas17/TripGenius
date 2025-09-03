@@ -204,38 +204,14 @@ export default function Planner() {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">
-                <Label>Travel Dates</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start">
-                      <CalIcon className="mr-2 h-4 w-4" />
-                      {dateRange.from ? `${dateRange.from.toLocaleDateString()}${dateRange.to ? ` - ${dateRange.to.toLocaleDateString()}` : ""}` : "Pick dates"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <div className="p-3">
-                      <Calendar
-                        mode="range"
-                        selected={dateRange as any}
-                        onSelect={(r: any)=> setDateRange(r || {})}
-                        numberOfMonths={1}
-                      />
-                      <div className="mt-3 grid grid-cols-3 gap-2 text-xs">
-                        <Button variant="outline" onClick={()=>{
-                          const now = new Date();
-                          const end = new Date(now); end.setDate(now.getDate()+1);
-                          setDateRange({ from: now, to: end });
-                        }}>Weekend</Button>
-                        <Button variant="outline" onClick={()=>{
-                          const now = new Date();
-                          const end = new Date(now); end.setDate(now.getDate()+6);
-                          setDateRange({ from: now, to: end });
-                        }}>1 Week</Button>
-                        <Button variant="outline" onClick={()=> setDateRange({})}>Clear</Button>
-                      </div>
-                    </div>
-                  </PopoverContent>
-                </Popover>
+                <Label>Start Date</Label>
+                <Input type="date" value={dateRange.from ? new Date(dateRange.from).toISOString().slice(0,10) : ""}
+                  onChange={(e)=> setDateRange((r)=> ({ ...r, from: e.target.value ? new Date(e.target.value) : undefined }))} />
+              </div>
+              <div className="space-y-2">
+                <Label>End Date</Label>
+                <Input type="date" value={dateRange.to ? new Date(dateRange.to).toISOString().slice(0,10) : ""}
+                  onChange={(e)=> setDateRange((r)=> ({ ...r, to: e.target.value ? new Date(e.target.value) : undefined }))} />
               </div>
               <div className="space-y-2">
                 <Label>Budget (₹)</Label>

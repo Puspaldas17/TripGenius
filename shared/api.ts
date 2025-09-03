@@ -48,3 +48,16 @@ export interface CurrencyConvertResponse {
   rate: number;
   result: number;
 }
+
+export interface TravelOption {
+  mode: "flight" | "train" | "car" | "bus" | "waterway";
+  timeHours: number;
+  price: number; // INR
+  available: boolean;
+}
+
+export interface TravelOptionsResponse {
+  km: number;
+  coords: { origin: { lat: number; lon: number }; destination: { lat: number; lon: number } };
+  options: TravelOption[];
+}

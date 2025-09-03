@@ -263,6 +263,20 @@ export default function Planner() {
                 <div className="text-xs text-muted-foreground">Suggested for your trip: <span className="font-medium">{formatINR(suggestedTotal)}</span>
                   <Button size="sm" variant="ghost" className="ml-2 h-7 px-2" onClick={()=> setForm((f)=> ({ ...f, budget: suggestedTotal }))}>Set budget</Button>
                 </div>
+                {tripType === 'multicity' && (
+                  <div className="pt-2">
+                    <Label>Stops (optional)</Label>
+                    <div className="mt-1 space-y-2">
+                      {stops.map((s, i)=> (
+                        <div key={i} className="flex gap-2">
+                          <Input value={s} onChange={(e)=> setStops((prev)=> prev.map((v,idx)=> idx===i? e.target.value : v))} placeholder="City, State" />
+                          <Button variant="outline" onClick={()=> setStops((prev)=> prev.filter((_,idx)=> idx!==i))}>Remove</Button>
+                        </div>
+                      ))}
+                      <Button variant="outline" onClick={()=> setStops((prev)=> [...prev, ""]) }>Add stop</Button>
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="space-y-2">
                 <Label>Members</Label>

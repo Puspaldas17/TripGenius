@@ -449,28 +449,18 @@ export default function Planner() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2"><PlaneTakeoff className="h-5 w-5 text-primary"/> Flight Search</CardTitle>
+                <CardTitle className="flex items-center gap-2"><PlaneTakeoff className="h-5 w-5 text-primary"/> Live Transport Search</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex flex-col gap-2 xs:flex-row">
-                  <Input placeholder="Destination or airport" value={flightQuery} onChange={(e)=>setFlightQuery(e.target.value)} />
-                  <Button className="w-full xs:w-auto" onClick={doFlightSearch}>Search</Button>
-                </div>
-                <div className="space-y-2 text-sm">
-                  {flights.map((f)=> (
-                    <div key={f.id} className="flex items-center justify-between rounded-md border p-3">
-                      <div className="flex flex-col">
-                        <span className="font-medium">{f.from} → {f.to}</span>
-                        <span className="text-muted-foreground">{f.airline} • {f.departure}</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-lg font-bold">₹{new Intl.NumberFormat('en-IN').format(f.price)}</div>
-                        <a className="text-xs text-primary underline" href="#" rel="noreferrer">Book (affiliate)</a>
-                      </div>
-                    </div>
+              <CardContent className="space-y-3 text-sm">
+                <div>Selected mode: <span className="font-medium capitalize">{mode || '-'}</span> • Distance: {travel?.km ? `${travel.km} km` : '-'}</div>
+                <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                  {buildTransportLinks(mode, origin, form.destination, dateRange.from)?.map((l)=> (
+                    <Button asChild key={l.href} variant="outline">
+                      <a href={l.href} target="_blank" rel="noreferrer">{l.label}</a>
+                    </Button>
                   ))}
-                  {flights.length === 0 && <div className="text-muted-foreground">Search to see flight options.</div>}
                 </div>
+                {!mode && <div className="text-muted-foreground">Choose a mode above to see live search links.</div>}
               </CardContent>
             </Card>
 

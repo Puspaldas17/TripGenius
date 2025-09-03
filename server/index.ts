@@ -2,6 +2,11 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
+import { signup, login } from "./routes/auth";
+import { generateItinerary } from "./routes/ai";
+import { getWeather } from "./routes/weather";
+import { listTrips, saveTrip } from "./routes/trips";
+import { searchFlights, searchHotels } from "./routes/search";
 
 export function createServer() {
   const app = express();
@@ -18,6 +23,22 @@ export function createServer() {
   });
 
   app.get("/api/demo", handleDemo);
+
+  // Auth
+  app.post("/api/auth/signup", signup);
+  app.post("/api/auth/login", login);
+
+  // AI + data
+  app.post("/api/ai/itinerary", generateItinerary);
+  app.get("/api/weather", getWeather);
+
+  // Search
+  app.get("/api/search/flights", searchFlights);
+  app.get("/api/search/hotels", searchHotels);
+
+  // Trips
+  app.get("/api/trips", listTrips);
+  app.post("/api/trips", saveTrip);
 
   return app;
 }

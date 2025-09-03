@@ -8,6 +8,7 @@ import { getWeather } from "./routes/weather";
 import { listTrips, saveTrip } from "./routes/trips";
 import { searchFlights, searchHotels } from "./routes/search";
 import { convertCurrency } from "./routes/currency";
+import { reverseGeocode } from "./routes/geocode";
 
 export function createServer() {
   const app = express();
@@ -43,6 +44,9 @@ export function createServer() {
 
   // Currency
   app.get("/api/currency/convert", convertCurrency);
+
+  // Geocode
+  app.get("/api/geocode/reverse", reverseGeocode);
 
   return app;
 }

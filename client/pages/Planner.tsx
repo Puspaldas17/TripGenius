@@ -408,9 +408,15 @@ export default function Planner() {
                         <div className="text-sm text-muted-foreground">Focus: {day.theme}</div>
                       </div>
                       <Separator className="my-3" />
-                      <ul className="list-disc space-y-2 pl-5 text-sm">
+                      <ul className="space-y-2 text-sm">
                         {day.activities.map((a, idx) => (
-                          <li key={idx}>{a}</li>
+                          <li key={idx} className="flex items-center gap-3">
+                            <input type="time" value={a.time} onChange={(e)=>{
+                              setCalendar((prev)=> prev.map((d2)=> d2.day===day.day ? { ...d2, activities: d2.activities.map((x,j)=> j===idx ? { ...x, time: e.target.value } : x) } : d2));
+                            }} className="h-8 rounded border px-2 text-xs" />
+                            <span className="font-medium">{a.time || "--:--"}</span>
+                            <span>• {a.text}</span>
+                          </li>
                         ))}
                       </ul>
                     </div>

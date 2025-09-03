@@ -10,13 +10,13 @@ export default function Index() {
       {/* Hero */}
       <section className="relative isolate">
         <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/10 via-accent/10 to-transparent" />
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 pb-12 pt-16 md:grid-cols-2 md:px-6 md:pb-20 md:pt-24">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 px-3 pb-10 pt-14 xs:px-4 md:grid-cols-2 md:px-6 md:pb-20 md:pt-24 2xl:gap-12">
           <div>
             <Badge className="mb-4 bg-accent text-accent-foreground">AI Travel Planner</Badge>
-            <h1 className="text-4xl font-extrabold tracking-tight md:text-6xl">
+            <h1 className="text-3xl font-extrabold leading-tight tracking-tight xs:text-4xl md:text-6xl lg:text-7xl">
               Plan Smarter. <span className="text-primary">Travel Better.</span>
             </h1>
-            <p className="mt-4 text-lg text-muted-foreground">
+            <p className="mt-4 text-base text-muted-foreground xs:text-lg lg:text-xl">
               TripGenius uses AI to create personalized itineraries with real-time weather, flight & hotel search, budget tracking, and group collaboration — all in one place.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">

@@ -52,7 +52,7 @@ export default function Index() {
         <p className="mt-2 max-w-3xl text-muted-foreground">
           AI itinerary generation, real-time data, booking search, budgeting, and group planning — unified into a single seamless experience.
         </p>
-        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-6 xs:grid-cols-2 md:grid-cols-3 2xl:gap-8">
           {features.map((f) => (
             <Card key={f.title} className="hover:shadow-lg transition">
               <CardContent className="p-6">

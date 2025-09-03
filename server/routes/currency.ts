@@ -2,8 +2,8 @@ import { RequestHandler } from "express";
 
 export const convertCurrency: RequestHandler = async (req, res) => {
   const amount = Number(req.query.amount || 1);
-  const from = String(req.query.from || "USD").toUpperCase();
-  const to = String(req.query.to || "EUR").toUpperCase();
+  const from = String(req.query.from || "INR").toUpperCase();
+  const to = String(req.query.to || "USD").toUpperCase();
 
   try {
     const resp = await fetch(`https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`);

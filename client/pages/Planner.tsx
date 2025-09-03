@@ -90,6 +90,21 @@ export default function Planner() {
     setFx({ ...fx, rate: data.rate, result: data.result });
   };
 
+  const useCurrentLocation = async () => {
+    try {
+      const coords = await new Promise<GeolocationPosition>((resolve, reject) => {
+        if (!navigator.geolocation) return reject(new Error("Geolocation not supported"));
+        navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 10000 });
+      });
+      const { latitude, longitude } = coords.coords;
+      const resp = await fetch(`/api/geocode/reverse?lat=${latitude}&lon=${longitude}`);
+      const data = await resp.json();
+      if (data?.label) setForm((f) => ({ ...f, destination: data.label }));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <div className="mx-auto w-full max-w-7xl px-3 py-8 xs:px-4 md:px-6 md:py-10">
       <div className="grid grid-cols-1 gap-4 xs:gap-6 xs:grid-cols-2 md:grid-cols-3">

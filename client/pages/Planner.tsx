@@ -205,6 +205,94 @@ export default function Planner() {
               </CardContent>
             </Card>
           </div>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2"><PlaneTakeoff className="h-5 w-5 text-primary"/> Flight Search</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex gap-2">
+                  <Input placeholder="Destination or airport" value={flightQuery} onChange={(e)=>setFlightQuery(e.target.value)} />
+                  <Button onClick={doFlightSearch}>Search</Button>
+                </div>
+                <div className="space-y-2 text-sm">
+                  {flights.map((f)=> (
+                    <div key={f.id} className="flex items-center justify-between rounded-md border p-3">
+                      <div className="flex flex-col">
+                        <span className="font-medium">{f.from} → {f.to}</span>
+                        <span className="text-muted-foreground">{f.airline} • {f.departure}</span>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-lg font-bold">${f.price}</div>
+                        <a className="text-xs text-primary underline" href="#" rel="noreferrer">Book (affiliate)</a>
+                      </div>
+                    </div>
+                  ))}
+                  {flights.length === 0 && <div className="text-muted-foreground">Search to see flight options.</div>}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2"><Hotel className="h-5 w-5 text-primary"/> Hotel Search</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex gap-2">
+                  <Input placeholder="City or hotel name" value={hotelQuery} onChange={(e)=>setHotelQuery(e.target.value)} />
+                  <Button onClick={doHotelSearch}>Search</Button>
+                </div>
+                <div className="space-y-2 text-sm">
+                  {hotels.map((h)=> (
+                    <div key={h.id} className="flex items-center justify-between rounded-md border p-3">
+                      <div className="flex flex-col">
+                        <span className="font-medium">{h.name}</span>
+                        <span className="text-muted-foreground">⭐ {h.rating}</span>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-lg font-bold">${h.pricePerNight}/night</div>
+                        <a className="text-xs text-primary underline" href={h.url} target="_blank" rel="noreferrer">View</a>
+                      </div>
+                    </div>
+                  ))}
+                  {hotels.length === 0 && <div className="text-muted-foreground">Search to see hotel options.</div>}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2"><DollarSign className="h-5 w-5 text-primary"/> Currency Converter</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
+                <div className="md:col-span-1">
+                  <Label>Amount</Label>
+                  <Input type="number" value={fx.amount} onChange={(e)=>setFx({ ...fx, amount: Number(e.target.value) })} />
+                </div>
+                <div className="md:col-span-1">
+                  <Label>From</Label>
+                  <Input value={fx.from} onChange={(e)=>setFx({ ...fx, from: e.target.value.toUpperCase() })} />
+                </div>
+                <div className="md:col-span-1">
+                  <Label>To</Label>
+                  <Input value={fx.to} onChange={(e)=>setFx({ ...fx, to: e.target.value.toUpperCase() })} />
+                </div>
+                <div className="flex items-end md:col-span-1">
+                  <Button onClick={convert} className="w-full">Convert</Button>
+                </div>
+              </div>
+              {fx.result ? (
+                <div className="rounded-md bg-secondary p-3 text-sm">
+                  {fx.amount} {fx.from} = <span className="font-semibold">{fx.result.toFixed(2)} {fx.to}</span> (rate {fx.rate.toFixed(4)})
+                </div>
+              ) : (
+                <div className="text-sm text-muted-foreground">Enter values and convert.</div>
+              )}
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

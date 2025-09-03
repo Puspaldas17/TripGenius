@@ -346,7 +346,7 @@ export default function Planner() {
         </Card>
 
         <div className="md:col-span-2 space-y-6 flex flex-col">
-          <Card>
+          <Card className="order-10">
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><MapIcon className="h-5 w-5 text-primary"/> Nearby Places</CardTitle>
             </CardHeader>

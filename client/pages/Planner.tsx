@@ -18,6 +18,11 @@ export default function Planner() {
   const [loading, setLoading] = useState(false);
   const [itinerary, setItinerary] = useState<ItineraryResponse | null>(null);
   const [weather, setWeather] = useState<WeatherResponse | null>(null);
+  const [flightQuery, setFlightQuery] = useState("");
+  const [hotelQuery, setHotelQuery] = useState("");
+  const [flights, setFlights] = useState<any[]>([]);
+  const [hotels, setHotels] = useState<any[]>([]);
+  const [fx, setFx] = useState<{amount:number;from:string;to:string;result:number;rate:number}>({amount:100,from:"USD",to:"EUR",result:0,rate:0});
 
   const perDay = useMemo(() => (form.budget || 0) / (form.days || 1), [form.budget, form.days]);
 

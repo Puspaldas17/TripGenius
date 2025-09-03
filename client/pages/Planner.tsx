@@ -258,6 +258,13 @@ export default function Planner() {
                   <SelectItem value="adventure">Adventure</SelectItem>
                   <SelectItem value="relax">Relax</SelectItem>
                   <SelectItem value="culture">Culture</SelectItem>
+                  <SelectItem value="romantic">Romantic</SelectItem>
+                  <SelectItem value="family">Family</SelectItem>
+                  <SelectItem value="nightlife">Nightlife</SelectItem>
+                  <SelectItem value="spiritual">Spiritual</SelectItem>
+                  <SelectItem value="shopping">Shopping</SelectItem>
+                  <SelectItem value="nature">Nature</SelectItem>
+                  <SelectItem value="photography">Photography</SelectItem>
                 </SelectContent>
               </Select>
             </div>

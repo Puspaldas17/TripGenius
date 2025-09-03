@@ -103,6 +103,21 @@ export default function Planner() {
     setFx({ ...fx, rate: data.rate, result: data.result });
   };
 
+  const useCurrentOrigin = async () => {
+    try {
+      const coords = await new Promise<GeolocationPosition>((resolve, reject) => {
+        if (!navigator.geolocation) return reject(new Error("Geolocation not supported"));
+        navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 10000 });
+      });
+      const { latitude, longitude } = coords.coords;
+      const resp = await fetch(`/api/geocode/reverse?lat=${latitude}&lon=${longitude}`);
+      const data = await resp.json();
+      if (data?.label) setOrigin(data.label);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const useCurrentLocation = async () => {
     try {
       const coords = await new Promise<GeolocationPosition>((resolve, reject) => {

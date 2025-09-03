@@ -94,7 +94,9 @@ export default function Planner() {
   const doHotelSearch = async () => {
     const res = await fetch(`/api/search/hotels?q=${encodeURIComponent(hotelQuery || form.destination)}`);
     const json = await res.json();
-    setHotels(json.results || []);
+    const items = (json.results || []) as any[];
+    items.sort((a,b)=> a.pricePerNight - b.pricePerNight || b.rating - a.rating);
+    setHotels(items);
   };
 
   const convert = async () => {

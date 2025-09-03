@@ -91,10 +91,10 @@ export default function Index() {
       </section>
 
       {/* CTA */}
-      <section className="mx-auto mb-16 max-w-7xl px-4 md:px-6">
-        <div className="rounded-3xl bg-gradient-to-r from-primary to-accent px-8 py-10 text-primary-foreground">
-          <h3 className="text-2xl font-extrabold">Start planning your next adventure</h3>
-          <p className="mt-2 max-w-2xl opacity-90">Generate a complete itinerary in seconds. Invite your friends. Track your budget. All in TripGenius.</p>
+      <section className="mx-auto mb-16 w-full max-w-7xl px-3 xs:px-4 md:px-6">
+        <div className="rounded-3xl bg-gradient-to-r from-primary to-accent px-6 py-8 text-primary-foreground xs:px-8 xs:py-10">
+          <h3 className="text-xl font-extrabold xs:text-2xl lg:text-3xl">Start planning your next adventure</h3>
+          <p className="mt-2 max-w-2xl text-sm opacity-90 xs:text-base">Generate a complete itinerary in seconds. Invite your friends. Track your budget. All in TripGenius.</p>
           <div className="mt-5">
             <Button asChild size="lg" variant="secondary">
               <Link to="/planner" className="font-semibold">Launch Planner</Link>

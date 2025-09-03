@@ -25,6 +25,26 @@ export default function Planner() {
   const [fx, setFx] = useState<{amount:number;from:string;to:string;result:number;rate:number}>({amount:100,from:"USD",to:"EUR",result:0,rate:0});
 
   const perDay = useMemo(() => (form.budget || 0) / (form.days || 1), [form.budget, form.days]);
+  const [calendar, setCalendar] = useState<{ day: number; activities: string[] }[]>([]);
+
+  const exportPdf = () => {
+    if (!itinerary) return;
+    const w = window.open("", "_blank");
+    if (!w) return;
+    const html = `<!doctype html><html><head><meta charset='utf-8'><title>TripGenius Itinerary</title>
+      <style>body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;padding:24px;color:#0f172a}
+      h1{margin:0 0 8px} h2{margin:16px 0 8px} .box{border:1px solid #e5e7eb;border-radius:12px;padding:12px;margin:10px 0}
+      ul{margin:8px 0 0 18px}
+      </style></head><body>
+      <h1>TripGenius Itinerary — ${itinerary.destination}</h1>
+      ${calendar.length ? calendar : itinerary.days}
+      ${ (calendar.length ? calendar : itinerary.days).map((d:any)=>`<div class='box'><h2>Day ${d.day}</h2><ul>${d.activities.map((a:string)=>`<li>${a}</li>`).join("")}</ul></div>`).join("") }
+      </body></html>`;
+    w.document.write(html);
+    w.document.close();
+    w.focus();
+    w.print();
+  };
 
   const generate = async () => {
     setLoading(true);

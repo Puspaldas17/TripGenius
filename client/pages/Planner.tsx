@@ -550,7 +550,8 @@ export default function Planner() {
                               if (data && data.place) {
                                 setCalendar((prev)=>{
                                   const next = prev.map((x)=>({ day: x.day, activities: [...x.activities] }));
-                                  next[di].activities.push(String(data.place));
+                                  const cnt = next[di].activities.length;
+                                  next[di].activities.push({ text: String(data.place), time: defaultSlot(cnt) });
                                   return next;
                                 });
                                 return;

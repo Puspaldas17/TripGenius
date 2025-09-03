@@ -9,7 +9,18 @@ export interface DemoResponse {
   message: string;
 }
 
-export type Mood = "foodie" | "adventure" | "relax" | "culture" | "romantic" | "family" | "nightlife" | "spiritual" | "shopping" | "nature" | "photography";
+export type Mood =
+  | "foodie"
+  | "adventure"
+  | "relax"
+  | "culture"
+  | "romantic"
+  | "family"
+  | "nightlife"
+  | "spiritual"
+  | "shopping"
+  | "nature"
+  | "photography";
 
 export interface ItineraryRequest {
   destination: string;
@@ -58,7 +69,10 @@ export interface TravelOption {
 
 export interface TravelOptionsResponse {
   km: number;
-  coords: { origin: { lat: number; lon: number }; destination: { lat: number; lon: number } };
+  coords: {
+    origin: { lat: number; lon: number };
+    destination: { lat: number; lon: number };
+  };
   options: TravelOption[];
 }
 

@@ -7,13 +7,20 @@ export const getWeather: RequestHandler = async (req, res) => {
   if (key && location) {
     try {
       const encoded = encodeURIComponent(location);
-      const geores = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${encoded}&limit=1&appid=${key}`);
+      const geores = await fetch(
+        `https://api.openweathermap.org/geo/1.0/direct?q=${encoded}&limit=1&appid=${key}`,
+      );
       const geo = (await geores.json()) as any[];
       if (geo?.length) {
         const { lat, lon } = geo[0];
-        const wres = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${key}`);
+        const wres = await fetch(
+          `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${key}`,
+        );
         const wf = await wres.json();
-        const byDay: Record<string, { min: number; max: number; desc: string[] }> = {};
+        const byDay: Record<
+          string,
+          { min: number; max: number; desc: string[] }
+        > = {};
         for (const item of wf.list as any[]) {
           const date = (item.dt_txt as string).split(" ")[0];
           const min = item.main.temp_min as number;
@@ -26,7 +33,12 @@ export const getWeather: RequestHandler = async (req, res) => {
         }
         const daily = Object.entries(byDay)
           .slice(0, 5)
-          .map(([date, d]) => ({ date, tempMin: d.min, tempMax: d.max, summary: summary(d.desc) }));
+          .map(([date, d]) => ({
+            date,
+            tempMin: d.min,
+            tempMax: d.max,
+            summary: summary(d.desc),
+          }));
         const out: WeatherResponse = { location, daily };
         return res.json(out);
       }
@@ -36,7 +48,12 @@ export const getWeather: RequestHandler = async (req, res) => {
   const daily = Array.from({ length: 5 }, (_, i) => {
     const dt = new Date(now);
     dt.setDate(now.getDate() + i);
-    return { date: dt.toISOString(), tempMin: 18 + i, tempMax: 26 + i, summary: i % 2 ? "Partly cloudy" : "Sunny" };
+    return {
+      date: dt.toISOString(),
+      tempMin: 18 + i,
+      tempMax: 26 + i,
+      summary: i % 2 ? "Partly cloudy" : "Sunny",
+    };
   });
   res.json({ location, daily } satisfies WeatherResponse);
 };

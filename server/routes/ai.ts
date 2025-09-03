@@ -19,7 +19,11 @@ export const generateItinerary: RequestHandler = async (req, res) => {
   res.json(response);
 };
 
-function suggestActivities(dest: string, mood: ItineraryRequest["mood"], day: number) {
+function suggestActivities(
+  dest: string,
+  mood: ItineraryRequest["mood"],
+  day: number,
+) {
   const base = {
     foodie: [
       `Breakfast at a local cafe in ${dest}`,

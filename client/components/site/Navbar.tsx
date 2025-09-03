@@ -18,7 +18,9 @@ export default function Navbar() {
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
             <Plane className="h-5 w-5" />
           </div>
-          <span className="text-lg font-extrabold tracking-tight">TripGenius</span>
+          <span className="text-lg font-extrabold tracking-tight">
+            TripGenius
+          </span>
         </Link>
         <div className="hidden items-center gap-6 md:flex">
           {links.map((l) => (
@@ -53,13 +55,22 @@ export default function Navbar() {
       <div className="block border-t md:hidden" />
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 md:hidden">
         <div className="flex items-center gap-5">
-          <NavLink to="/planner" className="text-muted-foreground hover:text-primary">
+          <NavLink
+            to="/planner"
+            className="text-muted-foreground hover:text-primary"
+          >
             <Map className="h-5 w-5" />
           </NavLink>
-          <NavLink to="/dashboard" className="text-muted-foreground hover:text-primary">
+          <NavLink
+            to="/dashboard"
+            className="text-muted-foreground hover:text-primary"
+          >
             <Calendar className="h-5 w-5" />
           </NavLink>
-          <NavLink to="/dashboard" className="text-muted-foreground hover:text-primary">
+          <NavLink
+            to="/dashboard"
+            className="text-muted-foreground hover:text-primary"
+          >
             <Users className="h-5 w-5" />
           </NavLink>
         </div>

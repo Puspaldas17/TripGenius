@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
-export default function Placeholder({ title, description }: { title: string; description: string }) {
+export default function Placeholder({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) {
   return (
     <div className="mx-auto max-w-3xl px-4 py-20 text-center md:px-6">
       <h1 className="text-3xl font-extrabold">{title}</h1>

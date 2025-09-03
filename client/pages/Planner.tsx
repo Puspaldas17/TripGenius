@@ -350,6 +350,20 @@ export default function Planner() {
                     <div className="text-2xl font-bold">{formatINR(perDay)}</div>
                   </div>
                 </div>
+                <div className="mt-3 grid grid-cols-2 gap-3 text-sm md:grid-cols-4">
+                  <div className="rounded-md border p-3">Transport
+                    <div className="font-semibold">{formatINR(mode && travel ? (travel.options.find(o=>o.mode===mode)?.price || 0) : 0)}</div>
+                  </div>
+                  <div className="rounded-md border p-3">Stay
+                    <div className="font-semibold">{formatINR((form.days || 1) * 3000)}</div>
+                  </div>
+                  <div className="rounded-md border p-3">Food
+                    <div className="font-semibold">{formatINR((form.days || 1) * 1000)}</div>
+                  </div>
+                  <div className="rounded-md border p-3">Activities
+                    <div className="font-semibold">{formatINR((form.days || 1) * 800)}</div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
             <Card>

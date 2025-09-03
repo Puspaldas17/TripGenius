@@ -88,8 +88,8 @@ export default function Planner() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+    <div className="mx-auto w-full max-w-7xl px-3 py-8 xs:px-4 md:px-6 md:py-10">
+      <div className="grid grid-cols-1 gap-4 xs:gap-6 xs:grid-cols-2 md:grid-cols-3">
         <Card className="md:col-span-1">
           <CardHeader>
             <CardTitle className="flex items-center gap-2"><Sparkles className="h-5 w-5 text-accent"/> AI Itinerary Planner</CardTitle>

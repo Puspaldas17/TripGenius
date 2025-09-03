@@ -45,6 +45,48 @@ function suggestActivities(dest: string, mood: ItineraryRequest["mood"], day: nu
       `Local craft workshop or tea ceremony`,
       `Theater, gallery, or live performance`,
     ],
+    romantic: [
+      `Sunrise/sunset viewpoint with photos in ${dest}`,
+      `Couple spa and candlelight dinner`,
+      `Boat cruise or lakeside walk`,
+      `Night stroll through charming lanes`,
+    ],
+    family: [
+      `Kid-friendly science museum or zoo in ${dest}`,
+      `Picnic in a large park with playground`,
+      `Interactive workshop (pottery/art)`,
+      `Family movie or game night`,
+    ],
+    nightlife: [
+      `Rooftop bar or live music in ${dest}`,
+      `Popular club or pub crawl`,
+      `Late-night street food tour`,
+      `After-hours dessert spot`,
+    ],
+    spiritual: [
+      `Visit a landmark temple/gurudwara/ashram in ${dest}`,
+      `Attend morning aarti or meditation session`,
+      `Walk around spiritual neighborhood bazaar`,
+      `Evening satsang or cultural recital`,
+    ],
+    shopping: [
+      `Explore traditional bazaar for handicrafts in ${dest}`,
+      `Visit modern mall for brands and cinema`,
+      `Antique market or flea market hunt`,
+      `Local designer boutiques`,
+    ],
+    nature: [
+      `Nature trail or botanical garden near ${dest}`,
+      `Bird watching or lakeside picnic`,
+      `Scenic drive to viewpoint`,
+      `Stargazing in low-light area`,
+    ],
+    photography: [
+      `Golden hour photo walk in ${dest}`,
+      `Iconic landmark shots and street portraits`,
+      `Rooftop skyline photography`,
+      `Night long-exposure session`,
+    ],
   } as const;
   const plan = base[mood];
   return plan.map((p) => `${p}${day % 2 === 0 ? "" : ""}`);

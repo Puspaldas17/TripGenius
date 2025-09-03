@@ -104,6 +104,11 @@ export default function Planner() {
       setCalendar(ai.days.map((d)=>({ day: d.day, activities: [...d.activities] })));
       setWeather(w);
       // travel options will refresh via effect
+      try {
+        const pr = await fetch(`/api/places?location=${encodeURIComponent(form.destination)}`);
+        const pj = await pr.json();
+        setPlaces(pj.places || []);
+      } catch {}
     } catch (e) {
       console.error(e);
     } finally {

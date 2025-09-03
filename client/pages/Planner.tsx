@@ -60,12 +60,14 @@ export default function Planner() {
   const travelAbort = useRef<AbortController | null>(null);
   const fetchTravel = async () => {
     try {
-      if (!origin || !form.destination) return;
-      if (origin.length < 3 || form.destination.length < 3) return;
+      const o = origin.trim();
+      const d = form.destination.trim();
+      if (!o || !d) return;
+      if (o.length < 3 || d.length < 3) return;
       travelAbort.current?.abort();
       const ac = new AbortController();
       travelAbort.current = ac;
-      const tRes = await fetch(`/api/travel/options?origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(form.destination)}`, { signal: ac.signal });
+      const tRes = await fetch(`/api/travel/options?origin=${encodeURIComponent(o)}&destination=${encodeURIComponent(d)}`, { signal: ac.signal });
       if (travelAbort.current !== ac) return; // superseded
       if (!tRes.ok) {
         setTravel({ km: 0, coords: { origin: { lat: 0, lon: 0 }, destination: { lat: 0, lon: 0 } }, options: [] });
@@ -149,7 +151,7 @@ export default function Planner() {
   }, [form.destination]);
 
   useEffect(()=>{
-    const t = setTimeout(()=>{ fetchTravel(); }, 400);
+    const t = setTimeout(()=>{ fetchTravel().catch(()=>{}); }, 500);
     return ()=> clearTimeout(t);
   }, [origin, form.destination]);
 

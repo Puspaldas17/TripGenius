@@ -8,11 +8,14 @@ import { Separator } from "@/components/ui/separator";
 import { Plane, CloudSun, Wallet, Users, Sparkles, Hotel, PlaneTakeoff, DollarSign, Map as MapIcon, FileDown, Calendar as CalIcon } from "lucide-react";
 import type { ItineraryRequest, ItineraryResponse, WeatherResponse, CurrencyConvertResponse } from "@shared/api";
 
+const inr = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+function formatINR(n: number) { return inr.format(Math.round(n)); }
+
 export default function Planner() {
   const [form, setForm] = useState<ItineraryRequest>({
-    destination: "Tokyo, Japan",
+    destination: "New Delhi, India",
     days: 5,
-    budget: 1500,
+    budget: 100000,
     mood: "adventure",
   });
   const [loading, setLoading] = useState(false);
@@ -22,7 +25,7 @@ export default function Planner() {
   const [hotelQuery, setHotelQuery] = useState("");
   const [flights, setFlights] = useState<any[]>([]);
   const [hotels, setHotels] = useState<any[]>([]);
-  const [fx, setFx] = useState<{amount:number;from:string;to:string;result:number;rate:number}>({amount:100,from:"USD",to:"EUR",result:0,rate:0});
+  const [fx, setFx] = useState<{amount:number;from:string;to:string;result:number;rate:number}>({amount:1000,from:"INR",to:"USD",result:0,rate:0});
 
   const perDay = useMemo(() => (form.budget || 0) / (form.days || 1), [form.budget, form.days]);
   const [calendar, setCalendar] = useState<{ day: number; activities: string[] }[]>([]);
@@ -100,7 +103,7 @@ export default function Planner() {
               <Input
                 value={form.destination}
                 onChange={(e) => setForm((f) => ({ ...f, destination: e.target.value }))}
-                placeholder="City, Country"
+                placeholder="City, State (e.g., Mumbai, Maharashtra)"
               />
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -114,7 +117,7 @@ export default function Planner() {
                 />
               </div>
               <div className="space-y-2">
-                <Label>Budget ($)</Label>
+                <Label>Budget (₹)</Label>
                 <Input
                   type="number"
                   min={0}
@@ -141,7 +144,7 @@ export default function Planner() {
               {loading ? "Generating..." : "Generate Itinerary"}
             </Button>
             <div className="rounded-md bg-secondary p-3 text-sm text-muted-foreground">
-              Daily budget estimate: <span className="font-semibold text-foreground">${perDay.toFixed(0)}</span>
+              Daily budget estimate: <span className="font-semibold text-foreground">{formatINR(perDay)}</span>
             </div>
           </CardContent>
         </Card>
@@ -276,11 +279,11 @@ export default function Planner() {
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div className="rounded-lg bg-secondary p-3">
                     Total Budget
-                    <div className="text-2xl font-bold">${form.budget.toLocaleString()}</div>
+                    <div className="text-2xl font-bold">{formatINR(form.budget)}</div>
                   </div>
                   <div className="rounded-lg bg-secondary p-3">
                     Per Day
-                    <div className="text-2xl font-bold">${perDay.toFixed(0)}</div>
+                    <div className="text-2xl font-bold">{formatINR(perDay)}</div>
                   </div>
                 </div>
               </CardContent>
@@ -316,7 +319,7 @@ export default function Planner() {
                         <span className="text-muted-foreground">{f.airline} • {f.departure}</span>
                       </div>
                       <div className="text-right">
-                        <div className="text-lg font-bold">${f.price}</div>
+                        <div className="text-lg font-bold">₹{new Intl.NumberFormat('en-IN').format(f.price)}</div>
                         <a className="text-xs text-primary underline" href="#" rel="noreferrer">Book (affiliate)</a>
                       </div>
                     </div>
@@ -343,7 +346,7 @@ export default function Planner() {
                         <span className="text-muted-foreground">⭐ {h.rating}</span>
                       </div>
                       <div className="text-right">
-                        <div className="text-lg font-bold">${h.pricePerNight}/night</div>
+                        <div className="text-lg font-bold">₹{new Intl.NumberFormat('en-IN').format(h.pricePerNight)}/night</div>
                         <a className="text-xs text-primary underline" href={h.url} target="_blank" rel="noreferrer">View</a>
                       </div>
                     </div>

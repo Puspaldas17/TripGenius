@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plane, CloudSun, Wallet, Users, Sparkles, Hotel, PlaneTakeoff, DollarSign, Map as MapIcon, FileDown, Calendar as CalIcon } from "lucide-react";
 import type { ItineraryRequest, ItineraryResponse, WeatherResponse, CurrencyConvertResponse, TravelOptionsResponse, TravelOption, Place } from "@shared/api";
 import { useEffect, useMemo, useRef, useState } from "react";

@@ -230,6 +230,19 @@ export default function Planner() {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">
+                <Label>Trip Type</Label>
+                <Select value={tripType} onValueChange={(v)=> setTripType(v as any)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="oneway">One Way</SelectItem>
+                    <SelectItem value="roundtrip">Round Trip</SelectItem>
+                    <SelectItem value="multicity">Multi-city</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
                 <Label>Start Date</Label>
                 <Input type="date" value={dateRange.from ? new Date(dateRange.from).toISOString().slice(0,10) : ""}
                   onChange={(e)=> setDateRange((r)=> ({ ...r, from: e.target.value ? new Date(e.target.value) : undefined }))} />

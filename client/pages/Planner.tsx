@@ -55,14 +55,20 @@ export default function Planner() {
     w.print();
   };
 
+  const travelAbort = useRef<AbortController | null>(null);
   const fetchTravel = async () => {
     try {
-      const tRes = await fetch(`/api/travel/options?origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(form.destination)}`);
+      travelAbort.current?.abort();
+      const ac = new AbortController();
+      travelAbort.current = ac;
+      const tRes = await fetch(`/api/travel/options?origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(form.destination)}`, { signal: ac.signal });
       const tr = (await tRes.json()) as TravelOptionsResponse;
+      if (travelAbort.current !== ac) return; // superseded
       setTravel(tr);
       const firstAvailable = tr.options.find(o=>o.available) || tr.options[0];
       setMode((m)=> m ?? firstAvailable?.mode ?? null);
     } catch (e) {
+      if ((e as any)?.name === "AbortError") return;
       console.error(e);
     }
   };

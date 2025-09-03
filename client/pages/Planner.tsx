@@ -40,7 +40,7 @@ export default function Planner() {
   const [legsTravel, setLegsTravel] = useState<TravelOptionsResponse[]>([]);
 
   const perDay = useMemo(() => (form.budget || 0) / (form.days || 1), [form.budget, form.days]);
-  const [calendar, setCalendar] = useState<{ day: number; activities: string[] }[]>([]);
+  const [calendar, setCalendar] = useState<{ day: number; activities: { text: string; time: string }[] }[]>([]);
 
   const exportPdf = () => {
     if (!itinerary) return;

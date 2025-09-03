@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Plane, CloudSun, Wallet, Users, Sparkles, Hotel, PlaneTakeoff, DollarSign, Map as MapIcon, FileDown } from "lucide-react";
+import { Plane, CloudSun, Wallet, Users, Sparkles, Hotel, PlaneTakeoff, DollarSign, Map as MapIcon, FileDown, Calendar as CalIcon } from "lucide-react";
 import type { ItineraryRequest, ItineraryResponse, WeatherResponse, CurrencyConvertResponse } from "@shared/api";
 
 export default function Planner() {
@@ -218,7 +218,7 @@ export default function Planner() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Calendar className="h-5 w-5 text-primary"/> Drag-and-Drop Calendar</CardTitle>
+              <CardTitle className="flex items-center gap-2"><CalIcon className="h-5 w-5 text-primary"/> Drag-and-Drop Calendar</CardTitle>
             </CardHeader>
             <CardContent>
               {calendar?.length ? (

@@ -304,9 +304,9 @@ export default function Planner() {
                 <CardTitle className="flex items-center gap-2"><PlaneTakeoff className="h-5 w-5 text-primary"/> Flight Search</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2 xs:flex-row">
                   <Input placeholder="Destination or airport" value={flightQuery} onChange={(e)=>setFlightQuery(e.target.value)} />
-                  <Button onClick={doFlightSearch}>Search</Button>
+                  <Button className="w-full xs:w-auto" onClick={doFlightSearch}>Search</Button>
                 </div>
                 <div className="space-y-2 text-sm">
                   {flights.map((f)=> (

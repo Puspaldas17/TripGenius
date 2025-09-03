@@ -105,6 +105,18 @@ export default function Planner() {
     setFx({ ...fx, rate: data.rate, result: data.result });
   };
 
+  useEffect(()=>{
+    if (!form.destination) return;
+    const id = setInterval(async ()=>{
+      try {
+        const r = await fetch(`/api/weather?location=${encodeURIComponent(form.destination)}`);
+        const w = (await r.json()) as WeatherResponse;
+        setWeather(w);
+      } catch {}
+    }, 600000);
+    return ()=> clearInterval(id);
+  }, [form.destination]);
+
   const useCurrentOrigin = async () => {
     try {
       const coords = await new Promise<GeolocationPosition>((resolve, reject) => {

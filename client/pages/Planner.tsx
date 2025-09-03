@@ -170,7 +170,10 @@ export default function Planner() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Plane className="h-5 w-5 text-primary"/> Suggested Plan</CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2"><Plane className="h-5 w-5 text-primary"/> Suggested Plan</CardTitle>
+                <Button onClick={exportPdf} variant="outline" className="gap-2"><FileDown className="h-4 w-4"/> Export PDF</Button>
+              </div>
             </CardHeader>
             <CardContent>
               {itinerary ? (
@@ -192,6 +195,74 @@ export default function Planner() {
                 </div>
               ) : (
                 <div className="text-muted-foreground">Your AI plan will appear here.</div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2"><MapIcon className="h-5 w-5 text-primary"/> Map Overview</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="aspect-[16/9] w-full overflow-hidden rounded-xl border">
+                <iframe
+                  title="map"
+                  className="h-full w-full"
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(form.destination)}&output=embed`}
+                  loading="lazy"
+                />
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground">For directions and route optimization, connect Google Maps API later.</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2"><Calendar className="h-5 w-5 text-primary"/> Drag-and-Drop Calendar</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {calendar?.length ? (
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {calendar.map((d, di) => (
+                    <div key={d.day} className="rounded-xl border p-3">
+                      <div className="mb-2 font-semibold">Day {d.day}</div>
+                      <ul className="space-y-2">
+                        {d.activities.map((a, ai) => (
+                          <li
+                            key={ai}
+                            className="cursor-move rounded-md border bg-card p-2 text-sm"
+                            draggable
+                            onDragStart={(e)=>{
+                              e.dataTransfer.setData("text/plain", JSON.stringify({ di, ai }));
+                            }}
+                          >
+                            {a}
+                          </li>
+                        ))}
+                        <li
+                          className="rounded-md border border-dashed p-2 text-center text-xs text-muted-foreground"
+                          onDragOver={(e)=>e.preventDefault()}
+                          onDrop={(e)=>{
+                            e.preventDefault();
+                            const data = JSON.parse(e.dataTransfer.getData("text/plain"));
+                            if (data && typeof data.di === "number" && typeof data.ai === "number") {
+                              setCalendar((prev)=>{
+                                const next = prev.map((x)=>({ day: x.day, activities: [...x.activities] }));
+                                const [moved] = next[data.di].activities.splice(data.ai,1);
+                                next[di].activities.push(moved);
+                                return next;
+                              });
+                            }
+                          }}
+                        >
+                          Drop here to add
+                        </li>
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-muted-foreground">Generate an itinerary, then drag items between days.</div>
               )}
             </CardContent>
           </Card>

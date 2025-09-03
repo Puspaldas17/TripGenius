@@ -7,6 +7,7 @@ import { generateItinerary } from "./routes/ai";
 import { getWeather } from "./routes/weather";
 import { listTrips, saveTrip } from "./routes/trips";
 import { searchFlights, searchHotels } from "./routes/search";
+import { convertCurrency } from "./routes/currency";
 
 export function createServer() {
   const app = express();
@@ -39,6 +40,9 @@ export function createServer() {
   // Trips
   app.get("/api/trips", listTrips);
   app.post("/api/trips", saveTrip);
+
+  // Currency
+  app.get("/api/currency/convert", convertCurrency);
 
   return app;
 }

@@ -40,3 +40,11 @@ export interface WeatherResponse {
   location: string;
   daily: WeatherDay[];
 }
+
+export interface CurrencyConvertResponse {
+  amount: number;
+  from: string;
+  to: string;
+  rate: number;
+  result: number;
+}

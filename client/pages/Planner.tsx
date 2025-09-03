@@ -252,18 +252,34 @@ export default function Planner() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><MapIcon className="h-5 w-5 text-primary"/> Map Overview</CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2"><MapIcon className="h-5 w-5 text-primary"/> Route & Modes</CardTitle>
+                {travel?.options?.length ? (
+                  <Select value={mode ?? undefined} onValueChange={(v)=> setMode(v as any)}>
+                    <SelectTrigger className="w-40"><SelectValue placeholder="Mode" /></SelectTrigger>
+                    <SelectContent>
+                      {travel.options.filter(o=>o.available).map((o)=> (
+                        <SelectItem key={o.mode} value={o.mode}>{o.mode} • {o.timeHours}h • {formatINR(o.price)}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                ) : null}
+              </div>
             </CardHeader>
             <CardContent>
               <div className="aspect-[16/9] w-full overflow-hidden rounded-xl border">
                 <iframe
                   title="map"
                   className="h-full w-full"
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(form.destination)}&output=embed`}
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(origin + " to " + form.destination)}&output=embed`}
                   loading="lazy"
                 />
               </div>
-              <p className="mt-2 text-xs text-muted-foreground">For directions and route optimization, connect Google Maps API later.</p>
+              {travel ? (
+                <div className="mt-3 text-sm text-muted-foreground">Approx distance: {travel.km} km • Selected: {mode || "-"}</div>
+              ) : (
+                <p className="mt-2 text-xs text-muted-foreground">Generate to see route and modes.</p>
+              )}
             </CardContent>
           </Card>
 

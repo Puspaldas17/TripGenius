@@ -466,6 +466,41 @@ export default function Planner() {
             </CardContent>
           </Card>
 
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2"><PlaneTakeoff className="h-5 w-5 text-primary"/> Transport Options</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Tabs value={mode ?? undefined} onValueChange={(v)=> setMode(v as any)}>
+                <TabsList className="grid grid-cols-5">
+                  <TabsTrigger value="flight">Flight</TabsTrigger>
+                  <TabsTrigger value="train">Train</TabsTrigger>
+                  <TabsTrigger value="bus">Bus</TabsTrigger>
+                  <TabsTrigger value="car">Car</TabsTrigger>
+                  <TabsTrigger value="waterway">Waterway</TabsTrigger>
+                </TabsList>
+                {(["flight","train","bus","car","waterway"] as const).map((t)=>(
+                  <TabsContent key={t} value={t} className="mt-4">
+                    <div className="grid grid-cols-1 gap-3">
+                      {getLegs(tripType, origin, form.destination, stops).map(([lo, ld], i)=> (
+                        <div key={i} className="space-y-2 rounded-md border p-3">
+                          <div className="text-xs text-muted-foreground">Leg {i+1}: {lo} → {ld}</div>
+                          <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                            {buildTransportLinks(t, lo, ld, dateRange.from)?.map((l)=> (
+                              <Button asChild key={l.href} variant="outline">
+                                <a href={l.href} target="_blank" rel="noreferrer">{l.label}</a>
+                              </Button>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </TabsContent>
+                ))}
+              </Tabs>
+            </CardContent>
+          </Card>
+
           <Card className="order-10">
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><CalIcon className="h-5 w-5 text-primary"/> Drag-and-Drop Calendar</CardTitle>

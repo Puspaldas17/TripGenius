@@ -9,6 +9,7 @@ import { listTrips, saveTrip } from "./routes/trips";
 import { searchFlights, searchHotels } from "./routes/search";
 import { convertCurrency } from "./routes/currency";
 import { reverseGeocode } from "./routes/geocode";
+import { geocodeSearch, travelOptions } from "./routes/travel";
 
 export function createServer() {
   const app = express();
@@ -47,6 +48,10 @@ export function createServer() {
 
   // Geocode
   app.get("/api/geocode/reverse", reverseGeocode);
+  app.get("/api/geocode/search", geocodeSearch);
+
+  // Travel options
+  app.get("/api/travel/options", travelOptions);
 
   return app;
 }

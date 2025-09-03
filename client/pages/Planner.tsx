@@ -562,11 +562,18 @@ export default function Planner() {
               </CardHeader>
               <CardContent className="space-y-3 text-sm">
                 <div>Selected mode: <span className="font-medium capitalize">{mode || '-'}</span> • Distance: {travel?.km ? `${travel.km} km` : '-'}</div>
-                <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-                  {buildTransportLinks(mode, origin, form.destination, dateRange.from)?.map((l)=> (
-                    <Button asChild key={l.href} variant="outline">
-                      <a href={l.href} target="_blank" rel="noreferrer">{l.label}</a>
-                    </Button>
+                <div className="grid grid-cols-1 gap-3">
+                  {getLegs(tripType, origin, form.destination, stops).map(([lo, ld], i)=> (
+                    <div key={i} className="space-y-2 rounded-md border p-3">
+                      <div className="text-xs text-muted-foreground">Leg {i+1}: {lo} → {ld}</div>
+                      <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                        {buildTransportLinks(mode, lo, ld, dateRange.from)?.map((l)=> (
+                          <Button asChild key={l.href} variant="outline">
+                            <a href={l.href} target="_blank" rel="noreferrer">{l.label}</a>
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
                   ))}
                 </div>
                 {!mode && <div className="text-muted-foreground">Choose a mode above to see live search links.</div>}

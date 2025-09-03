@@ -434,15 +434,27 @@ export default function Planner() {
                           onDragOver={(e)=>e.preventDefault()}
                           onDrop={(e)=>{
                             e.preventDefault();
-                            const data = JSON.parse(e.dataTransfer.getData("text/plain"));
-                            if (data && typeof data.di === "number" && typeof data.ai === "number") {
-                              setCalendar((prev)=>{
-                                const next = prev.map((x)=>({ day: x.day, activities: [...x.activities] }));
-                                const [moved] = next[data.di].activities.splice(data.ai,1);
-                                next[di].activities.push(moved);
-                                return next;
-                              });
-                            }
+                            const raw = e.dataTransfer.getData("text/plain");
+                            try {
+                              const data = JSON.parse(raw);
+                              if (data && typeof data.di === "number" && typeof data.ai === "number") {
+                                setCalendar((prev)=>{
+                                  const next = prev.map((x)=>({ day: x.day, activities: [...x.activities] }));
+                                  const [moved] = next[data.di].activities.splice(data.ai,1);
+                                  next[di].activities.push(moved);
+                                  return next;
+                                });
+                                return;
+                              }
+                              if (data && data.place) {
+                                setCalendar((prev)=>{
+                                  const next = prev.map((x)=>({ day: x.day, activities: [...x.activities] }));
+                                  next[di].activities.push(String(data.place));
+                                  return next;
+                                });
+                                return;
+                              }
+                            } catch {}
                           }}
                         >
                           Drop here to add

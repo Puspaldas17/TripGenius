@@ -61,3 +61,12 @@ export interface TravelOptionsResponse {
   coords: { origin: { lat: number; lon: number }; destination: { lat: number; lon: number } };
   options: TravelOption[];
 }
+
+export interface Place {
+  id: string;
+  title: string;
+  lat: number;
+  lon: number;
+  url: string;
+  summary: string;
+}

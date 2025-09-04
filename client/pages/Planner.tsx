@@ -77,6 +77,7 @@ export default function Planner() {
   const [stops, setStops] = useState<string[]>([]);
   const [legsTravel, setLegsTravel] = useState<TravelOptionsResponse[]>([]);
   const [serverOk, setServerOk] = useState<boolean>(false);
+  const [apiBase, setApiBase] = useState<string>("/api");
 
   const perDay = useMemo(
     () => (form.budget || 0) / (form.days || 1),

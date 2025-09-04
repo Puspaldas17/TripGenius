@@ -1,122 +1,198 @@
-# TripGenius — AI Travel Planner
+<div align="center">
 
-Plan smarter, travel better. TripGenius creates personalized, day‑by‑day itineraries with real‑time weather, travel options, nearby places, budgeting, and a drag‑and‑drop calendar.
+<img src="public/placeholder.svg" alt="TripGenius Logo" width="96" height="96" />
 
-## What
+# TripGenius
 
-An end‑to‑end travel planning app:
+AI‑powered Trip Planner • Plan smarter, travel better ✈️🗺️
 
-- AI itinerary generation by mood and budget
-- Weather preview per day
-- Nearby places from open data
-- Transport options with quick links (flight/train/bus/car/waterway)
-- Budget suggestions (per person/day totals)
-- Group collaboration (shareable trip code)
-- Drag‑and‑drop calendar with times per activity
-- Hotel and flight searches, currency conversion
+[![build](https://img.shields.io/badge/build-Vite%20%2B%20Express-blue)](#) [![license](https://img.shields.io/badge/license-MIT-green)](#license) [![stack](https://img.shields.io/badge/stack-React%20%7C%20Tailwind%20%7C%20Node.js%20%7C%20Express%20%7C%20Vite-9cf)](#tech-stack)
 
-## Why
-
-Travel planning is fragmented across many tabs. TripGenius unifies discovery, logistics, costs, and collaboration into one workflow so you can go from idea to actionable plan in minutes.
-
-## How (Architecture)
-
-- Frontend: React + Vite + Tailwind (component library based on Radix UI)
-- Backend: Express (Node.js) with REST endpoints under /api
-- Data: Open APIs (weather, geocoding, places), mock search endpoints for demo
-- Build: Client and server built separately; server serves compiled output
-
-## When
-
-Built as a modern starter you can customize for quick MVPs or production apps. Extend routes, UI, and data sources as needed.
+</div>
 
 ---
 
-## Clone from GitHub and run in VS Code
+## Description
+
+TripGenius helps you go from idea to itinerary in minutes. Enter your trip details and generate a personalized, day‑by‑day plan with weather previews, interactive maps, transport options, budgeting, nearby places, and a drag‑and‑drop calendar. Built for individuals and groups, optimized for mobile, tablet, and desktop.
+
+---
+
+## Features
+
+- 🌦 Weather Forecast — daily outlook with min/max temps and summaries
+- 🗺 Interactive Map Overview — quick map preview of your route and places
+- 📅 Drag‑and‑Drop Calendar — arrange activities with editable times per day
+- 💰 Budget Overview — per‑day/per‑person breakdown with auto‑adjustments
+- 👥 Group Collaboration — shareable trip code and collaborative planning
+- ✈️/🚆/🛣 Transport Search — flights, trains, road, and waterways estimates
+- 🏨 Hotel Search — sample hotel results with pricing and ratings
+- 💱 Currency Converter — convert between currencies with live rates/fallbacks
+- 🔒 Authentication — prepared endpoints for future auth (JWT‑ready)
+
+---
+
+## Tech Stack
+
+- Frontend: React 18, Vite, Tailwind CSS, Radix UI, Lucide Icons
+- Backend: Node.js, Express (REST under `/api`), serverless‑ready (Netlify)
+- Utilities: TypeScript, Zod, date‑fns
+- Tooling: Vitest, Prettier, ESLint
+
+---
+
+## Installation Guide
 
 Prerequisites:
 
-- Node.js 18+ (recommended 20+)
-- pnpm (preferred)
-- VS Code with extensions: “ESLint” and “Tailwind CSS IntelliSense” (optional)
+- Node.js 18+ (20+ recommended)
+- pnpm (preferred; repo declares `packageManager`)
 
-Steps:
+Clone and install:
 
-1. Clone the repo
-   - Copy the HTTPS URL of the repository (example):
-     - `https://github.com/Puspaldas17/TripGenius.git`
-   - In a terminal:
-     - `git clone https://github.com/Puspaldas17/TripGenius.git`
-     - `cd TripGenius`
-2. Open in VS Code
-   - `code .` (or open the folder via File → Open Folder…)
-3. Install dependencies (pnpm)
-   - If pnpm isn’t active yet:
-     - `corepack enable`
-     - `corepack prepare pnpm@latest --activate`
-   - Install deps:
-     - `pnpm install`
+```bash
+# Clone
+git clone https://github.com/Puspaldas17/TripGenius.git
+cd TripGenius
 
-Run options (choose one):
-
-A) Quick Dev (frontend live preview)
-
-- Start Vite dev server (hot reload):
-  - `pnpm dev`
-- This serves the frontend; API features may be limited locally unless a backend is available.
-
-B) Full Backend (recommended for all features)
-
-- Build client and server, then run the Node server:
-  - `pnpm build`
-  - `pnpm start`
-- This serves the compiled SPA and the Express API under `/api`.
-
-Ports & URLs:
-
-- Dev (A): Vite prints the local URL (commonly http://localhost:5173)
-- Full (B): Server prints http://localhost:3000 and API at http://localhost:3000/api
+# Install deps
+corepack enable
+corepack prepare pnpm@latest --activate
+pnpm install
+```
 
 Environment variables (optional but recommended):
 
-- `OPENWEATHER_API_KEY` — improves weather accuracy. Set it in your shell before running:
-  - macOS/Linux: `export OPENWEATHER_API_KEY=your_key`
-  - Windows (PowerShell): `$env:OPENWEATHER_API_KEY="your_key"`
+```bash
+# Improve weather accuracy
+# macOS/Linux
+export OPENWEATHER_API_KEY=YOUR_KEY
+# Windows (PowerShell)
+$env:OPENWEATHER_API_KEY="YOUR_KEY"
+```
 
-Troubleshooting:
+Run locally (choose one):
 
-- If API calls fail in Quick Dev, use Full Backend mode (`pnpm build && pnpm start`).
-- If ports are in use, stop other processes or change PORT before `pnpm start` (e.g., `PORT=4000 pnpm start`).
-- Do not commit secrets; use host environment settings for deployments (Netlify/Vercel via MCP).
-  }
-  `}`}
+```bash
+# A) Quick Dev (frontend HMR)
+pnpm dev
+# → Opens Vite dev server (API may be limited unless backend is available)
 
-Scripts:
+# B) Full Backend (recommended for all features)
+pnpm build
+pnpm start
+# → Serves SPA + Express API under /api (default http://localhost:3000)
+```
 
-- `pnpm dev` — Vite dev server
-- `pnpm build` — builds client and server
-- `pnpm start` — runs the built server
-- `pnpm test` — runs unit tests (vitest)
-- `pnpm typecheck` — TypeScript checks
+Common scripts:
 
-Environment:
+```bash
+pnpm test       # run unit tests (vitest)
+pnpm typecheck  # TypeScript checks
+```
 
-- API routes under `/api` (weather, travel options, places, etc.)
-- Secrets can be set via env vars; avoid committing them. In hosted environments, configure environment variables in the platform settings.
+Ports & URLs:
 
-## Deploy
+- Dev: Vite prints a local URL (commonly http://localhost:5173)
+- Full: Server prints http://localhost:3000 and API at http://localhost:3000/api
 
-Use your preferred platform:
+---
 
-- Netlify or Vercel are ideal. In Builder.io, you can connect deployments via MCP.
-  - To connect: Open MCP popover and connect Netlify or Vercel.
+## Usage
 
-## Customization
+1. Open the app and go to the Planner.
+2. Enter Origin, Destination, Trip Type, Dates (or Length), Budget, Members, and Mood.
+3. Click “Generate Itinerary”.
+4. Review the Weather Preview, Nearby Places, and Transport Options.
+5. Use the Plan & Calendar to drag‑and‑drop and set times for activities.
+6. Check Budget Overview and convert currencies as needed.
 
-- Edit `client/pages/Planner.tsx` to adjust the planning experience
-- Update styles in `client/global.css` and Tailwind config
-- Add/modify API routes in `server/routes/`
+Tip: The map preview uses your selected origin/destination to render a quick route.
+
+---
+
+## API Integrations
+
+- OpenWeatherMap — geocoding + 5‑day forecast (uses `OPENWEATHER_API_KEY` when set)
+- OpenStreetMap Nominatim — forward/reverse geocoding for places and routing
+- Wikipedia Geosearch — nearby places of interest
+- exchangerate.host — currency conversion with fallback rates
+- Flight/Hotel Search — demo endpoints for sample results
+
+Server routes are under `server/routes/` and mounted at `/api` by `server/index.ts`.
+
+---
+
+## Responsive Design
+
+Optimized for mobile → desktop using Tailwind CSS. Custom breakpoints:
+
+```ts
+// tailwind.config.ts
+screens: {
+  xs: "480px",
+  sm: "576px",
+  md: "768px",
+  lg: "992px",
+  xl: "1200px",
+  "2xl": "1400px",
+}
+```
+
+Core responsive pages/components:
+
+- Planner UI: `client/pages/Planner.tsx`
+- Landing/Home: `client/pages/Index.tsx`
+- Navbar + Theme: `client/components/site/Navbar.tsx`
+
+---
+
+## Error Handling & Debugging
+
+TripGenius is designed to be resilient so one failing feature doesn’t block others:
+
+- Safe network layer: all fetches use retry‑capable utilities with timeouts
+- Backend probe: API calls are gated behind a server health check when needed
+- Graceful fallbacks: cached/empty data returned on provider errors
+- Structured logging: server logs errors and avoids noisy console spam in UI
+- Background tasks: data fetches are deferred until user action/confirmed server
+
+Relevant files: `server/utils/http.ts`, `server/utils/logger.ts`, `server/index.ts`.
+
+---
+
+## Contributing
+
+Contributions are welcome!
+
+1. Fork the repo and create a feature branch
+2. `pnpm install`
+3. `pnpm dev` to run locally
+4. Commit with clear messages; open a PR describing your change
+
+Code style: TypeScript, Prettier, ESLint, and Tailwind conventions. Prefer small, composable components (see `client/components/ui/` and `client/components/site/`).
+
+---
 
 ## License
 
-MIT
+MIT — see the [LICENSE](https://opensource.org/licenses/MIT) terms.
+
+---
+
+## Contact / Author
+
+- Author: Puspal Das
+- GitHub: https://github.com/Puspaldas17
+- Portfolio: https://github.com/Puspaldas17?tab=repositories
+
+---
+
+## Deployment
+
+Deploy with your preferred platform. In Builder.io you can connect via MCP:
+
+- Netlify: [Connect Netlify MCP](#open-mcp-popover) — serverless function at `/.netlify/functions/api`
+- Vercel: [Connect Vercel MCP](#open-mcp-popover)
+
+Note: Netlify builds from source; local `pnpm build` is optional for CI.

@@ -42,31 +42,49 @@ Prerequisites:
 
 Steps:
 
-1. Clone the repo
-   - On the GitHub page of this repository, click the green “Code” button and copy the HTTPS URL.
-   - In your terminal, run git clone and paste the URL you copied, then press Enter.
-2. Open in VS Code
-   - In the terminal: cd into the cloned folder (it matches the repository name)
-   - Launch VS Code in that folder:
-     - macOS/Linux: `code .`
-     - Windows: `code .`
-3. Install dependencies (pnpm)
+1) Clone the repo
+   - Copy the HTTPS URL of the repository (example):
+     - `https://github.com/Puspaldas17/TripGenius.git`
+   - In a terminal:
+     - `git clone https://github.com/Puspaldas17/TripGenius.git`
+     - `cd TripGenius`
+2) Open in VS Code
+   - `code .` (or open the folder via File → Open Folder…)
+3) Install dependencies (pnpm)
    - If pnpm isn’t active yet:
      - `corepack enable`
      - `corepack prepare pnpm@latest --activate`
-   - Install:
+   - Install deps:
      - `pnpm install`
-4. Start the dev server
-   - `pnpm dev`
-   - Open the preview when prompted (or use your environment’s preview button)
-5. (Optional) Production build and serve
-   - `pnpm build`
-   - `pnpm start`
 
-Notes:
+Run options (choose one):
 
-- API routes are under `/api`. Weather will work without a key but improves with `OPENWEATHER_API_KEY` set in your environment.
-- Avoid committing secrets; set them in your hosting platform’s environment settings.
+A) Quick Dev (frontend live preview)
+- Start Vite dev server (hot reload):
+  - `pnpm dev`
+- This serves the frontend; API features may be limited locally unless a backend is available.
+
+B) Full Backend (recommended for all features)
+- Build client and server, then run the Node server:
+  - `pnpm build`
+  - `pnpm start`
+- This serves the compiled SPA and the Express API under `/api`.
+
+Ports & URLs:
+- Dev (A): Vite prints the local URL (commonly http://localhost:5173)
+- Full (B): Server prints http://localhost:3000 and API at http://localhost:3000/api
+
+Environment variables (optional but recommended):
+- `OPENWEATHER_API_KEY` — improves weather accuracy. Set it in your shell before running:
+  - macOS/Linux: `export OPENWEATHER_API_KEY=your_key`
+  - Windows (PowerShell): `$env:OPENWEATHER_API_KEY="your_key"`
+
+Troubleshooting:
+- If API calls fail in Quick Dev, use Full Backend mode (`pnpm build && pnpm start`).
+- If ports are in use, stop other processes or change PORT before `pnpm start` (e.g., `PORT=4000 pnpm start`).
+- Do not commit secrets; use host environment settings for deployments (Netlify/Vercel via MCP).
+}
+```}```}
 
 Scripts:
 

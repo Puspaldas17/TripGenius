@@ -186,13 +186,14 @@ export default function Planner() {
           : form.days;
       const req = { ...form, days: newDays };
       const [aiRes, wRes] = await Promise.all([
-        fetch(`${apiBase}/ai/itinerary`, {
+        safeFetch(`${apiBase}/ai/itinerary`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(req),
         }),
-        fetch(`${apiBase}/weather?location=${encodeURIComponent(form.destination)}`),
+        safeFetch(`${apiBase}/weather?location=${encodeURIComponent(form.destination)}`),
       ]);
+      if (!aiRes.ok || !wRes.ok) throw new Error("network");
       const ai = (await aiRes.json()) as ItineraryResponse;
       const w = (await wRes.json()) as WeatherResponse;
       setItinerary(ai);

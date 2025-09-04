@@ -1171,7 +1171,13 @@ export default function Planner() {
                   Smart cost breakdowns that adapt to members, days, and mode.
                 </p>
               </CardHeader>
-              <CardContent>
+              <div className="flex items-center justify-end px-6 -mt-2">
+                <button onClick={() => setOpenBudget((v) => !v)} aria-expanded={openBudget} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+                  {openBudget ? "Collapse" : "Expand"}
+                  <ChevronDown className={`h-4 w-4 transition-transform ${openBudget ? "rotate-180" : "rotate-0"}`} />
+                </button>
+              </div>
+              <CardContent className={openBudget ? "" : "hidden"}>
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div className="rounded-lg bg-secondary p-3">
                     Total Budget

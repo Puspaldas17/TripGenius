@@ -422,7 +422,7 @@ export default function Planner() {
       const data = await resp.json();
       if (data?.label) setOrigin(data.label);
     } catch (e) {
-      console.error(e);
+      // swallow
     }
   };
 
@@ -446,7 +446,7 @@ export default function Planner() {
       const data = await resp.json();
       if (data?.label) setForm((f) => ({ ...f, destination: data.label }));
     } catch (e) {
-      console.error(e);
+      // swallow
     }
   };
 

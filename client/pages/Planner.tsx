@@ -174,7 +174,7 @@ export default function Planner() {
   };
 
   const generate = async () => {
-    if (!serverOk) return;
+    if (!(await ensureServer())) return;
     if (!origin || !form.destination) return;
     if (dateRange.from && dateRange.to && dateRange.to < dateRange.from) return;
     setLoading(true);
@@ -227,7 +227,7 @@ export default function Planner() {
   };
 
   const doFlightSearch = async () => {
-    if (!serverOk) return;
+    if (!(await ensureServer())) return;
     try {
       const res = await safeFetch(
         `${apiBase}/search/flights?q=${encodeURIComponent(flightQuery || form.destination)}`,
@@ -244,7 +244,7 @@ export default function Planner() {
   };
 
   const doHotelSearch = async () => {
-    if (!serverOk) return;
+    if (!(await ensureServer())) return;
     try {
       const res = await safeFetch(
         `${apiBase}/search/hotels?q=${encodeURIComponent(hotelQuery || form.destination)}`,
@@ -265,7 +265,7 @@ export default function Planner() {
   };
 
   const convert = async () => {
-    if (!serverOk) return;
+    if (!(await ensureServer())) return;
     try {
       const res = await safeFetch(
         `${apiBase}/currency/convert?amount=${fx.amount}&from=${fx.from}&to=${fx.to}`,
@@ -292,15 +292,15 @@ export default function Planner() {
     return () => clearInterval(id);
   }, [form.destination, serverOk]);
 
-  // Detect API base and availability; supports Netlify Functions and direct /api
-  useEffect(() => {
-    const ac = new AbortController();
+  // Action-time server detection to avoid fetch errors on mount
+  const ensureServer = async () => {
+    if (serverOk) return true;
     const timeout = (ms: number) =>
       new Promise<never>((_, rej) => setTimeout(() => rej(new Error("timeout")), ms));
     const probe = async (base: string) => {
       try {
         const res = await Promise.race([
-          safeFetch(`${base}/ping`, { signal: ac.signal }),
+          safeFetch(`${base}/ping`),
           timeout(1500),
         ]);
         if (!res.ok) return false;
@@ -312,21 +312,19 @@ export default function Planner() {
         return false;
       }
     };
-    (async () => {
-      if (await probe("/api")) {
-        setApiBase("/api");
-        setServerOk(true);
-        return;
-      }
-      if (await probe("/.netlify/functions/api")) {
-        setApiBase("/.netlify/functions/api");
-        setServerOk(true);
-        return;
-      }
-      setServerOk(false);
-    })();
-    return () => ac.abort();
-  }, []);
+    if (await probe("/api")) {
+      setApiBase("/api");
+      setServerOk(true);
+      return true;
+    }
+    if (await probe("/.netlify/functions/api")) {
+      setApiBase("/.netlify/functions/api");
+      setServerOk(true);
+      return true;
+    }
+    setServerOk(false);
+    return false;
+  };
 
   // Fetch per-leg travel depending on trip type
   const legsRequestId = useRef(0);
@@ -412,7 +410,7 @@ export default function Planner() {
     members > 0 ? Math.round(form.budget / members / Math.max(1, daysCalc)) : 0;
 
   const useCurrentOrigin = async () => {
-    if (!serverOk) return;
+    if (!(await ensureServer())) return;
     try {
       const coords = await new Promise<GeolocationPosition>(
         (resolve, reject) => {
@@ -436,7 +434,7 @@ export default function Planner() {
   };
 
   const useCurrentLocation = async () => {
-    if (!serverOk) return;
+    if (!(await ensureServer())) return;
     try {
       const coords = await new Promise<GeolocationPosition>(
         (resolve, reject) => {

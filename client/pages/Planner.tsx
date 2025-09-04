@@ -674,7 +674,7 @@ export default function Planner() {
                 </SelectContent>
               </Select>
             </div>
-            <Button onClick={generate} disabled={!serverOk || loading} className="w-full">
+            <Button onClick={generate} disabled={loading} className="w-full">
               {loading ? "Generating..." : "Generate Itinerary"}
             </Button>
             <div className="rounded-md bg-secondary p-3 text-sm text-muted-foreground">

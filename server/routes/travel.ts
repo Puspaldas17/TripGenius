@@ -40,20 +40,19 @@ export const travelOptions: RequestHandler = async (req, res) => {
   if (!origin || !destination)
     return res.status(400).json({ error: "Missing origin/destination" });
   try {
-    const [oRes, dRes] = await Promise.all([
-      fetch(
+    const http = await import("../utils/http");
+    const [oJson, dJson] = await Promise.all([
+      http.fetchJsonWithRetry<any[]>(
         `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(origin)}`,
-        { headers: { "User-Agent": "TripGenius/1.0 (builder.codes)" } },
+        {},
+        { retries: 2, timeoutMs: 4000 },
       ),
-      fetch(
+      http.fetchJsonWithRetry<any[]>(
         `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(destination)}`,
-        { headers: { "User-Agent": "TripGenius/1.0 (builder.codes)" } },
+        {},
+        { retries: 2, timeoutMs: 4000 },
       ),
     ]);
-    const [oJson, dJson] = [await oRes.json(), await dRes.json()] as [
-      any[],
-      any[],
-    ];
     const o = oJson[0];
     const d = dJson[0];
     if (!o || !d) return res.status(404).json({ error: "Could not geocode" });

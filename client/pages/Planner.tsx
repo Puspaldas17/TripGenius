@@ -394,7 +394,10 @@ export default function Planner() {
             <CardTitle className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-accent" /> AI Itinerary Planner
             </CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">Enter trip details, choose dates or trip length, and generate a day-by-day plan.</p>
+            <p className="text-sm text-muted-foreground mt-1">
+              Enter trip details, choose dates or trip length, and generate a
+              day-by-day plan.
+            </p>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
@@ -700,7 +703,11 @@ export default function Planner() {
                       <div className="flex items-center justify-between">
                         <div className="font-semibold">Day {day.day}</div>
                         <div className="text-sm text-muted-foreground">
-                          Focus: {itinerary?.days.find((d) => d.day === day.day)?.theme}
+                          Focus:{" "}
+                          {
+                            itinerary?.days.find((d) => d.day === day.day)
+                              ?.theme
+                          }
                         </div>
                       </div>
                       <Separator className="my-3" />
@@ -716,8 +723,11 @@ export default function Planner() {
                                     d2.day === day.day
                                       ? {
                                           ...d2,
-                                          activities: d2.activities.map((x, j) =>
-                                            j === idx ? { ...x, time: e.target.value } : x,
+                                          activities: d2.activities.map(
+                                            (x, j) =>
+                                              j === idx
+                                                ? { ...x, time: e.target.value }
+                                                : x,
                                           ),
                                         }
                                       : d2,
@@ -726,7 +736,9 @@ export default function Planner() {
                               }}
                               className="h-8 rounded border px-2 text-xs"
                             />
-                            <span className="font-medium">{a.time || "--:--"}</span>
+                            <span className="font-medium">
+                              {a.time || "--:--"}
+                            </span>
                             <span>• {a.text}</span>
                           </li>
                         ))}
@@ -735,7 +747,9 @@ export default function Planner() {
                   ))}
                 </div>
               ) : (
-                <div className="text-muted-foreground">Your AI plan will appear here.</div>
+                <div className="text-muted-foreground">
+                  Your AI plan will appear here.
+                </div>
               )}
             </CardContent>
           </Card>
@@ -917,7 +931,9 @@ export default function Planner() {
                                 }}
                                 className="h-8 rounded border px-2 text-xs"
                               />
-                              <span className="font-medium">{a.time || "--:--"}</span>
+                              <span className="font-medium">
+                                {a.time || "--:--"}
+                              </span>
                               <span>• {a.text}</span>
                             </div>
                           </li>

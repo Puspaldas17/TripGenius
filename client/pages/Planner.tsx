@@ -708,7 +708,7 @@ export default function Planner() {
           </CardContent>
         </Card>
 
-        <div className="md:col-span-2 space-y-6 flex flex-col">
+        <div className="md:col-span-2" id="features-grid">
           <Card className="order-10">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">

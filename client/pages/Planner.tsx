@@ -638,10 +638,11 @@ export default function Planner() {
                   }
                 />
                 <div className="text-xs text-muted-foreground">
-                  Per person per day at current budget:{" "}
-                  <span className="font-medium">
-                    {formatINR(perPersonPerDay)}
-                  </span>
+                  {members > 0 ? (
+                    <>Per person per day at current budget: <span className="font-medium">{formatINR(perPersonPerDay)}</span></>
+                  ) : (
+                    <>Set Members to see per-person estimates</>
+                  )}
                 </div>
               </div>
             </div>
@@ -678,10 +679,11 @@ export default function Planner() {
               {loading ? "Generating..." : "Generate Itinerary"}
             </Button>
             <div className="rounded-md bg-secondary p-3 text-sm text-muted-foreground">
-              Daily budget per person:{" "}
-              <span className="font-semibold text-foreground">
-                {formatINR(perPersonPerDay)}
-              </span>
+              {members > 0 ? (
+                <>Daily budget per person: <span className="font-semibold text-foreground">{formatINR(perPersonPerDay)}</span></>
+              ) : (
+                <>Daily budget: <span className="font-semibold text-foreground">{formatINR(form.budget / Math.max(1, daysCalc))}</span></>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -1097,7 +1099,7 @@ export default function Planner() {
                   <div className="rounded-lg bg-secondary p-3">
                     Per Day
                     <div className="text-2xl font-bold">
-                      {formatINR(perDay)}
+                      {formatINR(form.budget / Math.max(1, daysCalc))}
                     </div>
                   </div>
                 </div>
@@ -1132,7 +1134,7 @@ export default function Planner() {
                     {formatINR(suggestedTotal)}
                   </span>
                   <span className="ml-2 text-xs text-muted-foreground">
-                    ({members} members, {daysCalc} days)
+                    ({members > 0 ? `${members} members, ` : ""}{daysCalc} days)
                   </span>
                   <div className="mt-1 text-xs">
                     {form.budget >= suggestedTotal ? (

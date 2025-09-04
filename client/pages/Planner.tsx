@@ -44,6 +44,10 @@ function formatINR(n: number) {
   return inr.format(Math.round(n));
 }
 
+function safeFetch(input: RequestInfo | URL, init?: RequestInit) {
+  return fetch(input, init).catch(() => new Response(null, { status: 0 }));
+}
+
 export default function Planner() {
   const [form, setForm] = useState<ItineraryRequest>({
     destination: "New Delhi, India",

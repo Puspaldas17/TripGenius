@@ -76,6 +76,7 @@ export default function Planner() {
   >("oneway");
   const [stops, setStops] = useState<string[]>([]);
   const [legsTravel, setLegsTravel] = useState<TravelOptionsResponse[]>([]);
+  const [serverOk, setServerOk] = useState<boolean>(false);
 
   const perDay = useMemo(
     () => (form.budget || 0) / (form.days || 1),
@@ -256,11 +257,26 @@ export default function Planner() {
     return () => clearInterval(id);
   }, [form.destination]);
 
+  // Ping API once to confirm server availability; gate other background fetches
+  useEffect(() => {
+    const ac = new AbortController();
+    (async () => {
+      try {
+        const r = await fetch("/api/ping", { signal: ac.signal });
+        setServerOk(r.ok);
+      } catch {
+        setServerOk(false);
+      }
+    })();
+    return () => ac.abort();
+  }, []);
+
   // Fetch per-leg travel depending on trip type
   const legsRequestId = useRef(0);
   useEffect(() => {
     const id = ++legsRequestId.current;
     const run = async () => {
+      if (!serverOk) return setLegsTravel([]);
       const o = origin.trim();
       const d = form.destination.trim();
       if (!o || !d) return setLegsTravel([]);
@@ -308,7 +324,7 @@ export default function Planner() {
       run();
     }, 400);
     return () => clearTimeout(t);
-  }, [origin, form.destination, tripType, JSON.stringify(stops)]);
+  }, [origin, form.destination, tripType, JSON.stringify(stops), serverOk]);
 
   // Derived budget suggestions
   const daysCalc =
@@ -339,6 +355,7 @@ export default function Planner() {
     members > 0 ? Math.round(form.budget / members / Math.max(1, daysCalc)) : 0;
 
   const useCurrentOrigin = async () => {
+    if (!serverOk) return;
     try {
       const coords = await new Promise<GeolocationPosition>(
         (resolve, reject) => {
@@ -362,6 +379,7 @@ export default function Planner() {
   };
 
   const useCurrentLocation = async () => {
+    if (!serverOk) return;
     try {
       const coords = await new Promise<GeolocationPosition>(
         (resolve, reject) => {

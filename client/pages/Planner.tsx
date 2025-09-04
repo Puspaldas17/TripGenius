@@ -25,7 +25,14 @@ import {
   Calendar as CalIcon,
   ChevronDown,
 } from "lucide-react";
-import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip as ReTooltip, Legend } from "recharts";
+import {
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip as ReTooltip,
+  Legend,
+} from "recharts";
 import type {
   ItineraryRequest,
   ItineraryResponse,
@@ -106,11 +113,15 @@ export default function Planner() {
   const [openHotels, setOpenHotels] = useState(true);
   const [openCurrency, setOpenCurrency] = useState(true);
   const [showHourly, setShowHourly] = useState(false);
-  const [transportFilter, setTransportFilter] = useState<"all"|"cheapest"|"fastest"|"eco">("all");
+  const [transportFilter, setTransportFilter] = useState<
+    "all" | "cheapest" | "fastest" | "eco"
+  >("all");
   const [budgetCurrency, setBudgetCurrency] = useState<string>("INR");
   const [budgetRate, setBudgetRate] = useState<number>(1);
   const [chatInput, setChatInput] = useState("");
-  const [chatMessages, setChatMessages] = useState<{ id: string; text: string; at: number }[]>([]);
+  const [chatMessages, setChatMessages] = useState<
+    { id: string; text: string; at: number }[]
+  >([]);
 
   const exportPdf = () => {
     if (!itinerary && !calendar.length) return;
@@ -435,7 +446,10 @@ export default function Planner() {
   const sendChat = () => {
     const t = chatInput.trim();
     if (!t) return;
-    setChatMessages((m) => [...m, { id: String(Date.now()), text: t, at: Date.now() }]);
+    setChatMessages((m) => [
+      ...m,
+      { id: String(Date.now()), text: t, at: Date.now() },
+    ]);
     setChatInput("");
   };
 
@@ -448,7 +462,9 @@ export default function Planner() {
       }
       if (!(await ensureServer())) return;
       try {
-        const r = await safeFetch(`${apiBase}/currency/convert?amount=1&from=INR&to=${budgetCurrency}`);
+        const r = await safeFetch(
+          `${apiBase}/currency/convert?amount=1&from=INR&to=${budgetCurrency}`,
+        );
         if (!r.ok) return;
         const j = await r.json();
         setBudgetRate(Number(j.result) || 1);
@@ -459,15 +475,26 @@ export default function Planner() {
   function formatMoney(n: number) {
     if (budgetCurrency === "INR") return formatINR(n);
     try {
-      return new Intl.NumberFormat("en-US", { style: "currency", currency: budgetCurrency }).format(n * budgetRate);
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: budgetCurrency,
+      }).format(n * budgetRate);
     } catch {
       return `${budgetCurrency} ${(n * budgetRate).toFixed(2)}`;
     }
   }
 
   function pickEco(options: TravelOptionsResponse["options"]) {
-    const order: Record<string, number> = { train: 1, bus: 2, car: 3, waterway: 4, flight: 5 } as any;
-    return [...options].filter((o) => o.available).sort((a, b) => (order[a.mode] - order[b.mode]))[0];
+    const order: Record<string, number> = {
+      train: 1,
+      bus: 2,
+      car: 3,
+      waterway: 4,
+      flight: 5,
+    } as any;
+    return [...options]
+      .filter((o) => o.available)
+      .sort((a, b) => order[a.mode] - order[b.mode])[0];
   }
   const stayPerNight = 3000;
   const foodPerDayPerPerson = 1000;
@@ -790,9 +817,15 @@ export default function Planner() {
               </p>
             </CardHeader>
             <div className="flex items-center justify-end px-6 -mt-2">
-              <button onClick={() => setOpenNearby((v) => !v)} aria-expanded={openNearby} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+              <button
+                onClick={() => setOpenNearby((v) => !v)}
+                aria-expanded={openNearby}
+                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+              >
                 {openNearby ? "Collapse" : "Expand"}
-                <ChevronDown className={`h-4 w-4 transition-transform ${openNearby ? "rotate-180" : "rotate-0"}`} />
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${openNearby ? "rotate-180" : "rotate-0"}`}
+                />
               </button>
             </div>
             <CardContent className={openNearby ? "" : "hidden"}>
@@ -838,9 +871,15 @@ export default function Planner() {
               </p>
             </CardHeader>
             <div className="flex items-center justify-end px-6 -mt-2">
-              <button onClick={() => setOpenWeather((v) => !v)} aria-expanded={openWeather} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+              <button
+                onClick={() => setOpenWeather((v) => !v)}
+                aria-expanded={openWeather}
+                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+              >
                 {openWeather ? "Collapse" : "Expand"}
-                <ChevronDown className={`h-4 w-4 transition-transform ${openWeather ? "rotate-180" : "rotate-0"}`} />
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${openWeather ? "rotate-180" : "rotate-0"}`}
+                />
               </button>
             </div>
             <CardContent className={openWeather ? "" : "hidden"}>
@@ -848,18 +887,32 @@ export default function Planner() {
                 <>
                   {weather.alerts?.length ? (
                     <div className="mb-3 rounded-md border bg-amber-50 p-3 text-amber-800 dark:bg-amber-900/20 dark:text-amber-200">
-                      ⚠️ Alerts: {weather.alerts.map((a) => a.description).join(", ")}
+                      ⚠️ Alerts:{" "}
+                      {weather.alerts.map((a) => a.description).join(", ")}
                     </div>
                   ) : null}
                   <div className="mb-3 flex items-center gap-2 text-xs">
                     <span className="text-muted-foreground">View:</span>
-                    <button className={`rounded border px-2 py-1 ${!showHourly ? "border-primary text-primary" : ""}`} onClick={() => setShowHourly(false)}>Daily</button>
-                    <button className={`rounded border px-2 py-1 ${showHourly ? "border-primary text-primary" : ""}`} onClick={() => setShowHourly(true)}>Hourly</button>
+                    <button
+                      className={`rounded border px-2 py-1 ${!showHourly ? "border-primary text-primary" : ""}`}
+                      onClick={() => setShowHourly(false)}
+                    >
+                      Daily
+                    </button>
+                    <button
+                      className={`rounded border px-2 py-1 ${showHourly ? "border-primary text-primary" : ""}`}
+                      onClick={() => setShowHourly(true)}
+                    >
+                      Hourly
+                    </button>
                   </div>
                   {!showHourly ? (
                     <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 auto-rows-fr">
                       {weather.daily.map((d) => (
-                        <div key={d.date} className="rounded-lg border p-3 h-full">
+                        <div
+                          key={d.date}
+                          className="rounded-lg border p-3 h-full"
+                        >
                           <div className="font-medium">
                             {new Date(d.date).toLocaleDateString()}
                           </div>
@@ -877,9 +930,14 @@ export default function Planner() {
                       {(weather.hourly || []).map((h) => (
                         <div key={h.timeISO} className="rounded-lg border p-3">
                           <div className="font-medium">
-                            {new Date(h.timeISO).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                            {new Date(h.timeISO).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
                           </div>
-                          <div className="mt-1 text-muted-foreground">{h.desc}</div>
+                          <div className="mt-1 text-muted-foreground">
+                            {h.desc}
+                          </div>
                           <div className="mt-1">{Math.round(h.temp)}°C</div>
                         </div>
                       ))}
@@ -995,9 +1053,15 @@ export default function Planner() {
               </p>
             </CardHeader>
             <div className="flex items-center justify-end px-6 -mt-2">
-              <button onClick={() => setOpenRoute((v) => !v)} aria-expanded={openRoute} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+              <button
+                onClick={() => setOpenRoute((v) => !v)}
+                aria-expanded={openRoute}
+                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+              >
                 {openRoute ? "Collapse" : "Expand"}
-                <ChevronDown className={`h-4 w-4 transition-transform ${openRoute ? "rotate-180" : "rotate-0"}`} />
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${openRoute ? "rotate-180" : "rotate-0"}`}
+                />
               </button>
             </div>
             <CardContent className={openRoute ? "" : "hidden"}>
@@ -1024,14 +1088,37 @@ export default function Planner() {
                   <div className="mt-3 rounded-md border p-3 text-xs">
                     {(() => {
                       const opts = travel.options.filter((o) => o.available);
-                      const cheapest = opts.reduce((a, b) => (a && a.price <= b.price ? a : b), opts[0]);
-                      const fastest = opts.reduce((a, b) => (a && a.timeHours <= b.timeHours ? a : b), opts[0]);
+                      const cheapest = opts.reduce(
+                        (a, b) => (a && a.price <= b.price ? a : b),
+                        opts[0],
+                      );
+                      const fastest = opts.reduce(
+                        (a, b) => (a && a.timeHours <= b.timeHours ? a : b),
+                        opts[0],
+                      );
                       const eco = pickEco(travel.options);
                       return (
                         <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-                          <div>Cheapest: <span className="font-medium capitalize">{cheapest?.mode}</span> • {formatINR(cheapest?.price || 0)}</div>
-                          <div>Fastest: <span className="font-medium capitalize">{fastest?.mode}</span> • {fastest?.timeHours}h</div>
-                          <div>Eco‑friendly: <span className="font-medium capitalize">{eco?.mode || "-"}</span></div>
+                          <div>
+                            Cheapest:{" "}
+                            <span className="font-medium capitalize">
+                              {cheapest?.mode}
+                            </span>{" "}
+                            • {formatINR(cheapest?.price || 0)}
+                          </div>
+                          <div>
+                            Fastest:{" "}
+                            <span className="font-medium capitalize">
+                              {fastest?.mode}
+                            </span>{" "}
+                            • {fastest?.timeHours}h
+                          </div>
+                          <div>
+                            Eco‑friendly:{" "}
+                            <span className="font-medium capitalize">
+                              {eco?.mode || "-"}
+                            </span>
+                          </div>
                         </div>
                       );
                     })()}
@@ -1041,28 +1128,35 @@ export default function Planner() {
 
               {travel?.options?.length ? (
                 <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-5">
-                  {(function(){
-                    const opts = travel.options.filter(o=>o.available);
-                    if (transportFilter==="cheapest") opts.sort((a,b)=>a.price-b.price);
-                    if (transportFilter==="fastest") opts.sort((a,b)=>a.timeHours-b.timeHours);
-                    if (transportFilter==="eco") {
-                      const rank: Record<string, number> = { train:1, bus:2, car:3, waterway:4, flight:5 } as any;
-                      opts.sort((a,b)=> (rank[a.mode]-rank[b.mode]));
+                  {(function () {
+                    const opts = travel.options.filter((o) => o.available);
+                    if (transportFilter === "cheapest")
+                      opts.sort((a, b) => a.price - b.price);
+                    if (transportFilter === "fastest")
+                      opts.sort((a, b) => a.timeHours - b.timeHours);
+                    if (transportFilter === "eco") {
+                      const rank: Record<string, number> = {
+                        train: 1,
+                        bus: 2,
+                        car: 3,
+                        waterway: 4,
+                        flight: 5,
+                      } as any;
+                      opts.sort((a, b) => rank[a.mode] - rank[b.mode]);
                     }
                     return opts;
-                  })()
-                    .map((o) => (
-                      <button
-                        key={o.mode}
-                        onClick={() => setMode(o.mode)}
-                        className={`rounded-lg border p-3 text-left text-sm transition ${mode === o.mode ? "border-primary ring-2 ring-primary/30" : ""}`}
-                      >
-                        <div className="font-medium capitalize">{o.mode}</div>
-                        <div className="text-muted-foreground">
-                          {o.timeHours}h • {formatINR(o.price)}
-                        </div>
-                      </button>
-                    ))}
+                  })().map((o) => (
+                    <button
+                      key={o.mode}
+                      onClick={() => setMode(o.mode)}
+                      className={`rounded-lg border p-3 text-left text-sm transition ${mode === o.mode ? "border-primary ring-2 ring-primary/30" : ""}`}
+                    >
+                      <div className="font-medium capitalize">{o.mode}</div>
+                      <div className="text-muted-foreground">
+                        {o.timeHours}h • {formatINR(o.price)}
+                      </div>
+                    </button>
+                  ))}
                 </div>
               ) : null}
             </CardContent>
@@ -1079,17 +1173,29 @@ export default function Planner() {
               </p>
             </CardHeader>
             <div className="flex items-center justify-end px-6 -mt-2">
-              <button onClick={() => setOpenTransport((v) => !v)} aria-expanded={openTransport} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+              <button
+                onClick={() => setOpenTransport((v) => !v)}
+                aria-expanded={openTransport}
+                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+              >
                 {openTransport ? "Collapse" : "Expand"}
-                <ChevronDown className={`h-4 w-4 transition-transform ${openTransport ? "rotate-180" : "rotate-0"}`} />
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${openTransport ? "rotate-180" : "rotate-0"}`}
+                />
               </button>
             </div>
             <CardContent className={openTransport ? "" : "hidden"}>
               {travel?.options?.length ? (
                 <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
                   <span className="text-muted-foreground">Filter:</span>
-                  {(["all","cheapest","fastest","eco"] as const).map((f)=> (
-                    <button key={f} onClick={()=>setTransportFilter(f)} className={`rounded border px-2 py-1 capitalize ${transportFilter===f?"border-primary text-primary":""}`}>{f}</button>
+                  {(["all", "cheapest", "fastest", "eco"] as const).map((f) => (
+                    <button
+                      key={f}
+                      onClick={() => setTransportFilter(f)}
+                      className={`rounded border px-2 py-1 capitalize ${transportFilter === f ? "border-primary text-primary" : ""}`}
+                    >
+                      {f}
+                    </button>
                   ))}
                 </div>
               ) : null}
@@ -1154,7 +1260,8 @@ export default function Planner() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2">
-                  <CalIcon className="h-5 w-5 text-primary" /> Plan & Calendar 📅
+                  <CalIcon className="h-5 w-5 text-primary" /> Plan & Calendar
+                  📅
                 </CardTitle>
                 <Button onClick={exportPdf} variant="outline" className="gap-2">
                   <FileDown className="h-4 w-4" /> Export PDF
@@ -1166,9 +1273,15 @@ export default function Planner() {
               </p>
             </CardHeader>
             <div className="flex items-center justify-end px-6 -mt-2">
-              <button onClick={() => setOpenCalendar((v) => !v)} aria-expanded={openCalendar} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+              <button
+                onClick={() => setOpenCalendar((v) => !v)}
+                aria-expanded={openCalendar}
+                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+              >
                 {openCalendar ? "Collapse" : "Expand"}
-                <ChevronDown className={`h-4 w-4 transition-transform ${openCalendar ? "rotate-180" : "rotate-0"}`} />
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${openCalendar ? "rotate-180" : "rotate-0"}`}
+                />
               </button>
             </div>
             <CardContent className={openCalendar ? "" : "hidden"}>
@@ -1294,9 +1407,15 @@ export default function Planner() {
                 </p>
               </CardHeader>
               <div className="flex items-center justify-end px-6 -mt-2">
-                <button onClick={() => setOpenBudget((v) => !v)} aria-expanded={openBudget} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+                <button
+                  onClick={() => setOpenBudget((v) => !v)}
+                  aria-expanded={openBudget}
+                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+                >
                   {openBudget ? "Collapse" : "Expand"}
-                  <ChevronDown className={`h-4 w-4 transition-transform ${openBudget ? "rotate-180" : "rotate-0"}`} />
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform ${openBudget ? "rotate-180" : "rotate-0"}`}
+                  />
                 </button>
               </div>
               <CardContent className={openBudget ? "" : "hidden"}>
@@ -1376,16 +1495,23 @@ export default function Planner() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Users className="h-5 w-5 text-primary" /> Group Collaboration 👥
+                  <Users className="h-5 w-5 text-primary" /> Group Collaboration
+                  👥
                 </CardTitle>
                 <p className="text-sm text-muted-foreground mt-1">
                   Share a code so friends can view and plan together.
                 </p>
               </CardHeader>
               <div className="flex items-center justify-end px-6 -mt-2">
-                <button onClick={() => setOpenGroup((v) => !v)} aria-expanded={openGroup} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+                <button
+                  onClick={() => setOpenGroup((v) => !v)}
+                  aria-expanded={openGroup}
+                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+                >
                   {openGroup ? "Collapse" : "Expand"}
-                  <ChevronDown className={`h-4 w-4 transition-transform ${openGroup ? "rotate-180" : "rotate-0"}`} />
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform ${openGroup ? "rotate-180" : "rotate-0"}`}
+                  />
                 </button>
               </div>
               <CardContent className={openGroup ? "" : "hidden"}>

@@ -1077,6 +1077,14 @@ export default function Planner() {
               </button>
             </div>
             <CardContent className={openTransport ? "" : "hidden"}>
+              {travel?.options?.length ? (
+                <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
+                  <span className="text-muted-foreground">Filter:</span>
+                  {(["all","cheapest","fastest","eco"] as const).map((f)=> (
+                    <button key={f} onClick={()=>setTransportFilter(f)} className={`rounded border px-2 py-1 capitalize ${transportFilter===f?"border-primary text-primary":""}`}>{f}</button>
+                  ))}
+                </div>
+              ) : null}
               <Tabs
                 value={mode ?? undefined}
                 onValueChange={(v) => setMode(v as any)}

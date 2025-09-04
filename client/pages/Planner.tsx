@@ -44,8 +44,12 @@ function formatINR(n: number) {
   return inr.format(Math.round(n));
 }
 
-function safeFetch(input: RequestInfo | URL, init?: RequestInit) {
-  return fetch(input, init).catch(() => new Response(null, { status: 0 }));
+async function safeFetch(input: RequestInfo | URL, init?: RequestInit) {
+  try {
+    return await fetch(input, init);
+  } catch {
+    return new Response(null, { status: 0 });
+  }
 }
 
 export default function Planner() {
@@ -1206,7 +1210,7 @@ export default function Planner() {
                     </div>
                     <div className="text-right">
                       <div className="text-lg font-bold">
-                        ��
+                        ₹
                         {new Intl.NumberFormat("en-IN").format(h.pricePerNight)}
                         /night
                       </div>

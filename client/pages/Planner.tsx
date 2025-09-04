@@ -10,12 +10,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Plane,
@@ -92,17 +86,33 @@ export default function Planner() {
   >([]);
 
   const exportPdf = () => {
-    if (!itinerary) return;
+    if (!itinerary && !calendar.length) return;
+    const days = calendar.length
+      ? calendar
+      : itinerary!.days.map((d) => ({
+          day: d.day,
+          activities: d.activities.map((text, i) => ({
+            text,
+            time: defaultSlot(i),
+          })),
+        }));
     const w = window.open("", "_blank");
     if (!w) return;
+    const items = days
+      .map(
+        (d) =>
+          `<div class='box'><h2>Day ${d.day}</h2><ul>${d.activities
+            .map((a) => `<li>${a.time ? a.time + " • " : ""}${a.text}</li>`)
+            .join("")}</ul></div>`,
+      )
+      .join("");
     const html = `<!doctype html><html><head><meta charset='utf-8'><title>TripGenius Itinerary</title>
       <style>body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;padding:24px;color:#0f172a}
       h1{margin:0 0 8px} h2{margin:16px 0 8px} .box{border:1px solid #e5e7eb;border-radius:12px;padding:12px;margin:10px 0}
       ul{margin:8px 0 0 18px}
       </style></head><body>
-      <h1>TripGenius Itinerary — ${itinerary.destination}</h1>
-      ${calendar.length ? calendar : itinerary.days}
-      ${(calendar.length ? calendar : itinerary.days).map((d: any) => `<div class='box'><h2>Day ${d.day}</h2><ul>${d.activities.map((a: string) => `<li>${a}</li>`).join("")}</ul></div>`).join("")}
+      <h1>TripGenius Itinerary — ${itinerary ? itinerary.destination : "Your Trip"}</h1>
+      ${items}
       </body></html>`;
     w.document.write(html);
     w.document.close();
@@ -180,7 +190,13 @@ export default function Planner() {
       const w = (await wRes.json()) as WeatherResponse;
       setItinerary(ai);
       setCalendar(
-        ai.days.map((d) => ({ day: d.day, activities: [...d.activities] })),
+        ai.days.map((d) => ({
+          day: d.day,
+          activities: d.activities.map((text, idx) => ({
+            text,
+            time: defaultSlot(idx),
+          })),
+        })),
       );
       setWeather(w);
       // travel options will refresh via effect
@@ -378,6 +394,7 @@ export default function Planner() {
             <CardTitle className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-accent" /> AI Itinerary Planner
             </CardTitle>
+            <p className="text-sm text-muted-foreground mt-1">Enter trip details, choose dates or trip length, and generate a day-by-day plan.</p>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
@@ -676,14 +693,14 @@ export default function Planner() {
               </div>
             </CardHeader>
             <CardContent>
-              {itinerary ? (
+              {calendar?.length ? (
                 <div className="space-y-5">
-                  {itinerary.days.map((day) => (
+                  {calendar.map((day) => (
                     <div key={day.day} className="rounded-xl border p-4">
                       <div className="flex items-center justify-between">
                         <div className="font-semibold">Day {day.day}</div>
                         <div className="text-sm text-muted-foreground">
-                          Focus: {day.theme}
+                          Focus: {itinerary?.days.find((d) => d.day === day.day)?.theme}
                         </div>
                       </div>
                       <Separator className="my-3" />
@@ -699,11 +716,8 @@ export default function Planner() {
                                     d2.day === day.day
                                       ? {
                                           ...d2,
-                                          activities: d2.activities.map(
-                                            (x, j) =>
-                                              j === idx
-                                                ? { ...x, time: e.target.value }
-                                                : x,
+                                          activities: d2.activities.map((x, j) =>
+                                            j === idx ? { ...x, time: e.target.value } : x,
                                           ),
                                         }
                                       : d2,
@@ -712,9 +726,7 @@ export default function Planner() {
                               }}
                               className="h-8 rounded border px-2 text-xs"
                             />
-                            <span className="font-medium">
-                              {a.time || "--:--"}
-                            </span>
+                            <span className="font-medium">{a.time || "--:--"}</span>
                             <span>• {a.text}</span>
                           </li>
                         ))}
@@ -723,9 +735,7 @@ export default function Planner() {
                   ))}
                 </div>
               ) : (
-                <div className="text-muted-foreground">
-                  Your AI plan will appear here.
-                </div>
+                <div className="text-muted-foreground">Your AI plan will appear here.</div>
               )}
             </CardContent>
           </Card>
@@ -888,7 +898,28 @@ export default function Planner() {
                               );
                             }}
                           >
-                            {a}
+                            <div className="flex items-center gap-3">
+                              <input
+                                type="time"
+                                value={a.time}
+                                onChange={(e) => {
+                                  setCalendar((prev) => {
+                                    const next = prev.map((x) => ({
+                                      day: x.day,
+                                      activities: [...x.activities],
+                                    }));
+                                    next[di].activities[ai] = {
+                                      ...next[di].activities[ai],
+                                      time: e.target.value,
+                                    };
+                                    return next;
+                                  });
+                                }}
+                                className="h-8 rounded border px-2 text-xs"
+                              />
+                              <span className="font-medium">{a.time || "--:--"}</span>
+                              <span>• {a.text}</span>
+                            </div>
                           </li>
                         ))}
                         <li

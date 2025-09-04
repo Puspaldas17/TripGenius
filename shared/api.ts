@@ -47,9 +47,22 @@ export interface WeatherDay {
   summary: string;
 }
 
+export interface WeatherHour {
+  timeISO: string; // ISO datetime
+  temp: number;
+  desc: string;
+}
+
+export interface WeatherAlert {
+  type: string;
+  description: string;
+}
+
 export interface WeatherResponse {
   location: string;
   daily: WeatherDay[];
+  hourly?: WeatherHour[];
+  alerts?: WeatherAlert[];
 }
 
 export interface CurrencyConvertResponse {

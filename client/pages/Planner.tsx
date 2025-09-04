@@ -283,22 +283,38 @@ export default function Planner() {
     return () => clearInterval(id);
   }, [form.destination, serverOk]);
 
-  // Ping API once to confirm server availability; gate other background fetches
+  // Detect API base and availability; supports Netlify Functions and direct /api
   useEffect(() => {
     const ac = new AbortController();
-    (async () => {
+    const timeout = (ms: number) =>
+      new Promise<never>((_, rej) => setTimeout(() => rej(new Error("timeout")), ms));
+    const probe = async (base: string) => {
       try {
-        const r = await fetch("/api/ping", { signal: ac.signal });
-        if (!r.ok) return setServerOk(false);
-        const ct = r.headers.get("content-type") || "";
-        if (!ct.includes("application/json")) return setServerOk(false);
-        const j = await r.json().catch(() => null as any);
-        if (!j || typeof j !== "object" || !("message" in j))
-          return setServerOk(false);
-        setServerOk(true);
+        const res = await Promise.race([
+          fetch(`${base}/ping`, { signal: ac.signal }),
+          timeout(1500),
+        ]);
+        if (!res.ok) return false;
+        const ct = res.headers.get("content-type") || "";
+        if (!ct.includes("application/json")) return false;
+        const j = await res.json().catch(() => null as any);
+        return !!j && typeof j === "object" && "message" in j;
       } catch {
-        setServerOk(false);
+        return false;
       }
+    };
+    (async () => {
+      if (await probe("/api")) {
+        setApiBase("/api");
+        setServerOk(true);
+        return;
+      }
+      if (await probe("/.netlify/functions/api")) {
+        setApiBase("/.netlify/functions/api");
+        setServerOk(true);
+        return;
+      }
+      setServerOk(false);
     })();
     return () => ac.abort();
   }, []);
@@ -324,7 +340,7 @@ export default function Planner() {
       for (const [lo, ld] of legs) {
         try {
           const r = await fetch(
-            `/api/travel/options?origin=${encodeURIComponent(lo)}&destination=${encodeURIComponent(ld)}`,
+            `${apiBase}/travel/options?origin=${encodeURIComponent(lo)}&destination=${encodeURIComponent(ld)}`,
           );
           if (!r.ok) {
             results.push({

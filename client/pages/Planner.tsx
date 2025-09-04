@@ -326,6 +326,10 @@ export default function Planner() {
     return false;
   };
 
+  useEffect(() => {
+    void ensureServer();
+  }, []);
+
   // Fetch per-leg travel depending on trip type
   const legsRequestId = useRef(0);
   useEffect(() => {

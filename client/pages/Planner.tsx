@@ -218,33 +218,54 @@ export default function Planner() {
 
   const doFlightSearch = async () => {
     if (!serverOk) return;
-    const res = await fetch(
-      `/api/search/flights?q=${encodeURIComponent(flightQuery || form.destination)}`,
-    );
-    const json = await res.json();
-    setFlights(json.results || []);
+    try {
+      const res = await fetch(
+        `/api/search/flights?q=${encodeURIComponent(flightQuery || form.destination)}`,
+      );
+      if (!res.ok) {
+        setFlights([]);
+        return;
+      }
+      const json = await res.json();
+      setFlights(json.results || []);
+    } catch {
+      setFlights([]);
+    }
   };
 
   const doHotelSearch = async () => {
     if (!serverOk) return;
-    const res = await fetch(
-      `/api/search/hotels?q=${encodeURIComponent(hotelQuery || form.destination)}`,
-    );
-    const json = await res.json();
-    const items = (json.results || []) as any[];
-    items.sort(
-      (a, b) => a.pricePerNight - b.pricePerNight || b.rating - a.rating,
-    );
-    setHotels(items);
+    try {
+      const res = await fetch(
+        `/api/search/hotels?q=${encodeURIComponent(hotelQuery || form.destination)}`,
+      );
+      if (!res.ok) {
+        setHotels([]);
+        return;
+      }
+      const json = await res.json();
+      const items = (json.results || []) as any[];
+      items.sort(
+        (a, b) => a.pricePerNight - b.pricePerNight || b.rating - a.rating,
+      );
+      setHotels(items);
+    } catch {
+      setHotels([]);
+    }
   };
 
   const convert = async () => {
     if (!serverOk) return;
-    const res = await fetch(
-      `/api/currency/convert?amount=${fx.amount}&from=${fx.from}&to=${fx.to}`,
-    );
-    const data = (await res.json()) as CurrencyConvertResponse;
-    setFx({ ...fx, rate: data.rate, result: data.result });
+    try {
+      const res = await fetch(
+        `/api/currency/convert?amount=${fx.amount}&from=${fx.from}&to=${fx.to}`,
+      );
+      if (!res.ok) return;
+      const data = (await res.json()) as CurrencyConvertResponse;
+      setFx({ ...fx, rate: data.rate, result: data.result });
+    } catch {
+      // ignore
+    }
   };
 
   useEffect(() => {

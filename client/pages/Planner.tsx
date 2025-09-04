@@ -95,6 +95,15 @@ export default function Planner() {
   const [calendar, setCalendar] = useState<
     { day: number; activities: { text: string; time: string }[] }[]
   >([]);
+  const [openNearby, setOpenNearby] = useState(true);
+  const [openWeather, setOpenWeather] = useState(true);
+  const [openRoute, setOpenRoute] = useState(true);
+  const [openTransport, setOpenTransport] = useState(true);
+  const [openCalendar, setOpenCalendar] = useState(true);
+  const [openBudget, setOpenBudget] = useState(true);
+  const [openGroup, setOpenGroup] = useState(true);
+  const [openHotels, setOpenHotels] = useState(true);
+  const [openCurrency, setOpenCurrency] = useState(true);
 
   const exportPdf = () => {
     if (!itinerary && !calendar.length) return;

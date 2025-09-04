@@ -777,7 +777,13 @@ export default function Planner() {
                 5-day daily outlook so you can plan activities with confidence.
               </p>
             </CardHeader>
-            <CardContent>
+            <div className="flex items-center justify-end px-6 -mt-2">
+              <button onClick={() => setOpenWeather((v) => !v)} aria-expanded={openWeather} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+                {openWeather ? "Collapse" : "Expand"}
+                <ChevronDown className={`h-4 w-4 transition-transform ${openWeather ? "rotate-180" : "rotate-0"}`} />
+              </button>
+            </div>
+            <CardContent className={openWeather ? "" : "hidden"}>
               {weather ? (
                 <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 auto-rows-fr">
                   {weather.daily.map((d) => (

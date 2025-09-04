@@ -964,7 +964,13 @@ export default function Planner() {
                 Quick links and tools for each leg of your journey.
               </p>
             </CardHeader>
-            <CardContent>
+            <div className="flex items-center justify-end px-6 -mt-2">
+              <button onClick={() => setOpenTransport((v) => !v)} aria-expanded={openTransport} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+                {openTransport ? "Collapse" : "Expand"}
+                <ChevronDown className={`h-4 w-4 transition-transform ${openTransport ? "rotate-180" : "rotate-0"}`} />
+              </button>
+            </div>
+            <CardContent className={openTransport ? "" : "hidden"}>
               <Tabs
                 value={mode ?? undefined}
                 onValueChange={(v) => setMode(v as any)}

@@ -845,21 +845,47 @@ export default function Planner() {
             </div>
             <CardContent className={openWeather ? "" : "hidden"}>
               {weather ? (
-                <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 auto-rows-fr">
-                  {weather.daily.map((d) => (
-                    <div key={d.date} className="rounded-lg border p-3 h-full">
-                      <div className="font-medium">
-                        {new Date(d.date).toLocaleDateString()}
-                      </div>
-                      <div className="mt-1 text-muted-foreground">
-                        {d.summary}
-                      </div>
-                      <div className="mt-1">
-                        {Math.round(d.tempMin)}° / {Math.round(d.tempMax)}°C
-                      </div>
+                <>
+                  {weather.alerts?.length ? (
+                    <div className="mb-3 rounded-md border bg-amber-50 p-3 text-amber-800 dark:bg-amber-900/20 dark:text-amber-200">
+                      ⚠️ Alerts: {weather.alerts.map((a) => a.description).join(", ")}
                     </div>
-                  ))}
-                </div>
+                  ) : null}
+                  <div className="mb-3 flex items-center gap-2 text-xs">
+                    <span className="text-muted-foreground">View:</span>
+                    <button className={`rounded border px-2 py-1 ${!showHourly ? "border-primary text-primary" : ""}`} onClick={() => setShowHourly(false)}>Daily</button>
+                    <button className={`rounded border px-2 py-1 ${showHourly ? "border-primary text-primary" : ""}`} onClick={() => setShowHourly(true)}>Hourly</button>
+                  </div>
+                  {!showHourly ? (
+                    <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 auto-rows-fr">
+                      {weather.daily.map((d) => (
+                        <div key={d.date} className="rounded-lg border p-3 h-full">
+                          <div className="font-medium">
+                            {new Date(d.date).toLocaleDateString()}
+                          </div>
+                          <div className="mt-1 text-muted-foreground">
+                            {d.summary}
+                          </div>
+                          <div className="mt-1">
+                            {Math.round(d.tempMin)}° / {Math.round(d.tempMax)}°C
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+                      {(weather.hourly || []).map((h) => (
+                        <div key={h.timeISO} className="rounded-lg border p-3">
+                          <div className="font-medium">
+                            {new Date(h.timeISO).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                          </div>
+                          <div className="mt-1 text-muted-foreground">{h.desc}</div>
+                          <div className="mt-1">{Math.round(h.temp)}°C</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
               ) : (
                 <div className="text-muted-foreground">
                   Generate an itinerary to see upcoming weather.

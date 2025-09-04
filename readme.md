@@ -42,28 +42,29 @@ Prerequisites:
 
 Steps:
 
-1) Clone the repo
+1. Clone the repo
    - On the GitHub page of this repository, click the green “Code” button and copy the HTTPS URL.
    - In your terminal, run git clone and paste the URL you copied, then press Enter.
-2) Open in VS Code
+2. Open in VS Code
    - In the terminal: cd into the cloned folder (it matches the repository name)
    - Launch VS Code in that folder:
      - macOS/Linux: `code .`
      - Windows: `code .`
-3) Install dependencies (pnpm)
+3. Install dependencies (pnpm)
    - If pnpm isn’t active yet:
      - `corepack enable`
      - `corepack prepare pnpm@latest --activate`
    - Install:
      - `pnpm install`
-4) Start the dev server
+4. Start the dev server
    - `pnpm dev`
    - Open the preview when prompted (or use your environment’s preview button)
-5) (Optional) Production build and serve
+5. (Optional) Production build and serve
    - `pnpm build`
    - `pnpm start`
 
 Notes:
+
 - API routes are under `/api`. Weather will work without a key but improves with `OPENWEATHER_API_KEY` set in your environment.
 - Avoid committing secrets; set them in your hosting platform’s environment settings.
 

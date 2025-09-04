@@ -27,7 +27,10 @@ export const getWeather: RequestHandler = async (req, res) => {
           {},
           { retries: 2, timeoutMs: 5000 },
         );
-        const byDay: Record<string, { min: number; max: number; desc: string[] }> = {};
+        const byDay: Record<
+          string,
+          { min: number; max: number; desc: string[] }
+        > = {};
         for (const item of wf.list as any[]) {
           const date = (item.dt_txt as string).split(" ")[0];
           const min = item.main.temp_min as number;

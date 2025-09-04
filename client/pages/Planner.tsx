@@ -195,7 +195,9 @@ export default function Planner() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(req),
         }),
-        safeFetch(`${apiBase}/weather?location=${encodeURIComponent(form.destination)}`),
+        safeFetch(
+          `${apiBase}/weather?location=${encodeURIComponent(form.destination)}`,
+        ),
       ]);
       if (!aiRes.ok || !wRes.ok) throw new Error("network");
       const ai = (await aiRes.json()) as ItineraryResponse;
@@ -296,7 +298,9 @@ export default function Planner() {
   const ensureServer = async () => {
     if (serverOk) return true;
     const timeout = (ms: number) =>
-      new Promise<never>((_, rej) => setTimeout(() => rej(new Error("timeout")), ms));
+      new Promise<never>((_, rej) =>
+        setTimeout(() => rej(new Error("timeout")), ms),
+      );
     const probe = async (base: string) => {
       try {
         const res = await Promise.race([
@@ -640,7 +644,12 @@ export default function Planner() {
                 />
                 <div className="text-xs text-muted-foreground">
                   {members > 0 ? (
-                    <>Per person per day at current budget: <span className="font-medium">{formatINR(perPersonPerDay)}</span></>
+                    <>
+                      Per person per day at current budget:{" "}
+                      <span className="font-medium">
+                        {formatINR(perPersonPerDay)}
+                      </span>
+                    </>
                   ) : (
                     <>Set Members to see per-person estimates</>
                   )}
@@ -681,9 +690,19 @@ export default function Planner() {
             </Button>
             <div className="rounded-md bg-secondary p-3 text-sm text-muted-foreground">
               {members > 0 ? (
-                <>Daily budget per person: <span className="font-semibold text-foreground">{formatINR(perPersonPerDay)}</span></>
+                <>
+                  Daily budget per person:{" "}
+                  <span className="font-semibold text-foreground">
+                    {formatINR(perPersonPerDay)}
+                  </span>
+                </>
               ) : (
-                <>Daily budget: <span className="font-semibold text-foreground">{formatINR(form.budget / Math.max(1, daysCalc))}</span></>
+                <>
+                  Daily budget:{" "}
+                  <span className="font-semibold text-foreground">
+                    {formatINR(form.budget / Math.max(1, daysCalc))}
+                  </span>
+                </>
               )}
             </div>
           </CardContent>
@@ -972,7 +991,10 @@ export default function Planner() {
                   <FileDown className="h-4 w-4" /> Export PDF
                 </Button>
               </div>
-              <p className="text-sm text-muted-foreground mt-1">Drag to arrange your day. Shows what to do, where, and at what time for each day.</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                Drag to arrange your day. Shows what to do, where, and at what
+                time for each day.
+              </p>
             </CardHeader>
             <CardContent>
               {calendar?.length ? (
@@ -982,7 +1004,8 @@ export default function Planner() {
                       <div className="mb-2 flex items-center justify-between">
                         <div className="font-semibold">Day {d.day}</div>
                         <div className="text-xs text-muted-foreground">
-                          Focus: {itinerary?.days.find((x) => x.day === d.day)?.theme}
+                          Focus:{" "}
+                          {itinerary?.days.find((x) => x.day === d.day)?.theme}
                         </div>
                       </div>
                       <ul className="space-y-2">
@@ -1135,7 +1158,8 @@ export default function Planner() {
                     {formatINR(suggestedTotal)}
                   </span>
                   <span className="ml-2 text-xs text-muted-foreground">
-                    ({members > 0 ? `${members} members, ` : ""}{daysCalc} days)
+                    ({members > 0 ? `${members} members, ` : ""}
+                    {daysCalc} days)
                   </span>
                   <div className="mt-1 text-xs">
                     {form.budget >= suggestedTotal ? (

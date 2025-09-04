@@ -5,7 +5,11 @@ export interface RetryOptions {
   headers?: Record<string, string>;
 }
 
-export async function fetchWithRetry(url: string, init: RequestInit = {}, opts: RetryOptions = {}) {
+export async function fetchWithRetry(
+  url: string,
+  init: RequestInit = {},
+  opts: RetryOptions = {},
+) {
   const { retries = 2, timeoutMs = 5000, backoffMs = 500, headers = {} } = opts;
   let attempt = 0;
   let lastErr: any = null;
@@ -16,7 +20,11 @@ export async function fetchWithRetry(url: string, init: RequestInit = {}, opts: 
       const res = await fetch(url, {
         ...init,
         signal: ac.signal,
-        headers: { "User-Agent": "TripGenius/1.0 (builder.codes)", ...(init.headers || {}), ...headers },
+        headers: {
+          "User-Agent": "TripGenius/1.0 (builder.codes)",
+          ...(init.headers || {}),
+          ...headers,
+        },
       });
       clearTimeout(id);
       if (res.ok) return res;
@@ -31,7 +39,11 @@ export async function fetchWithRetry(url: string, init: RequestInit = {}, opts: 
   throw lastErr || new Error("fetchWithRetry failed");
 }
 
-export async function fetchJsonWithRetry<T = any>(url: string, init: RequestInit = {}, opts: RetryOptions = {}) {
+export async function fetchJsonWithRetry<T = any>(
+  url: string,
+  init: RequestInit = {},
+  opts: RetryOptions = {},
+) {
   const res = await fetchWithRetry(url, init, opts);
   try {
     return (await res.json()) as T;

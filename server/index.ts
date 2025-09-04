@@ -63,7 +63,10 @@ export function createServer() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   app.use((err: any, _req: any, res: any, _next: any) => {
     const ts = new Date().toISOString();
-    console.error(`[${ts}] [express]`, err?.stack || err?.message || String(err));
+    console.error(
+      `[${ts}] [express]`,
+      err?.stack || err?.message || String(err),
+    );
     res.status(500).json({ error: "Internal Server Error" });
   });
 

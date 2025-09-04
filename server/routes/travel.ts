@@ -9,13 +9,11 @@ export const geocodeSearch: RequestHandler = async (req, res) => {
       headers: { "User-Agent": "TripGenius/1.0 (builder.codes)" },
     });
     const j = (await r.json()) as any[];
-    const results = j
-      .slice(0, 5)
-      .map((i) => ({
-        label: i.display_name,
-        lat: Number(i.lat),
-        lon: Number(i.lon),
-      }));
+    const results = j.slice(0, 5).map((i) => ({
+      label: i.display_name,
+      lat: Number(i.lat),
+      lon: Number(i.lon),
+    }));
     res.json({ results });
   } catch (e) {
     res.status(500).json({ error: "Geocoding failed" });

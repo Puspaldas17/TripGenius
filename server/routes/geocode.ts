@@ -8,7 +8,11 @@ export const reverseGeocode: RequestHandler = async (req, res) => {
   try {
     const http = await import("../utils/http");
     const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`;
-    const j = await http.fetchJsonWithRetry<any>(url, {}, { retries: 2, timeoutMs: 4000 });
+    const j = await http.fetchJsonWithRetry<any>(
+      url,
+      {},
+      { retries: 2, timeoutMs: 4000 },
+    );
     const a = j.address || {};
     const city = a.city || a.town || a.village || a.hamlet || a.suburb || "";
     const state = a.state || "";

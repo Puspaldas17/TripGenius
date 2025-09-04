@@ -332,6 +332,7 @@ export default function Planner() {
   const legsRequestId = useRef(0);
   useEffect(() => {
     const id = ++legsRequestId.current;
+    if (!itinerary) return; // avoid background calls until plan exists
     const run = async () => {
       if (!serverOk) return setLegsTravel([]);
       const o = origin.trim();

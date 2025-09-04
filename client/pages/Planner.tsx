@@ -908,7 +908,13 @@ export default function Planner() {
                 Preview your route and choose a travel mode.
               </p>
             </CardHeader>
-            <CardContent>
+            <div className="flex items-center justify-end px-6 -mt-2">
+              <button onClick={() => setOpenRoute((v) => !v)} aria-expanded={openRoute} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+                {openRoute ? "Collapse" : "Expand"}
+                <ChevronDown className={`h-4 w-4 transition-transform ${openRoute ? "rotate-180" : "rotate-0"}`} />
+              </button>
+            </div>
+            <CardContent className={openRoute ? "" : "hidden"}>
               <div className="aspect-[16/9] w-full overflow-hidden rounded-xl border">
                 <iframe
                   title="map"

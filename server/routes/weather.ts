@@ -1,26 +1,33 @@
 import { RequestHandler } from "express";
 import type { WeatherResponse } from "@shared/api";
 
+const cache = new Map<string, { ts: number; data: WeatherResponse }>();
+
 export const getWeather: RequestHandler = async (req, res) => {
   const location = String(req.query.location || "");
   const key = process.env.OPENWEATHER_API_KEY;
+  const cached = cache.get(location);
+  const nowTs = Date.now();
+  if (cached && nowTs - cached.ts < 30 * 60 * 1000) {
+    return res.json(cached.data);
+  }
   if (key && location) {
     try {
+      const http = await import("../utils/http");
       const encoded = encodeURIComponent(location);
-      const geores = await fetch(
+      const geo = (await http.fetchJsonWithRetry<any[]>(
         `https://api.openweathermap.org/geo/1.0/direct?q=${encoded}&limit=1&appid=${key}`,
-      );
-      const geo = (await geores.json()) as any[];
+        {},
+        { retries: 2, timeoutMs: 4000 },
+      )) as any[];
       if (geo?.length) {
         const { lat, lon } = geo[0];
-        const wres = await fetch(
+        const wf = await http.fetchJsonWithRetry<any>(
           `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${key}`,
+          {},
+          { retries: 2, timeoutMs: 5000 },
         );
-        const wf = await wres.json();
-        const byDay: Record<
-          string,
-          { min: number; max: number; desc: string[] }
-        > = {};
+        const byDay: Record<string, { min: number; max: number; desc: string[] }> = {};
         for (const item of wf.list as any[]) {
           const date = (item.dt_txt as string).split(" ")[0];
           const min = item.main.temp_min as number;
@@ -40,6 +47,7 @@ export const getWeather: RequestHandler = async (req, res) => {
             summary: summary(d.desc),
           }));
         const out: WeatherResponse = { location, daily };
+        cache.set(location, { ts: nowTs, data: out });
         return res.json(out);
       }
     } catch {}
@@ -55,7 +63,9 @@ export const getWeather: RequestHandler = async (req, res) => {
       summary: i % 2 ? "Partly cloudy" : "Sunny",
     };
   });
-  res.json({ location, daily } satisfies WeatherResponse);
+  const fallback: WeatherResponse = { location, daily };
+  cache.set(location, { ts: nowTs, data: fallback });
+  res.json(fallback);
 };
 
 function summary(arr: string[]) {

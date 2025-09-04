@@ -465,8 +465,8 @@ export default function Planner() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-3 py-8 xs:px-4 md:px-6 md:py-10">
-      <div className="grid grid-cols-1 gap-4 xs:gap-6 xs:grid-cols-2 md:grid-cols-3">
+    <div className="mx-auto w-full max-w-7xl px-3 py-8 sm:px-4 md:px-6 md:py-10">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
         <Card className="md:col-span-1">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -756,7 +756,7 @@ export default function Planner() {
             </CardHeader>
             <CardContent>
               {weather ? (
-                <div className="grid grid-cols-2 gap-3 text-sm xs:grid-cols-3 md:grid-cols-4">
+                <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                   {weather.daily.map((d) => (
                     <div key={d.date} className="rounded-lg border p-3">
                       <div className="font-medium">
@@ -998,7 +998,7 @@ export default function Planner() {
             </CardHeader>
             <CardContent>
               {calendar?.length ? (
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
                   {calendar.map((d, di) => (
                     <div key={d.day} className="rounded-xl border p-3">
                       <div className="mb-2 flex items-center justify-between">
@@ -1208,7 +1208,7 @@ export default function Planner() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <div className="flex flex-col gap-2 xs:flex-row">
+              <div className="flex flex-col gap-2 sm:flex-row">
                 <Input
                   placeholder="City or hotel name"
                   value={hotelQuery}

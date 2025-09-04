@@ -49,7 +49,21 @@ export const getWeather: RequestHandler = async (req, res) => {
             tempMax: d.max,
             summary: summary(d.desc),
           }));
-        const out: WeatherResponse = { location, daily };
+        const hourly = (wf.list as any[])
+          .slice(0, 8)
+          .map((item) => ({
+            timeISO: String(item.dt_txt),
+            temp: Number(item.main?.temp ?? 0),
+            desc: String(item.weather?.[0]?.description ?? ""),
+          }));
+        const alerts: { type: string; description: string }[] = [];
+        const nextDayDescs = (wf.list as any[])
+          .slice(0, 8)
+          .map((i) => String(i.weather?.[0]?.description ?? ""));
+        if (nextDayDescs.some((d) => /storm|thunder|rain|snow/i.test(d))) {
+          alerts.push({ type: "weather", description: "Potential precipitation or storm within 24h" });
+        }
+        const out: WeatherResponse = { location, daily, hourly, alerts };
         cache.set(location, { ts: nowTs, data: out });
         return res.json(out);
       }
@@ -66,7 +80,12 @@ export const getWeather: RequestHandler = async (req, res) => {
       summary: i % 2 ? "Partly cloudy" : "Sunny",
     };
   });
-  const fallback: WeatherResponse = { location, daily };
+  const hourly = Array.from({ length: 8 }, (_, i) => {
+    const t = new Date(now.getTime() + (i + 1) * 3 * 60 * 60 * 1000);
+    return { timeISO: t.toISOString(), temp: 22 + (i % 3), desc: i % 2 ? "clear sky" : "clouds" };
+  });
+  const alerts: { type: string; description: string }[] = [];
+  const fallback: WeatherResponse = { location, daily, hourly, alerts };
   cache.set(location, { ts: nowTs, data: fallback });
   res.json(fallback);
 };

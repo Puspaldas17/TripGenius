@@ -416,6 +416,59 @@ export default function Planner() {
         )
       : form.days;
   const rooms = members > 0 ? Math.ceil(members / 2) : 0;
+
+  // chat storage by trip code
+  useEffect(() => {
+    try {
+      const code = localStorage.getItem("tg_trip_code");
+      const raw = code ? localStorage.getItem("tg_chat_" + code) : null;
+      setChatMessages(raw ? JSON.parse(raw) : []);
+    } catch {}
+  }, []);
+  useEffect(() => {
+    try {
+      const code = localStorage.getItem("tg_trip_code");
+      if (!code) return;
+      localStorage.setItem("tg_chat_" + code, JSON.stringify(chatMessages));
+    } catch {}
+  }, [chatMessages]);
+  const sendChat = () => {
+    const t = chatInput.trim();
+    if (!t) return;
+    setChatMessages((m) => [...m, { id: String(Date.now()), text: t, at: Date.now() }]);
+    setChatInput("");
+  };
+
+  // budget currency INR -> target
+  useEffect(() => {
+    (async () => {
+      if (budgetCurrency === "INR") {
+        setBudgetRate(1);
+        return;
+      }
+      if (!(await ensureServer())) return;
+      try {
+        const r = await safeFetch(`${apiBase}/currency/convert?amount=1&from=INR&to=${budgetCurrency}`);
+        if (!r.ok) return;
+        const j = await r.json();
+        setBudgetRate(Number(j.result) || 1);
+      } catch {}
+    })();
+  }, [budgetCurrency]);
+
+  function formatMoney(n: number) {
+    if (budgetCurrency === "INR") return formatINR(n);
+    try {
+      return new Intl.NumberFormat("en-US", { style: "currency", currency: budgetCurrency }).format(n * budgetRate);
+    } catch {
+      return `${budgetCurrency} ${(n * budgetRate).toFixed(2)}`;
+    }
+  }
+
+  function pickEco(options: TravelOptionsResponse["options"]) {
+    const order: Record<string, number> = { train: 1, bus: 2, car: 3, waterway: 4, flight: 5 } as any;
+    return [...options].filter((o) => o.available).sort((a, b) => (order[a.mode] - order[b.mode]))[0];
+  }
   const stayPerNight = 3000;
   const foodPerDayPerPerson = 1000;
   const actPerDayPerPerson = 800;

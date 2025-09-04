@@ -6,11 +6,9 @@ export const reverseGeocode: RequestHandler = async (req, res) => {
   if (!isFinite(lat) || !isFinite(lon))
     return res.status(400).json({ error: "Invalid lat/lon" });
   try {
+    const http = await import("../utils/http");
     const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`;
-    const r = await fetch(url, {
-      headers: { "User-Agent": "TripGenius/1.0 (builder.codes)" },
-    });
-    const j = await r.json();
+    const j = await http.fetchJsonWithRetry<any>(url, {}, { retries: 2, timeoutMs: 4000 });
     const a = j.address || {};
     const city = a.city || a.town || a.village || a.hamlet || a.suburb || "";
     const state = a.state || "";

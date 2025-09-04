@@ -333,7 +333,7 @@ export default function Planner() {
   useEffect(() => {
     const id = ++legsRequestId.current;
     const run = async () => {
-      if (!serverOk) return setLegsTravel([]);
+      if (!(await ensureServer())) return setLegsTravel([]);
       const o = origin.trim();
       const d = form.destination.trim();
       if (!o || !d) return setLegsTravel([]);

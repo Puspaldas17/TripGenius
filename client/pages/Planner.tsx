@@ -722,7 +722,7 @@ export default function Planner() {
           <Card className="order-10">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <MapIcon className="h-5 w-5 text-primary" /> Nearby Places
+                <MapIcon className="h-5 w-5 text-primary" /> Nearby Places 🗺️
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
                 Discover points of interest around your destination. Drag any
@@ -765,7 +765,7 @@ export default function Planner() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <CloudSun className="h-5 w-5 text-primary" /> Weather Preview
+                <CloudSun className="h-5 w-5 text-primary" /> Weather Preview ☀️
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
                 5-day daily outlook so you can plan activities with confidence.
@@ -870,7 +870,7 @@ export default function Planner() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2">
-                  <MapIcon className="h-5 w-5 text-primary" /> Route & Modes
+                  <MapIcon className="h-5 w-5 text-primary" /> Route & Modes 🧭
                 </CardTitle>
                 {travel?.options?.length ? (
                   <Select
@@ -940,7 +940,7 @@ export default function Planner() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <PlaneTakeoff className="h-5 w-5 text-primary" /> Transport
-                Options
+                Options ✈️🚆🚌🚗⛴️
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
                 Quick links and tools for each leg of your journey.
@@ -1008,7 +1008,7 @@ export default function Planner() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2">
-                  <CalIcon className="h-5 w-5 text-primary" /> Plan & Calendar
+                  <CalIcon className="h-5 w-5 text-primary" /> Plan & Calendar 📅
                 </CardTitle>
                 <Button onClick={exportPdf} variant="outline" className="gap-2">
                   <FileDown className="h-4 w-4" /> Export PDF
@@ -1135,7 +1135,7 @@ export default function Planner() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Wallet className="h-5 w-5 text-primary" /> Budget Overview
+                  <Wallet className="h-5 w-5 text-primary" /> Budget Overview 💰
                 </CardTitle>
                 <p className="text-sm text-muted-foreground mt-1">
                   Smart cost breakdowns that adapt to members, days, and mode.
@@ -1218,7 +1218,7 @@ export default function Planner() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Users className="h-5 w-5 text-primary" /> Group Collaboration
+                  <Users className="h-5 w-5 text-primary" /> Group Collaboration 👥
                 </CardTitle>
                 <p className="text-sm text-muted-foreground mt-1">
                   Share a code so friends can view and plan together.
@@ -1236,7 +1236,7 @@ export default function Planner() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Hotel className="h-5 w-5 text-primary" /> Hotel Search
+                <Hotel className="h-5 w-5 text-primary" /> Hotel Search 🏨
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
                 Compare stays by rating and price; open results on your
@@ -1296,7 +1296,7 @@ export default function Planner() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <DollarSign className="h-5 w-5 text-primary" /> Currency
-                Converter
+                Converter 💱
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
                 Convert costs instantly with live rates and offline fallbacks.

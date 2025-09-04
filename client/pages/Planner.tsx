@@ -714,7 +714,10 @@ export default function Planner() {
               <CardTitle className="flex items-center gap-2">
                 <MapIcon className="h-5 w-5 text-primary" /> Nearby Places
               </CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">Discover points of interest around your destination. Drag any place into your plan.</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                Discover points of interest around your destination. Drag any
+                place into your plan.
+              </p>
             </CardHeader>
             <CardContent>
               {places.length ? (
@@ -754,7 +757,9 @@ export default function Planner() {
               <CardTitle className="flex items-center gap-2">
                 <CloudSun className="h-5 w-5 text-primary" /> Weather Preview
               </CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">5-day daily outlook so you can plan activities with confidence.</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                5-day daily outlook so you can plan activities with confidence.
+              </p>
             </CardHeader>
             <CardContent>
               {weather ? (
@@ -877,7 +882,9 @@ export default function Planner() {
                   </Select>
                 ) : null}
               </div>
-              <p className="text-sm text-muted-foreground mt-1">Preview your route and choose a travel mode.</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                Preview your route and choose a travel mode.
+              </p>
             </CardHeader>
             <CardContent>
               <div className="aspect-[16/9] w-full overflow-hidden rounded-xl border">
@@ -925,7 +932,9 @@ export default function Planner() {
                 <PlaneTakeoff className="h-5 w-5 text-primary" /> Transport
                 Options
               </CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">Quick links and tools for each leg of your journey.</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                Quick links and tools for each leg of your journey.
+              </p>
             </CardHeader>
             <CardContent>
               <Tabs
@@ -1004,7 +1013,10 @@ export default function Planner() {
               {calendar?.length ? (
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
                   {calendar.map((d, di) => (
-                    <div key={d.day} className="rounded-xl border p-3 min-h-[240px] overflow-auto">
+                    <div
+                      key={d.day}
+                      className="rounded-xl border p-3 min-h-[240px] overflow-auto"
+                    >
                       <div className="mb-2 flex items-center justify-between">
                         <div className="font-semibold">Day {d.day}</div>
                         <div className="text-xs text-muted-foreground">
@@ -1115,7 +1127,9 @@ export default function Planner() {
                 <CardTitle className="flex items-center gap-2">
                   <Wallet className="h-5 w-5 text-primary" /> Budget Overview
                 </CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">Smart cost breakdowns that adapt to members, days, and mode.</p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Smart cost breakdowns that adapt to members, days, and mode.
+                </p>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-3 text-sm">
@@ -1196,7 +1210,9 @@ export default function Planner() {
                 <CardTitle className="flex items-center gap-2">
                   <Users className="h-5 w-5 text-primary" /> Group Collaboration
                 </CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">Share a code so friends can view and plan together.</p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Share a code so friends can view and plan together.
+                </p>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
@@ -1212,7 +1228,10 @@ export default function Planner() {
               <CardTitle className="flex items-center gap-2">
                 <Hotel className="h-5 w-5 text-primary" /> Hotel Search
               </CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">Compare stays by rating and price; open results on your preferred site.</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                Compare stays by rating and price; open results on your
+                preferred site.
+              </p>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex flex-col gap-2 sm:flex-row">
@@ -1269,7 +1288,9 @@ export default function Planner() {
                 <DollarSign className="h-5 w-5 text-primary" /> Currency
                 Converter
               </CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">Convert costs instantly with live rates and offline fallbacks.</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                Convert costs instantly with live rates and offline fallbacks.
+              </p>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="grid grid-cols-1 gap-3 xs:grid-cols-2 md:grid-cols-4">

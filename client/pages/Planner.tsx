@@ -211,7 +211,7 @@ export default function Planner() {
         setPlaces(pj.places || []);
       } catch {}
     } catch (e) {
-      console.error(e);
+      // swallow
     } finally {
       setLoading(false);
     }

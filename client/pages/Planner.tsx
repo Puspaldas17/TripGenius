@@ -1260,7 +1260,13 @@ export default function Planner() {
                   Share a code so friends can view and plan together.
                 </p>
               </CardHeader>
-              <CardContent>
+              <div className="flex items-center justify-end px-6 -mt-2">
+                <button onClick={() => setOpenGroup((v) => !v)} aria-expanded={openGroup} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+                  {openGroup ? "Collapse" : "Expand"}
+                  <ChevronDown className={`h-4 w-4 transition-transform ${openGroup ? "rotate-180" : "rotate-0"}`} />
+                </button>
+              </div>
+              <CardContent className={openGroup ? "" : "hidden"}>
                 <p className="text-sm text-muted-foreground">
                   Share your plan with friends using your trip code.
                 </p>

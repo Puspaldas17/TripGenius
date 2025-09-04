@@ -7,16 +7,18 @@ export default {
   theme: {
     screens: {
       xs: "480px",
+      sm: "576px",
       md: "768px",
-      lg: "1024px",
-      xl: "1440px",
-      "2xl": "1920px",
+      lg: "992px",
+      xl: "1200px",
+      "2xl": "1400px",
     },
     container: {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1440px",
+        xl: "1200px",
+        "2xl": "1400px",
       },
     },
     extend: {

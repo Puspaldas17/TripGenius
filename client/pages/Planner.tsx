@@ -25,6 +25,7 @@ import {
   Calendar as CalIcon,
   ChevronDown,
 } from "lucide-react";
+import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip as ReTooltip, Legend } from "recharts";
 import type {
   ItineraryRequest,
   ItineraryResponse,

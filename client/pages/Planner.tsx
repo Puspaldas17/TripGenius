@@ -105,6 +105,12 @@ export default function Planner() {
   const [openGroup, setOpenGroup] = useState(true);
   const [openHotels, setOpenHotels] = useState(true);
   const [openCurrency, setOpenCurrency] = useState(true);
+  const [showHourly, setShowHourly] = useState(false);
+  const [transportFilter, setTransportFilter] = useState<"all"|"cheapest"|"fastest"|"eco">("all");
+  const [budgetCurrency, setBudgetCurrency] = useState<string>("INR");
+  const [budgetRate, setBudgetRate] = useState<number>(1);
+  const [chatInput, setChatInput] = useState("");
+  const [chatMessages, setChatMessages] = useState<{ id: string; text: string; at: number }[]>([]);
 
   const exportPdf = () => {
     if (!itinerary && !calendar.length) return;

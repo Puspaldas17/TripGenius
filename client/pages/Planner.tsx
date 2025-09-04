@@ -288,7 +288,13 @@ export default function Planner() {
     (async () => {
       try {
         const r = await fetch("/api/ping", { signal: ac.signal });
-        setServerOk(r.ok);
+        if (!r.ok) return setServerOk(false);
+        const ct = r.headers.get("content-type") || "";
+        if (!ct.includes("application/json")) return setServerOk(false);
+        const j = await r.json().catch(() => null as any);
+        if (!j || typeof j !== "object" || !("message" in j))
+          return setServerOk(false);
+        setServerOk(true);
       } catch {
         setServerOk(false);
       }

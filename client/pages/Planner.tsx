@@ -136,7 +136,7 @@ export default function Planner() {
       travelAbort.current?.abort();
       const ac = new AbortController();
       travelAbort.current = ac;
-      const tRes = await fetch(
+      const tRes = await safeFetch(
         `${apiBase}/travel/options?origin=${encodeURIComponent(o)}&destination=${encodeURIComponent(d)}`,
         { signal: ac.signal },
       );
@@ -209,7 +209,7 @@ export default function Planner() {
       setWeather(w);
       // travel options will refresh via effect
       try {
-        const pr = await fetch(
+        const pr = await safeFetch(
           `${apiBase}/places?location=${encodeURIComponent(form.destination)}`,
         );
         const pj = await pr.json();
@@ -225,7 +225,7 @@ export default function Planner() {
   const doFlightSearch = async () => {
     if (!serverOk) return;
     try {
-      const res = await fetch(
+      const res = await safeFetch(
         `${apiBase}/search/flights?q=${encodeURIComponent(flightQuery || form.destination)}`,
       );
       if (!res.ok) {
@@ -242,7 +242,7 @@ export default function Planner() {
   const doHotelSearch = async () => {
     if (!serverOk) return;
     try {
-      const res = await fetch(
+      const res = await safeFetch(
         `${apiBase}/search/hotels?q=${encodeURIComponent(hotelQuery || form.destination)}`,
       );
       if (!res.ok) {
@@ -263,7 +263,7 @@ export default function Planner() {
   const convert = async () => {
     if (!serverOk) return;
     try {
-      const res = await fetch(
+      const res = await safeFetch(
         `${apiBase}/currency/convert?amount=${fx.amount}&from=${fx.from}&to=${fx.to}`,
       );
       if (!res.ok) return;
@@ -278,7 +278,7 @@ export default function Planner() {
     if (!form.destination || !serverOk) return;
     const id = setInterval(async () => {
       try {
-        const r = await fetch(
+        const r = await safeFetch(
           `${apiBase}/weather?location=${encodeURIComponent(form.destination)}`,
         );
         const w = (await r.json()) as WeatherResponse;
@@ -296,7 +296,7 @@ export default function Planner() {
     const probe = async (base: string) => {
       try {
         const res = await Promise.race([
-          fetch(`${base}/ping`, { signal: ac.signal }),
+          safeFetch(`${base}/ping`, { signal: ac.signal }),
           timeout(1500),
         ]);
         if (!res.ok) return false;
@@ -344,7 +344,7 @@ export default function Planner() {
       const results: TravelOptionsResponse[] = [];
       for (const [lo, ld] of legs) {
         try {
-          const r = await fetch(
+          const r = await safeFetch(
             `${apiBase}/travel/options?origin=${encodeURIComponent(lo)}&destination=${encodeURIComponent(ld)}`,
           );
           if (!r.ok) {
@@ -421,7 +421,7 @@ export default function Planner() {
         },
       );
       const { latitude, longitude } = coords.coords;
-      const resp = await fetch(
+      const resp = await safeFetch(
         `${apiBase}/geocode/reverse?lat=${latitude}&lon=${longitude}`,
       );
       const data = await resp.json();
@@ -445,7 +445,7 @@ export default function Planner() {
         },
       );
       const { latitude, longitude } = coords.coords;
-      const resp = await fetch(
+      const resp = await safeFetch(
         `${apiBase}/geocode/reverse?lat=${latitude}&lon=${longitude}`,
       );
       const data = await resp.json();

@@ -20,6 +20,8 @@ export function createServer() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
+  // Health
+  app.get("/health", (_req, res) => res.json({ ok: true }));
   // Example API routes
   app.get("/api/ping", (_req, res) => {
     const ping = process.env.PING_MESSAGE ?? "ping";
@@ -56,6 +58,14 @@ export function createServer() {
 
   // Places
   app.get("/api/places", getPlaces);
+
+  // Global error handler
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  app.use((err: any, _req: any, res: any, _next: any) => {
+    const ts = new Date().toISOString();
+    console.error(`[${ts}] [express]`, err?.stack || err?.message || String(err));
+    res.status(500).json({ error: "Internal Server Error" });
+  });
 
   return app;
 }

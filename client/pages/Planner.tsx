@@ -1041,8 +1041,16 @@ export default function Planner() {
 
               {travel?.options?.length ? (
                 <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-5">
-                  {travel.options
-                    .filter((o) => o.available)
+                  {(function(){
+                    const opts = travel.options.filter(o=>o.available);
+                    if (transportFilter==="cheapest") opts.sort((a,b)=>a.price-b.price);
+                    if (transportFilter==="fastest") opts.sort((a,b)=>a.timeHours-b.timeHours);
+                    if (transportFilter==="eco") {
+                      const rank: Record<string, number> = { train:1, bus:2, car:3, waterway:4, flight:5 } as any;
+                      opts.sort((a,b)=> (rank[a.mode]-rank[b.mode]));
+                    }
+                    return opts;
+                  })()
                     .map((o) => (
                       <button
                         key={o.mode}

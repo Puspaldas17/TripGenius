@@ -758,7 +758,7 @@ export default function Planner() {
             </CardContent>
           </Card>
 
-          <Card className="order-10">
+          <Card className="hidden">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2">
@@ -962,17 +962,27 @@ export default function Planner() {
 
           <Card className="order-10">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CalIcon className="h-5 w-5 text-primary" /> Drag-and-Drop
-                Calendar
-              </CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <CalIcon className="h-5 w-5 text-primary" /> Plan & Calendar
+                </CardTitle>
+                <Button onClick={exportPdf} variant="outline" className="gap-2">
+                  <FileDown className="h-4 w-4" /> Export PDF
+                </Button>
+              </div>
+              <p className="text-sm text-muted-foreground mt-1">Drag to arrange your day. Shows what to do, where, and at what time for each day.</p>
             </CardHeader>
             <CardContent>
               {calendar?.length ? (
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                   {calendar.map((d, di) => (
                     <div key={d.day} className="rounded-xl border p-3">
-                      <div className="mb-2 font-semibold">Day {d.day}</div>
+                      <div className="mb-2 flex items-center justify-between">
+                        <div className="font-semibold">Day {d.day}</div>
+                        <div className="text-xs text-muted-foreground">
+                          Focus: {itinerary?.days.find((x) => x.day === d.day)?.theme}
+                        </div>
+                      </div>
                       <ul className="space-y-2">
                         {d.activities.map((a, ai) => (
                           <li
@@ -1196,7 +1206,7 @@ export default function Planner() {
                     </div>
                     <div className="text-right">
                       <div className="text-lg font-bold">
-                        ₹
+                        ��
                         {new Intl.NumberFormat("en-IN").format(h.pricePerNight)}
                         /night
                       </div>

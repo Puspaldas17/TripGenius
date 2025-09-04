@@ -326,9 +326,7 @@ export default function Planner() {
     return false;
   };
 
-  useEffect(() => {
-    void ensureServer();
-  }, []);
+  // Removed auto-probe to prevent failing network calls on load
 
   // Fetch per-leg travel depending on trip type
   const legsRequestId = useRef(0);
@@ -679,11 +677,6 @@ export default function Planner() {
             <Button onClick={generate} disabled={!serverOk || loading} className="w-full">
               {loading ? "Generating..." : "Generate Itinerary"}
             </Button>
-            {!serverOk && (
-              <div className="mt-2 rounded-md border border-dashed p-2 text-xs text-muted-foreground">
-                Backend unavailable. Live features are temporarily disabled.
-              </div>
-            )}
             <div className="rounded-md bg-secondary p-3 text-sm text-muted-foreground">
               Daily budget per person:{" "}
               <span className="font-semibold text-foreground">

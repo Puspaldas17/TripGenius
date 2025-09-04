@@ -729,7 +729,13 @@ export default function Planner() {
                 place into your plan.
               </p>
             </CardHeader>
-            <CardContent>
+            <div className="flex items-center justify-end px-6 -mt-2">
+              <button onClick={() => setOpenNearby((v) => !v)} aria-expanded={openNearby} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+                {openNearby ? "Collapse" : "Expand"}
+                <ChevronDown className={`h-4 w-4 transition-transform ${openNearby ? "rotate-180" : "rotate-0"}`} />
+              </button>
+            </div>
+            <CardContent className={openNearby ? "" : "hidden"}>
               {places.length ? (
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
                   {places.slice(0, 12).map((p) => (

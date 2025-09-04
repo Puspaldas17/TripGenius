@@ -69,7 +69,7 @@ export default function Planner() {
   }>({ amount: 1000, from: "INR", to: "USD", result: 0, rate: 0 });
   const [travel, setTravel] = useState<TravelOptionsResponse | null>(null);
   const [mode, setMode] = useState<TravelOption["mode"] | null>(null);
-  const [members, setMembers] = useState<number>(2);
+  const [members, setMembers] = useState<number>(0);
   const [places, setPlaces] = useState<Place[]>([]);
   const [tripType, setTripType] = useState<
     "oneway" | "roundtrip" | "multicity"
@@ -320,7 +320,7 @@ export default function Planner() {
           ) + 1,
         )
       : form.days;
-  const rooms = Math.ceil(Math.max(1, members) / 2);
+  const rooms = members > 0 ? Math.ceil(members / 2) : 0;
   const stayPerNight = 3000;
   const foodPerDayPerPerson = 1000;
   const actPerDayPerPerson = 800;
@@ -329,16 +329,14 @@ export default function Planner() {
       ? travel.options.find((o) => o.mode === mode)?.price || 0
       : 0;
   const transportPerPerson =
-    mode === "car" ? travelPrice / Math.max(1, members) : travelPrice;
-  const transportTotal = Math.round(transportPerPerson * Math.max(1, members));
+    mode === "car" ? (members > 0 ? travelPrice / members : 0) : travelPrice;
+  const transportTotal = Math.round(transportPerPerson * Math.max(0, members));
   const stayTotal = rooms * stayPerNight * daysCalc;
-  const foodTotal = Math.max(1, members) * foodPerDayPerPerson * daysCalc;
-  const actTotal = Math.max(1, members) * actPerDayPerPerson * daysCalc;
+  const foodTotal = members * foodPerDayPerPerson * daysCalc;
+  const actTotal = members * actPerDayPerPerson * daysCalc;
   const suggestedTotal = transportTotal + stayTotal + foodTotal + actTotal;
-  const perPersonPerDay = Math.max(
-    1,
-    Math.round(form.budget / Math.max(1, members) / Math.max(1, daysCalc)),
-  );
+  const perPersonPerDay =
+    members > 0 ? Math.round(form.budget / members / Math.max(1, daysCalc)) : 0;
 
   const useCurrentOrigin = async () => {
     try {
@@ -558,10 +556,10 @@ export default function Planner() {
                 <Label>Members</Label>
                 <Input
                   type="number"
-                  min={1}
+                  min={0}
                   value={members}
                   onChange={(e) =>
-                    setMembers(Math.max(1, Number(e.target.value)))
+                    setMembers(Math.max(0, Number(e.target.value)))
                   }
                 />
                 <div className="text-xs text-muted-foreground">

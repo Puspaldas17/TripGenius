@@ -165,6 +165,7 @@ export default function Planner() {
   };
 
   const generate = async () => {
+    if (!serverOk) return;
     if (!origin || !form.destination) return;
     if (dateRange.from && dateRange.to && dateRange.to < dateRange.from) return;
     setLoading(true);
@@ -216,6 +217,7 @@ export default function Planner() {
   };
 
   const doFlightSearch = async () => {
+    if (!serverOk) return;
     const res = await fetch(
       `/api/search/flights?q=${encodeURIComponent(flightQuery || form.destination)}`,
     );
@@ -224,6 +226,7 @@ export default function Planner() {
   };
 
   const doHotelSearch = async () => {
+    if (!serverOk) return;
     const res = await fetch(
       `/api/search/hotels?q=${encodeURIComponent(hotelQuery || form.destination)}`,
     );
@@ -236,6 +239,7 @@ export default function Planner() {
   };
 
   const convert = async () => {
+    if (!serverOk) return;
     const res = await fetch(
       `/api/currency/convert?amount=${fx.amount}&from=${fx.from}&to=${fx.to}`,
     );
@@ -244,7 +248,7 @@ export default function Planner() {
   };
 
   useEffect(() => {
-    if (!form.destination) return;
+    if (!form.destination || !serverOk) return;
     const id = setInterval(async () => {
       try {
         const r = await fetch(
@@ -255,7 +259,7 @@ export default function Planner() {
       } catch {}
     }, 600000);
     return () => clearInterval(id);
-  }, [form.destination]);
+  }, [form.destination, serverOk]);
 
   // Ping API once to confirm server availability; gate other background fetches
   useEffect(() => {
@@ -617,9 +621,14 @@ export default function Planner() {
                 </SelectContent>
               </Select>
             </div>
-            <Button onClick={generate} disabled={loading} className="w-full">
+            <Button onClick={generate} disabled={!serverOk || loading} className="w-full">
               {loading ? "Generating..." : "Generate Itinerary"}
             </Button>
+            {!serverOk && (
+              <div className="mt-2 rounded-md border border-dashed p-2 text-xs text-muted-foreground">
+                Backend unavailable. Live features are temporarily disabled.
+              </div>
+            )}
             <div className="rounded-md bg-secondary p-3 text-sm text-muted-foreground">
               Daily budget per person:{" "}
               <span className="font-semibold text-foreground">

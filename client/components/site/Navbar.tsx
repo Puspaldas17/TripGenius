@@ -1,10 +1,27 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Plane, Map, Calendar, Users, Brain } from "lucide-react";
+import { Plane, Map, Calendar, Users, Brain, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const location = useLocation();
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    try {
+      const saved = localStorage.getItem("tg_theme");
+      if (saved === "dark" || saved === "light") return saved;
+    } catch {}
+    const prefersDark = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return prefersDark ? "dark" : "light";
+  });
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === "dark") root.classList.add("dark");
+    else root.classList.remove("dark");
+    try {
+      localStorage.setItem("tg_theme", theme);
+    } catch {}
+  }, [theme]);
   const links = [
     { to: "/", label: "Home" },
     { to: "/planner", label: "Planner" },
@@ -41,6 +58,14 @@ export default function Navbar() {
           ))}
         </div>
         <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            aria-label="Toggle theme"
+            onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
+            className="hidden md:inline-flex"
+          >
+            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </Button>
           <Button asChild variant="ghost" className="hidden md:inline-flex">
             <Link to="/login">Log in</Link>
           </Button>
@@ -55,6 +80,13 @@ export default function Navbar() {
       <div className="block border-t md:hidden" />
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 md:hidden">
         <div className="flex items-center gap-5">
+          <button
+            aria-label="Toggle theme"
+            onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
+            className="rounded-md border px-2 py-1 text-xs text-muted-foreground"
+          >
+            {theme === "dark" ? "Light" : "Dark"}
+          </button>
           <NavLink
             to="/planner"
             className="text-muted-foreground hover:text-primary"

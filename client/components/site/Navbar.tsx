@@ -11,7 +11,10 @@ export default function Navbar() {
       const saved = localStorage.getItem("tg_theme");
       if (saved === "dark" || saved === "light") return saved;
     } catch {}
-    const prefersDark = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const prefersDark =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
     return prefersDark ? "dark" : "light";
   });
   useEffect(() => {
@@ -64,7 +67,11 @@ export default function Navbar() {
             onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
             className="hidden md:inline-flex"
           >
-            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {theme === "dark" ? (
+              <Sun className="h-4 w-4" />
+            ) : (
+              <Moon className="h-4 w-4" />
+            )}
           </Button>
           <Button asChild variant="ghost" className="hidden md:inline-flex">
             <Link to="/login">Log in</Link>

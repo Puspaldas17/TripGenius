@@ -132,7 +132,7 @@ export default function Planner() {
       const ac = new AbortController();
       travelAbort.current = ac;
       const tRes = await fetch(
-        `/api/travel/options?origin=${encodeURIComponent(o)}&destination=${encodeURIComponent(d)}`,
+        `${apiBase}/travel/options?origin=${encodeURIComponent(o)}&destination=${encodeURIComponent(d)}`,
         { signal: ac.signal },
       );
       if (travelAbort.current !== ac) return; // superseded
@@ -181,12 +181,12 @@ export default function Planner() {
           : form.days;
       const req = { ...form, days: newDays };
       const [aiRes, wRes] = await Promise.all([
-        fetch("/api/ai/itinerary", {
+        fetch(`${apiBase}/ai/itinerary`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(req),
         }),
-        fetch(`/api/weather?location=${encodeURIComponent(form.destination)}`),
+        fetch(`${apiBase}/weather?location=${encodeURIComponent(form.destination)}`),
       ]);
       const ai = (await aiRes.json()) as ItineraryResponse;
       const w = (await wRes.json()) as WeatherResponse;
@@ -204,7 +204,7 @@ export default function Planner() {
       // travel options will refresh via effect
       try {
         const pr = await fetch(
-          `/api/places?location=${encodeURIComponent(form.destination)}`,
+          `${apiBase}/places?location=${encodeURIComponent(form.destination)}`,
         );
         const pj = await pr.json();
         setPlaces(pj.places || []);
@@ -220,7 +220,7 @@ export default function Planner() {
     if (!serverOk) return;
     try {
       const res = await fetch(
-        `/api/search/flights?q=${encodeURIComponent(flightQuery || form.destination)}`,
+        `${apiBase}/search/flights?q=${encodeURIComponent(flightQuery || form.destination)}`,
       );
       if (!res.ok) {
         setFlights([]);
@@ -237,7 +237,7 @@ export default function Planner() {
     if (!serverOk) return;
     try {
       const res = await fetch(
-        `/api/search/hotels?q=${encodeURIComponent(hotelQuery || form.destination)}`,
+        `${apiBase}/search/hotels?q=${encodeURIComponent(hotelQuery || form.destination)}`,
       );
       if (!res.ok) {
         setHotels([]);
@@ -258,7 +258,7 @@ export default function Planner() {
     if (!serverOk) return;
     try {
       const res = await fetch(
-        `/api/currency/convert?amount=${fx.amount}&from=${fx.from}&to=${fx.to}`,
+        `${apiBase}/currency/convert?amount=${fx.amount}&from=${fx.from}&to=${fx.to}`,
       );
       if (!res.ok) return;
       const data = (await res.json()) as CurrencyConvertResponse;
@@ -273,7 +273,7 @@ export default function Planner() {
     const id = setInterval(async () => {
       try {
         const r = await fetch(
-          `/api/weather?location=${encodeURIComponent(form.destination)}`,
+          `${apiBase}/weather?location=${encodeURIComponent(form.destination)}`,
         );
         const w = (await r.json()) as WeatherResponse;
         setWeather(w);
@@ -400,7 +400,7 @@ export default function Planner() {
       );
       const { latitude, longitude } = coords.coords;
       const resp = await fetch(
-        `/api/geocode/reverse?lat=${latitude}&lon=${longitude}`,
+        `${apiBase}/geocode/reverse?lat=${latitude}&lon=${longitude}`,
       );
       const data = await resp.json();
       if (data?.label) setOrigin(data.label);
@@ -424,7 +424,7 @@ export default function Planner() {
       );
       const { latitude, longitude } = coords.coords;
       const resp = await fetch(
-        `/api/geocode/reverse?lat=${latitude}&lon=${longitude}`,
+        `${apiBase}/geocode/reverse?lat=${latitude}&lon=${longitude}`,
       );
       const data = await resp.json();
       if (data?.label) setForm((f) => ({ ...f, destination: data.label }));

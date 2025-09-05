@@ -3,7 +3,16 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CloudSun, CalendarDays, FileDown, Plus, FolderKanban, Bell } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationNext,
+} from "@/components/ui/pagination";
+import { CloudSun, CalendarDays, FileDown, Plus, FolderKanban, Bell, Trash2 } from "lucide-react";
 import type { WeatherResponse } from "@shared/api";
 
 function safeNumber(n: any, d = 0) {
@@ -38,6 +47,18 @@ export default function Dashboard() {
     }
   });
   const [weather, setWeather] = useState<WeatherResponse | null>(null);
+  const [loadingTrips, setLoadingTrips] = useState(false);
+  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const pageSize = 5 as const;
+  const [activity, setActivity] = useState<{ id: string; at: number; message: string }[]>(() => {
+    try {
+      const raw = localStorage.getItem("tg_activity");
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  });
 
   const stats = useMemo(() => {
     const trips = saved.length;
@@ -53,6 +74,7 @@ export default function Dashboard() {
       const token = localStorage.getItem("tg_token");
       if (!token) return;
       try {
+        setLoadingTrips(true);
         const r = await safeFetch(`${apiBase}/trips`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -75,6 +97,9 @@ export default function Dashboard() {
           });
         }
       } catch {}
+      finally {
+        setLoadingTrips(false);
+      }
     })();
   }, []);
 
@@ -118,6 +143,17 @@ export default function Dashboard() {
     return false;
   };
 
+  const pushActivity = (message: string) => {
+    const entry = { id: String(Date.now()), at: Date.now(), message };
+    try {
+      const raw = localStorage.getItem("tg_activity");
+      const list = raw ? JSON.parse(raw) : [];
+      list.unshift(entry);
+      localStorage.setItem("tg_activity", JSON.stringify(list));
+    } catch {}
+    setActivity((a) => [entry, ...a]);
+  };
+
   const exportLast = () => {
     if (!saved.length) return;
     const s = saved[0];
@@ -135,6 +171,7 @@ export default function Dashboard() {
     w.document.close();
     w.focus();
     w.print();
+    pushActivity(`Exported plan: ${s.name}`);
   };
 
   return (
@@ -209,20 +246,67 @@ export default function Dashboard() {
             <CardTitle>Saved Plans</CardTitle>
           </CardHeader>
           <CardContent>
-            {saved.length ? (
+            <div className="mb-3 flex items-center gap-2">
+              <Input
+                placeholder="Search by name or destination"
+                value={query}
+                onChange={(e) => { setQuery(e.target.value); setPage(1); }}
+              />
+              <Button
+                variant="outline"
+                onClick={() => {
+                  localStorage.removeItem("tg_saved_trips");
+                  setSaved([]);
+                }}
+                disabled={!saved.length}
+              >
+                <Trash2 className="mr-2 h-4 w-4"/> Clear
+              </Button>
+            </div>
+            {loadingTrips ? (
               <div className="space-y-2">
-                {saved.map((t) => (
-                  <div key={t.id} className="flex items-center justify-between rounded-md border p-3 text-sm">
-                    <div>
-                      <div className="font-medium">{t.name} <Badge variant="secondary" className="ml-2">{t.days} days</Badge></div>
-                      <div className="text-xs text-muted-foreground">{t.destination} • {new Date(t.createdAt).toLocaleDateString()}</div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Button asChild variant="outline"><Link to="/planner">Open</Link></Button>
-                    </div>
-                  </div>
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <Skeleton key={i} className="h-16 w-full" />
                 ))}
               </div>
+            ) : saved.length ? (
+              (() => {
+                const filtered = saved.filter((t) =>
+                  (t.name + " " + t.destination).toLowerCase().includes(query.toLowerCase()),
+                );
+                const total = filtered.length;
+                const totalPages = Math.max(1, Math.ceil(total / pageSize));
+                const cur = Math.min(page, totalPages);
+                const start = (cur - 1) * pageSize;
+                const pageItems = filtered.slice(start, start + pageSize);
+                return (
+                  <>
+                    <div className="space-y-2">
+                      {pageItems.map((t) => (
+                        <div key={t.id} className="flex items-center justify-between rounded-md border p-3 text-sm">
+                          <div>
+                            <div className="font-medium">{t.name} <Badge variant="secondary" className="ml-2">{t.days} days</Badge></div>
+                            <div className="text-xs text-muted-foreground">{t.destination} • {new Date(t.createdAt).toLocaleDateString()}</div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button asChild variant="outline"><Link to="/planner">Open</Link></Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <Pagination className="mt-3">
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious href="#" onClick={(e) => { e.preventDefault(); setPage((p) => Math.max(1, p - 1)); }} />
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationNext href="#" onClick={(e) => { e.preventDefault(); setPage((p) => p + 1); }} />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                  </>
+                );
+              })()
             ) : (
               <div className="text-sm text-muted-foreground">No saved plans yet. Create one from the Planner.</div>
             )}
@@ -232,7 +316,33 @@ export default function Dashboard() {
           <CardHeader>
             <CardTitle>Recent Activity</CardTitle>
           </CardHeader>
-          <CardContent className="text-sm text-muted-foreground">Nothing here yet. Start planning to see activity.</CardContent>
+          <CardContent>
+            {activity.length ? (
+              <div className="space-y-2 text-sm">
+                {activity.slice(0, 10).map((a) => (
+                  <div key={a.id} className="flex items-center justify-between rounded-md border p-2">
+                    <div>
+                      <div>{a.message}</div>
+                      <div className="text-[10px] text-muted-foreground">{new Date(a.at).toLocaleString()}</div>
+                    </div>
+                  </div>
+                ))}
+                <div className="pt-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      localStorage.removeItem("tg_activity");
+                      setActivity([]);
+                    }}
+                  >
+                    Clear activity
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="text-sm text-muted-foreground">Nothing here yet. Start planning to see activity.</div>
+            )}
+          </CardContent>
         </Card>
       </div>
     </div>

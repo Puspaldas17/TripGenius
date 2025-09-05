@@ -361,6 +361,28 @@ export default function Planner() {
 
   // Removed auto-probe to prevent failing network calls on load
 
+  // Load a saved plan selected from Dashboard
+  useEffect(() => {
+    try {
+      const sel = localStorage.getItem("tg_open_trip");
+      if (!sel) return;
+      const raw = localStorage.getItem("tg_trip_" + sel);
+      localStorage.removeItem("tg_open_trip");
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      if (data?.itinerary) setItinerary(data.itinerary);
+      if (Array.isArray(data?.calendar)) setCalendar(data.calendar);
+      if (typeof data?.origin === "string") setOrigin(data.origin);
+      if (typeof data?.destination === "string")
+        setForm((f) => ({ ...f, destination: data.destination }));
+      if (data?.dateRange) setDateRange(data.dateRange);
+      if (typeof data?.members === "number") setMembers(data.members);
+      if (typeof data?.budget === "number")
+        setForm((f) => ({ ...f, budget: data.budget }));
+      if (data?.mode) setMode(data.mode);
+    } catch {}
+  }, []);
+
   // Fetch main travel options for current origin/destination when plan exists
   useEffect(() => {
     if (!itinerary) return;
@@ -586,6 +608,17 @@ export default function Planner() {
       const list = raw ? JSON.parse(raw) : [];
       list.unshift(entry);
       localStorage.setItem("tg_saved_trips", JSON.stringify(list));
+      const payload = {
+        itinerary,
+        calendar,
+        origin,
+        destination: form.destination,
+        dateRange,
+        mode,
+        members,
+        budget: form.budget,
+      };
+      localStorage.setItem("tg_trip_" + entry.id, JSON.stringify(payload));
     } catch {}
     try {
       const token = localStorage.getItem("tg_token");

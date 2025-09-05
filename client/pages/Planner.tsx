@@ -1502,30 +1502,32 @@ export default function Planner() {
                     className="h-8 w-24"
                   />
                 </div>
-                <div className="mt-3 h-56 w-full">
-                  <ResponsiveContainer>
-                    <PieChart>
-                      <Pie
-                        dataKey="value"
-                        data={[
-                          { name: "Transport", value: transportTotal },
-                          { name: "Stay", value: stayTotal },
-                          { name: "Food", value: foodTotal },
-                          { name: "Activities", value: actTotal },
-                        ]}
-                        innerRadius={40}
-                        outerRadius={70}
-                        paddingAngle={2}
-                      >
-                        {["#60a5fa", "#a78bfa", "#34d399", "#f59e0b"].map((c, i) => (
-                          <Cell key={i} fill={c} />
-                        ))}
-                      </Pie>
-                      <ReTooltip formatter={(v: any, n: any) => [formatMoney(Number(v)), n]} />
-                      <Legend />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
+                {openBudget && (
+                  <div className="mt-3 h-56 w-full">
+                    <ResponsiveContainer>
+                      <PieChart>
+                        <Pie
+                          dataKey="value"
+                          data={[
+                            { name: "Transport", value: transportTotal },
+                            { name: "Stay", value: stayTotal },
+                            { name: "Food", value: foodTotal },
+                            { name: "Activities", value: actTotal },
+                          ]}
+                          innerRadius={40}
+                          outerRadius={70}
+                          paddingAngle={2}
+                        >
+                          {["#60a5fa", "#a78bfa", "#34d399", "#f59e0b"].map((c, i) => (
+                            <Cell key={i} fill={c} />
+                          ))}
+                        </Pie>
+                        <ReTooltip formatter={(v: any, n: any) => [formatMoney(Number(v)), n]} />
+                        <Legend />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                )}
                 <div className="mt-3 rounded-md border p-3 text-sm">
                   Suggested trip total:{" "}
                   <span className="font-semibold">

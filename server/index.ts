@@ -11,6 +11,10 @@ import { convertCurrency } from "./routes/currency";
 import { reverseGeocode } from "./routes/geocode";
 import { geocodeSearch, travelOptions } from "./routes/travel";
 import { getPlaces } from "./routes/places";
+import { aiChat } from "./routes/chat";
+import { visaCheck } from "./routes/visa";
+import { getEvents } from "./routes/events";
+import { collabPublish, collabSubscribe } from "./routes/collab";
 
 export function createServer() {
   const app = express();

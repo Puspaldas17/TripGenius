@@ -40,6 +40,7 @@ export function createServer() {
 
   // AI + data
   app.post("/api/ai/itinerary", generateItinerary);
+  app.post("/api/ai/chat", aiChat);
   app.get("/api/weather", getWeather);
 
   // Search

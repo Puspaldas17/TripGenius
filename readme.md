@@ -81,13 +81,13 @@ TripGenius helps you go from idea to itinerary in minutes. Enter your trip detai
   - pages/
     - Planner.tsx: AI itinerary, weather, nearby places, route & modes, transport options, plan & calendar, budget, hotels, currency. Uses safeFetch and ensureServer to call /api.
     - Dashboard.tsx: Quick Actions, Insights, Upcoming Weather, Notifications, Saved Plans (search, pagination, per-plan delete/open), Recent Activity.
-      - Saved plans stored in localStorage (tg_saved_trips) and optionally enriched from /api/trips (when authenticated). Full plan payloads stored as tg_trip_<id>.
-      - Open plan sets tg_open_trip and navigates to Planner; Planner hydrates state from tg_trip_<id>.
+      - Saved plans stored in localStorage (tg*saved_trips) and optionally enriched from /api/trips (when authenticated). Full plan payloads stored as tg_trip*<id>.
+      - Open plan sets tg*open_trip and navigates to Planner; Planner hydrates state from tg_trip*<id>.
     - Index.tsx, Login.tsx, Signup.tsx, NotFound.tsx, Placeholder.tsx: basic pages.
   - components/
     - site/Navbar.tsx: Top nav (Home, Planner, Dashboard), theme toggle, auth links, mobile nav.
     - site/Footer.tsx: Footer links and meta.
-    - ui/*: Shadcn-like UI primitives (button, card, tabs, select, input, badge, skeleton, pagination, etc.).
+    - ui/\*: Shadcn-like UI primitives (button, card, tabs, select, input, badge, skeleton, pagination, etc.).
   - hooks/: use-toast, use-mobile.
   - lib/utils.ts: classNames helper (cn) and utilities.
   - global.css: Tailwind layers and theme variables.
@@ -119,13 +119,14 @@ TripGenius helps you go from idea to itinerary in minutes. Enter your trip detai
 
 ## How things connect
 
-- client/App.tsx registers routes that render pages from client/pages/* and wraps them with Navbar/Footer.
-- client/pages/Planner.tsx calls backend endpoints under /api (or /.netlify/functions/api) using ensureServer, then renders UI via components/ui/*.
-- client/pages/Dashboard.tsx reads from localStorage and, when logged in, fetches /api/trips. Opening a saved plan sets tg_open_trip; Planner loads tg_trip_<id> to hydrate itinerary/calendar/origin/dates/etc.
-- server/index.ts mounts all routes under /api; each server/routes/*.ts file implements one feature area.
+- client/App.tsx registers routes that render pages from client/pages/\* and wraps them with Navbar/Footer.
+- client/pages/Planner.tsx calls backend endpoints under /api (or /.netlify/functions/api) using ensureServer, then renders UI via components/ui/\*.
+- client/pages/Dashboard.tsx reads from localStorage and, when logged in, fetches /api/trips. Opening a saved plan sets tg*open_trip; Planner loads tg_trip*<id> to hydrate itinerary/calendar/origin/dates/etc.
+- server/index.ts mounts all routes under /api; each server/routes/\*.ts file implements one feature area.
 - shared/api.ts shares the TypeScript types used by both sides.
 
 Naming & labels
+
 - Filenames are kebab/pascal case per convention (e.g., Planner.tsx, Navbar.tsx).
 - UI components are collocated under components/ui with clear, reusable names.
 - API routes are grouped by domain in server/routes (weather, travel, currency, trips, etc.).

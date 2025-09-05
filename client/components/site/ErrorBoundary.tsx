@@ -19,7 +19,9 @@ export default class ErrorBoundary extends React.Component<Props, State> {
   reset = () => {
     this.setState({ hasError: false, message: undefined });
     // Soft reload to ensure clean state
-    try { if (typeof window !== "undefined") window.scrollTo(0, 0); } catch {}
+    try {
+      if (typeof window !== "undefined") window.scrollTo(0, 0);
+    } catch {}
   };
   render() {
     if (this.state.hasError) {
@@ -31,7 +33,10 @@ export default class ErrorBoundary extends React.Component<Props, State> {
           </p>
           <div className="mt-4 flex justify-center gap-2">
             <Button onClick={this.reset}>Try again</Button>
-            <Button variant="outline" onClick={() => (window.location.href = window.location.href)}>
+            <Button
+              variant="outline"
+              onClick={() => (window.location.href = window.location.href)}
+            >
               Reload page
             </Button>
           </div>

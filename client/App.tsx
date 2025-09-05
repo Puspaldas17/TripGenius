@@ -29,7 +29,9 @@ function GlobalErrorTrap() {
       console.error("[window.error]", e.error || e.message);
     };
     const onRejection = (e: PromiseRejectionEvent) => {
-      const msg = (e.reason && (e.reason.message || String(e.reason))) || "Unhandled promise rejection";
+      const msg =
+        (e.reason && (e.reason.message || String(e.reason))) ||
+        "Unhandled promise rejection";
       toast.error(msg);
       // eslint-disable-next-line no-console
       console.error("[unhandledrejection]", e.reason);

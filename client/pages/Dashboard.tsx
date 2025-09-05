@@ -12,7 +12,15 @@ import {
   PaginationPrevious,
   PaginationNext,
 } from "@/components/ui/pagination";
-import { CloudSun, CalendarDays, FileDown, Plus, FolderKanban, Bell, Trash2 } from "lucide-react";
+import {
+  CloudSun,
+  CalendarDays,
+  FileDown,
+  Plus,
+  FolderKanban,
+  Bell,
+  Trash2,
+} from "lucide-react";
 import type { WeatherResponse } from "@shared/api";
 
 function safeNumber(n: any, d = 0) {
@@ -52,7 +60,9 @@ export default function Dashboard() {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const pageSize = 5 as const;
-  const [activity, setActivity] = useState<{ id: string; at: number; message: string }[]>(() => {
+  const [activity, setActivity] = useState<
+    { id: string; at: number; message: string }[]
+  >(() => {
     try {
       const raw = localStorage.getItem("tg_activity");
       return raw ? JSON.parse(raw) : [];
@@ -90,15 +100,16 @@ export default function Dashboard() {
           }));
           setSaved((prev) => {
             const all = [...prev];
-            for (const m of mapped) if (!all.find((x) => x.id === m.id)) all.push(m);
+            for (const m of mapped)
+              if (!all.find((x) => x.id === m.id)) all.push(m);
             try {
               localStorage.setItem("tg_saved_trips", JSON.stringify(all));
             } catch {}
             return all;
           });
         }
-      } catch {}
-      finally {
+      } catch {
+      } finally {
         setLoadingTrips(false);
       }
     })();
@@ -111,7 +122,9 @@ export default function Dashboard() {
       const dest = saved[0].destination;
       if (!dest) return;
       try {
-        const r = await safeFetch(`${apiBase}/weather?location=${encodeURIComponent(dest)}`);
+        const r = await safeFetch(
+          `${apiBase}/weather?location=${encodeURIComponent(dest)}`,
+        );
         if (r.ok) setWeather((await r.json()) as WeatherResponse);
       } catch {}
     })();
@@ -200,18 +213,32 @@ export default function Dashboard() {
       <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><FolderKanban className="h-5 w-5 text-primary"/> Quick Actions</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <FolderKanban className="h-5 w-5 text-primary" /> Quick Actions
+            </CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 gap-2">
-            <Button asChild><Link to="/planner" className="w-full"><Plus className="mr-2 h-4 w-4"/>New Trip</Link></Button>
-            <Button variant="outline" onClick={exportLast} disabled={!saved.length} className="w-full">
-              <FileDown className="mr-2 h-4 w-4"/> Export last plan
+            <Button asChild>
+              <Link to="/planner" className="w-full">
+                <Plus className="mr-2 h-4 w-4" />
+                New Trip
+              </Link>
+            </Button>
+            <Button
+              variant="outline"
+              onClick={exportLast}
+              disabled={!saved.length}
+              className="w-full"
+            >
+              <FileDown className="mr-2 h-4 w-4" /> Export last plan
             </Button>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><CalendarDays className="h-5 w-5 text-primary"/> Insights</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <CalendarDays className="h-5 w-5 text-primary" /> Insights
+            </CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-2 gap-3 text-sm">
             <div className="rounded-md border p-3">
@@ -226,38 +253,53 @@ export default function Dashboard() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><CloudSun className="h-5 w-5 text-primary"/> Upcoming Weather</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <CloudSun className="h-5 w-5 text-primary" /> Upcoming Weather
+            </CardTitle>
           </CardHeader>
           <CardContent>
             {weather ? (
               <div className="space-y-2 text-sm">
                 {weather.alerts?.length ? (
                   <div className="rounded-md border bg-amber-50 p-2 text-amber-800 dark:bg-amber-900/20 dark:text-amber-200 text-xs">
-                    ⚠️ Alerts: {weather.alerts.map((a)=>a.description).join(", ")}
+                    ⚠️ Alerts:{" "}
+                    {weather.alerts.map((a) => a.description).join(", ")}
                   </div>
                 ) : (
-                  <div className="text-muted-foreground text-sm">No alerts.</div>
+                  <div className="text-muted-foreground text-sm">
+                    No alerts.
+                  </div>
                 )}
                 <div className="grid grid-cols-2 gap-2">
-                  {weather.daily.slice(0,3).map((d)=> (
+                  {weather.daily.slice(0, 3).map((d) => (
                     <div key={d.date} className="rounded-md border p-2 text-xs">
-                      <div className="font-medium">{new Date(d.date).toLocaleDateString()}</div>
+                      <div className="font-medium">
+                        {new Date(d.date).toLocaleDateString()}
+                      </div>
                       <div className="text-muted-foreground">{d.summary}</div>
-                      <div>{Math.round(d.tempMin)}° / {Math.round(d.tempMax)}°C</div>
+                      <div>
+                        {Math.round(d.tempMin)}° / {Math.round(d.tempMax)}°C
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
             ) : (
-              <div className="text-muted-foreground text-sm">Save a trip to see weather for it.</div>
+              <div className="text-muted-foreground text-sm">
+                Save a trip to see weather for it.
+              </div>
             )}
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><Bell className="h-5 w-5 text-primary"/> Notifications</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Bell className="h-5 w-5 text-primary" /> Notifications
+            </CardTitle>
           </CardHeader>
-          <CardContent className="text-sm text-muted-foreground">No notifications yet.</CardContent>
+          <CardContent className="text-sm text-muted-foreground">
+            No notifications yet.
+          </CardContent>
         </Card>
       </div>
 
@@ -271,7 +313,10 @@ export default function Dashboard() {
               <Input
                 placeholder="Search by name or destination"
                 value={query}
-                onChange={(e) => { setQuery(e.target.value); setPage(1); }}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setPage(1);
+                }}
               />
               <Button
                 variant="outline"
@@ -281,7 +326,7 @@ export default function Dashboard() {
                 }}
                 disabled={!saved.length}
               >
-                <Trash2 className="mr-2 h-4 w-4"/> Clear
+                <Trash2 className="mr-2 h-4 w-4" /> Clear
               </Button>
             </div>
             {loadingTrips ? (
@@ -293,7 +338,9 @@ export default function Dashboard() {
             ) : saved.length ? (
               (() => {
                 const filtered = saved.filter((t) =>
-                  (t.name + " " + t.destination).toLowerCase().includes(query.toLowerCase()),
+                  (t.name + " " + t.destination)
+                    .toLowerCase()
+                    .includes(query.toLowerCase()),
                 );
                 const total = filtered.length;
                 const totalPages = Math.max(1, Math.ceil(total / pageSize));
@@ -304,17 +351,39 @@ export default function Dashboard() {
                   <>
                     <div className="space-y-2">
                       {pageItems.map((t) => (
-                        <div key={t.id} className="flex items-center justify-between rounded-md border p-3 text-sm">
+                        <div
+                          key={t.id}
+                          className="flex items-center justify-between rounded-md border p-3 text-sm"
+                        >
                           <div>
-                            <div className="font-medium">{t.name} <Badge variant="secondary" className="ml-2">{t.days} days</Badge></div>
-                            <div className="text-xs text-muted-foreground">{t.destination} • {new Date(t.createdAt).toLocaleDateString()}</div>
+                            <div className="font-medium">
+                              {t.name}{" "}
+                              <Badge variant="secondary" className="ml-2">
+                                {t.days} days
+                              </Badge>
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                              {t.destination} •{" "}
+                              {new Date(t.createdAt).toLocaleDateString()}
+                            </div>
                           </div>
                           <div className="flex items-center gap-2">
                             <Button asChild variant="outline">
-                              <Link to="/planner" onClick={(e) => { e.preventDefault(); openTrip(t.id); }}>Open</Link>
+                              <Link
+                                to="/planner"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  openTrip(t.id);
+                                }}
+                              >
+                                Open
+                              </Link>
                             </Button>
-                            <Button variant="destructive" onClick={() => deleteTrip(t.id)}>
-                              <Trash2 className="mr-2 h-4 w-4"/> Delete
+                            <Button
+                              variant="destructive"
+                              onClick={() => deleteTrip(t.id)}
+                            >
+                              <Trash2 className="mr-2 h-4 w-4" /> Delete
                             </Button>
                           </div>
                         </div>
@@ -323,10 +392,22 @@ export default function Dashboard() {
                     <Pagination className="mt-3">
                       <PaginationContent>
                         <PaginationItem>
-                          <PaginationPrevious href="#" onClick={(e) => { e.preventDefault(); setPage((p) => Math.max(1, p - 1)); }} />
+                          <PaginationPrevious
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setPage((p) => Math.max(1, p - 1));
+                            }}
+                          />
                         </PaginationItem>
                         <PaginationItem>
-                          <PaginationNext href="#" onClick={(e) => { e.preventDefault(); setPage((p) => p + 1); }} />
+                          <PaginationNext
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setPage((p) => p + 1);
+                            }}
+                          />
                         </PaginationItem>
                       </PaginationContent>
                     </Pagination>
@@ -334,7 +415,9 @@ export default function Dashboard() {
                 );
               })()
             ) : (
-              <div className="text-sm text-muted-foreground">No saved plans yet. Create one from the Planner.</div>
+              <div className="text-sm text-muted-foreground">
+                No saved plans yet. Create one from the Planner.
+              </div>
             )}
           </CardContent>
         </Card>
@@ -346,10 +429,15 @@ export default function Dashboard() {
             {activity.length ? (
               <div className="space-y-2 text-sm">
                 {activity.slice(0, 10).map((a) => (
-                  <div key={a.id} className="flex items-center justify-between rounded-md border p-2">
+                  <div
+                    key={a.id}
+                    className="flex items-center justify-between rounded-md border p-2"
+                  >
                     <div>
                       <div>{a.message}</div>
-                      <div className="text-[10px] text-muted-foreground">{new Date(a.at).toLocaleString()}</div>
+                      <div className="text-[10px] text-muted-foreground">
+                        {new Date(a.at).toLocaleString()}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -366,7 +454,9 @@ export default function Dashboard() {
                 </div>
               </div>
             ) : (
-              <div className="text-sm text-muted-foreground">Nothing here yet. Start planning to see activity.</div>
+              <div className="text-sm text-muted-foreground">
+                Nothing here yet. Start planning to see activity.
+              </div>
             )}
           </CardContent>
         </Card>

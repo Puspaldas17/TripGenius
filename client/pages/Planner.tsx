@@ -625,7 +625,10 @@ export default function Planner() {
       if (token && (await ensureServer())) {
         await safeFetch(`${apiBase}/trips`, {
           method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
           body: JSON.stringify({ name: entry.name, itinerary }),
         });
       }
@@ -633,7 +636,11 @@ export default function Planner() {
     try {
       const raw = localStorage.getItem("tg_activity");
       const list = raw ? JSON.parse(raw) : [];
-      list.unshift({ id: String(Date.now()), at: Date.now(), message: `Saved trip: ${entry.name}` });
+      list.unshift({
+        id: String(Date.now()),
+        at: Date.now(),
+        message: `Saved trip: ${entry.name}`,
+      });
       localStorage.setItem("tg_activity", JSON.stringify(list));
     } catch {}
   };
@@ -1240,7 +1247,10 @@ export default function Planner() {
               {legsTravel?.length && mode ? (
                 <div className="mt-4 rounded-md border p-3 text-sm">
                   {(() => {
-                    const totalKm = legsTravel.reduce((s, l) => s + (l?.km || 0), 0);
+                    const totalKm = legsTravel.reduce(
+                      (s, l) => s + (l?.km || 0),
+                      0,
+                    );
                     const totals = legsTravel.reduce(
                       (acc, l) => {
                         const opt = l.options.find((o) => o.mode === mode);
@@ -1253,9 +1263,22 @@ export default function Planner() {
                     );
                     return (
                       <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
-                        <div>Total distance: <span className="font-medium">{totalKm} km</span></div>
-                        <div>Estimated travel time: <span className="font-medium">{totals.hours.toFixed(1)} h</span></div>
-                        <div>Total transport cost: <span className="font-medium">{formatINR(totals.price)}</span></div>
+                        <div>
+                          Total distance:{" "}
+                          <span className="font-medium">{totalKm} km</span>
+                        </div>
+                        <div>
+                          Estimated travel time:{" "}
+                          <span className="font-medium">
+                            {totals.hours.toFixed(1)} h
+                          </span>
+                        </div>
+                        <div>
+                          Total transport cost:{" "}
+                          <span className="font-medium">
+                            {formatINR(totals.price)}
+                          </span>
+                        </div>
                       </div>
                     );
                   })()}
@@ -1366,10 +1389,19 @@ export default function Planner() {
                   📅
                 </CardTitle>
                 <div className="flex items-center gap-2">
-                  <Button onClick={saveTrip} variant="default" className="gap-2" disabled={!itinerary}>
+                  <Button
+                    onClick={saveTrip}
+                    variant="default"
+                    className="gap-2"
+                    disabled={!itinerary}
+                  >
                     Save Trip
                   </Button>
-                  <Button onClick={exportPdf} variant="outline" className="gap-2">
+                  <Button
+                    onClick={exportPdf}
+                    variant="outline"
+                    className="gap-2"
+                  >
                     <FileDown className="h-4 w-4" /> Export PDF
                   </Button>
                 </div>
@@ -1566,15 +1598,22 @@ export default function Planner() {
                   </div>
                 </div>
                 <div className="mt-3 flex items-center gap-2 text-xs">
-                  <span className="text-muted-foreground">Display currency:</span>
+                  <span className="text-muted-foreground">
+                    Display currency:
+                  </span>
                   <Input
                     value={budgetCurrency}
-                    onChange={(e) => setBudgetCurrency(e.target.value.toUpperCase())}
+                    onChange={(e) =>
+                      setBudgetCurrency(e.target.value.toUpperCase())
+                    }
                     className="h-8 w-24"
                   />
                 </div>
                 {openBudget && (
-                  <div className="mt-3 h-56 w-full" style={{ contain: "layout size" }}>
+                  <div
+                    className="mt-3 h-56 w-full"
+                    style={{ contain: "layout size" }}
+                  >
                     <ResponsiveContainer>
                       <PieChart>
                         <Pie
@@ -1589,11 +1628,18 @@ export default function Planner() {
                           outerRadius={70}
                           paddingAngle={2}
                         >
-                          {["#60a5fa", "#a78bfa", "#34d399", "#f59e0b"].map((c, i) => (
-                            <Cell key={i} fill={c} />
-                          ))}
+                          {["#60a5fa", "#a78bfa", "#34d399", "#f59e0b"].map(
+                            (c, i) => (
+                              <Cell key={i} fill={c} />
+                            ),
+                          )}
                         </Pie>
-                        <ReTooltip formatter={(v: any, n: any) => [formatMoney(Number(v)), n]} />
+                        <ReTooltip
+                          formatter={(v: any, n: any) => [
+                            formatMoney(Number(v)),
+                            n,
+                          ]}
+                        />
                         <Legend />
                       </PieChart>
                     </ResponsiveContainer>
@@ -1661,7 +1707,9 @@ export default function Planner() {
                 </p>
                 <ShareTrip />
                 <div className="mt-4">
-                  <div className="mb-2 text-xs text-muted-foreground">Trip comments</div>
+                  <div className="mb-2 text-xs text-muted-foreground">
+                    Trip comments
+                  </div>
                   <div className="max-h-48 overflow-auto rounded-md border p-2 text-sm space-y-2">
                     {chatMessages.length ? (
                       chatMessages.map((m) => (
@@ -1676,7 +1724,9 @@ export default function Planner() {
                         </div>
                       ))
                     ) : (
-                      <div className="text-xs text-muted-foreground">No messages yet. Start the conversation!</div>
+                      <div className="text-xs text-muted-foreground">
+                        No messages yet. Start the conversation!
+                      </div>
                     )}
                   </div>
                   <div className="mt-2 flex items-center gap-2">
@@ -1725,9 +1775,23 @@ export default function Planner() {
                     <div className="flex flex-col gap-1">
                       <span className="font-medium">{h.name}</span>
                       <div className="flex items-center gap-2">
-                        <span className="text-muted-foreground">⭐ {h.rating}</span>
-                        <Badge variant={h.rating >= 4.5 ? "default" : h.rating >= 4.0 ? "secondary" : "outline"}>
-                          {h.rating >= 4.5 ? "Excellent" : h.rating >= 4.0 ? "Very good" : "Good"}
+                        <span className="text-muted-foreground">
+                          ⭐ {h.rating}
+                        </span>
+                        <Badge
+                          variant={
+                            h.rating >= 4.5
+                              ? "default"
+                              : h.rating >= 4.0
+                                ? "secondary"
+                                : "outline"
+                          }
+                        >
+                          {h.rating >= 4.5
+                            ? "Excellent"
+                            : h.rating >= 4.0
+                              ? "Very good"
+                              : "Good"}
                         </Badge>
                       </div>
                       {h.reviews?.length ? (

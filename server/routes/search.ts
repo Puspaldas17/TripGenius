@@ -32,6 +32,10 @@ export const searchHotels: RequestHandler = (req, res) => {
       pricePerNight: 129,
       rating: 4.4,
       url: "https://booking.com",
+      reviews: [
+        "Clean rooms and friendly staff.",
+        "Great location near attractions.",
+      ],
     },
     {
       id: "H2",
@@ -39,6 +43,10 @@ export const searchHotels: RequestHandler = (req, res) => {
       pricePerNight: 179,
       rating: 4.6,
       url: "https://agoda.com",
+      reviews: [
+        "Amazing breakfast and ocean view!",
+        "Spacious rooms and fast Wi‑Fi.",
+      ],
     },
   ];
   res.json({ results: out });

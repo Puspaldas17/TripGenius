@@ -1326,9 +1326,14 @@ export default function Planner() {
                   <CalIcon className="h-5 w-5 text-primary" /> Plan & Calendar
                   📅
                 </CardTitle>
-                <Button onClick={exportPdf} variant="outline" className="gap-2">
-                  <FileDown className="h-4 w-4" /> Export PDF
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button onClick={saveTrip} variant="default" className="gap-2" disabled={!itinerary}>
+                    Save Trip
+                  </Button>
+                  <Button onClick={exportPdf} variant="outline" className="gap-2">
+                    <FileDown className="h-4 w-4" /> Export PDF
+                  </Button>
+                </div>
               </div>
               <p className="text-sm text-muted-foreground mt-1">
                 Drag to arrange your day. Shows what to do, where, and at what

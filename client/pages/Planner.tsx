@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -359,6 +360,16 @@ export default function Planner() {
   };
 
   // Removed auto-probe to prevent failing network calls on load
+
+  // Fetch main travel options for current origin/destination when plan exists
+  useEffect(() => {
+    if (!itinerary) return;
+    (async () => {
+      if (!(await ensureServer())) return;
+      await fetchTravel();
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [origin, form.destination, itinerary, serverOk]);
 
   // Fetch per-leg travel depending on trip type
   const legsRequestId = useRef(0);
@@ -1159,6 +1170,31 @@ export default function Planner() {
                   ))}
                 </div>
               ) : null}
+
+              {legsTravel?.length && mode ? (
+                <div className="mt-4 rounded-md border p-3 text-sm">
+                  {(() => {
+                    const totalKm = legsTravel.reduce((s, l) => s + (l?.km || 0), 0);
+                    const totals = legsTravel.reduce(
+                      (acc, l) => {
+                        const opt = l.options.find((o) => o.mode === mode);
+                        return {
+                          hours: acc.hours + (opt?.timeHours || 0),
+                          price: acc.price + (opt?.price || 0),
+                        };
+                      },
+                      { hours: 0, price: 0 },
+                    );
+                    return (
+                      <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
+                        <div>Total distance: <span className="font-medium">{totalKm} km</span></div>
+                        <div>Estimated travel time: <span className="font-medium">{totals.hours.toFixed(1)} h</span></div>
+                        <div>Total transport cost: <span className="font-medium">{formatINR(totals.price)}</span></div>
+                      </div>
+                    );
+                  })()}
+                </div>
+              ) : null}
             </CardContent>
           </Card>
 
@@ -1458,6 +1494,38 @@ export default function Planner() {
                     <div className="font-semibold">{formatINR(actTotal)}</div>
                   </div>
                 </div>
+                <div className="mt-3 flex items-center gap-2 text-xs">
+                  <span className="text-muted-foreground">Display currency:</span>
+                  <Input
+                    value={budgetCurrency}
+                    onChange={(e) => setBudgetCurrency(e.target.value.toUpperCase())}
+                    className="h-8 w-24"
+                  />
+                </div>
+                <div className="mt-3 h-56 w-full">
+                  <ResponsiveContainer>
+                    <PieChart>
+                      <Pie
+                        dataKey="value"
+                        data={[
+                          { name: "Transport", value: transportTotal },
+                          { name: "Stay", value: stayTotal },
+                          { name: "Food", value: foodTotal },
+                          { name: "Activities", value: actTotal },
+                        ]}
+                        innerRadius={40}
+                        outerRadius={70}
+                        paddingAngle={2}
+                      >
+                        {["#60a5fa", "#a78bfa", "#34d399", "#f59e0b"].map((c, i) => (
+                          <Cell key={i} fill={c} />
+                        ))}
+                      </Pie>
+                      <ReTooltip formatter={(v: any, n: any) => [formatMoney(Number(v)), n]} />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
                 <div className="mt-3 rounded-md border p-3 text-sm">
                   Suggested trip total:{" "}
                   <span className="font-semibold">
@@ -1519,6 +1587,37 @@ export default function Planner() {
                   Share your plan with friends using your trip code.
                 </p>
                 <ShareTrip />
+                <div className="mt-4">
+                  <div className="mb-2 text-xs text-muted-foreground">Trip comments</div>
+                  <div className="max-h-48 overflow-auto rounded-md border p-2 text-sm space-y-2">
+                    {chatMessages.length ? (
+                      chatMessages.map((m) => (
+                        <div key={m.id} className="flex items-start gap-2">
+                          <div className="mt-1 h-1.5 w-1.5 rounded-full bg-primary" />
+                          <div>
+                            <div>{m.text}</div>
+                            <div className="text-[10px] text-muted-foreground">
+                              {new Date(m.at).toLocaleString()}
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-xs text-muted-foreground">No messages yet. Start the conversation!</div>
+                    )}
+                  </div>
+                  <div className="mt-2 flex items-center gap-2">
+                    <Input
+                      placeholder="Write a message"
+                      value={chatInput}
+                      onChange={(e) => setChatInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") sendChat();
+                      }}
+                    />
+                    <Button onClick={sendChat}>Send</Button>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -1550,11 +1649,19 @@ export default function Planner() {
                     key={h.id}
                     className="flex items-center justify-between rounded-md border p-3"
                   >
-                    <div className="flex flex-col">
+                    <div className="flex flex-col gap-1">
                       <span className="font-medium">{h.name}</span>
-                      <span className="text-muted-foreground">
-                        ⭐ {h.rating}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-muted-foreground">⭐ {h.rating}</span>
+                        <Badge variant={h.rating >= 4.5 ? "default" : h.rating >= 4.0 ? "secondary" : "outline"}>
+                          {h.rating >= 4.5 ? "Excellent" : h.rating >= 4.0 ? "Very good" : "Good"}
+                        </Badge>
+                      </div>
+                      {h.reviews?.length ? (
+                        <div className="text-xs text-muted-foreground">
+                          “{h.reviews[0]}”
+                        </div>
+                      ) : null}
                     </div>
                     <div className="text-right">
                       <div className="text-lg font-bold">

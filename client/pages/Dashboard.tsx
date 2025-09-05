@@ -154,6 +154,18 @@ export default function Dashboard() {
     setActivity((a) => [entry, ...a]);
   };
 
+  const deleteTrip = (id: string) => {
+    setSaved((prev) => {
+      const next = prev.filter((t) => t.id !== id);
+      try {
+        localStorage.setItem("tg_saved_trips", JSON.stringify(next));
+      } catch {}
+      return next;
+    });
+    const trip = saved.find((t) => t.id === id);
+    if (trip) pushActivity(`Deleted plan: ${trip.name}`);
+  };
+
   const exportLast = () => {
     if (!saved.length) return;
     const s = saved[0];

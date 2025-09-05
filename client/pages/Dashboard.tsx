@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +29,7 @@ async function safeFetch(input: RequestInfo | URL, init?: RequestInit) {
 }
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   type SavedTrip = {
     id: string;
     name: string;
@@ -154,11 +155,19 @@ export default function Dashboard() {
     setActivity((a) => [entry, ...a]);
   };
 
+  const openTrip = (id: string) => {
+    try {
+      localStorage.setItem("tg_open_trip", id);
+    } catch {}
+    navigate("/planner");
+  };
+
   const deleteTrip = (id: string) => {
     setSaved((prev) => {
       const next = prev.filter((t) => t.id !== id);
       try {
         localStorage.setItem("tg_saved_trips", JSON.stringify(next));
+        localStorage.removeItem("tg_trip_" + id);
       } catch {}
       return next;
     });
@@ -301,7 +310,9 @@ export default function Dashboard() {
                             <div className="text-xs text-muted-foreground">{t.destination} • {new Date(t.createdAt).toLocaleDateString()}</div>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Button asChild variant="outline"><Link to="/planner">Open</Link></Button>
+                            <Button asChild variant="outline">
+                              <Link to="/planner" onClick={(e) => { e.preventDefault(); openTrip(t.id); }}>Open</Link>
+                            </Button>
                             <Button variant="destructive" onClick={() => deleteTrip(t.id)}>
                               <Trash2 className="mr-2 h-4 w-4"/> Delete
                             </Button>

@@ -64,6 +64,14 @@ export function createServer() {
   // Places
   app.get("/api/places", getPlaces);
 
+  // Visa & events
+  app.get("/api/visa", visaCheck);
+  app.get("/api/events", getEvents);
+
+  // Collaboration (SSE)
+  app.get("/api/collab/subscribe", collabSubscribe);
+  app.post("/api/collab/publish", collabPublish);
+
   // Global error handler
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   app.use((err: any, _req: any, res: any, _next: any) => {

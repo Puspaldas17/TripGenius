@@ -572,6 +572,33 @@ export default function Planner() {
     }
   };
 
+  const saveTrip = async () => {
+    if (!itinerary) return;
+    const entry = {
+      id: String(Date.now()),
+      name: itinerary.destination,
+      destination: itinerary.destination,
+      days: itinerary.days.length,
+      createdAt: Date.now(),
+    };
+    try {
+      const raw = localStorage.getItem("tg_saved_trips");
+      const list = raw ? JSON.parse(raw) : [];
+      list.unshift(entry);
+      localStorage.setItem("tg_saved_trips", JSON.stringify(list));
+    } catch {}
+    try {
+      const token = localStorage.getItem("tg_token");
+      if (token && (await ensureServer())) {
+        await safeFetch(`${apiBase}/trips`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ name: entry.name, itinerary }),
+        });
+      }
+    } catch {}
+  };
+
   return (
     <div className="mx-auto w-full max-w-7xl px-3 py-8 sm:px-4 md:px-6 md:py-10">
       <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">

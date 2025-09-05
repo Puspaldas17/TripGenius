@@ -302,6 +302,9 @@ export default function Dashboard() {
                           </div>
                           <div className="flex items-center gap-2">
                             <Button asChild variant="outline"><Link to="/planner">Open</Link></Button>
+                            <Button variant="destructive" onClick={() => deleteTrip(t.id)}>
+                              <Trash2 className="mr-2 h-4 w-4"/> Delete
+                            </Button>
                           </div>
                         </div>
                       ))}

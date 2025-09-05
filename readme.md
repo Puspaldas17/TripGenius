@@ -41,6 +41,95 @@ TripGenius helps you go from idea to itinerary in minutes. Enter your trip detai
 
 ---
 
+## Project Structure (Brief)
+
+```
+.
+├── client/
+│  ├── App.tsx                # App shell: routes, providers, layout (Navbar/Footer)
+│  ├── pages/                 # Route pages (Planner, Dashboard, Index, Auth)
+│  ├── components/
+│  │  ├── site/               # App chrome: Navbar, Footer
+│  │  └── ui/                 # Reusable UI primitives (Card, Button, Tabs, ...)
+│  ├── hooks/                 # Custom hooks (use-toast, use-mobile)
+│  ├── lib/                   # Utils & helpers
+│  ├── global.css             # Tailwind base + theme styles
+│  └── index.html             # Vite entry
+├── server/
+│  ├── index.ts               # Express app factory; mounts all /api routes
+│  ├── routes/                # API endpoints (ai, weather, travel, currency, ...)
+│  ├── middleware/            # Auth middleware (JWT)
+│  ├── utils/                 # HTTP fetch retry, JWT, logger
+│  └── node-build.ts          # Production server entry (Vite server build)
+├── shared/
+│  └── api.ts                 # Types shared between client and server
+├── netlify/
+│  └── functions/api.ts       # Serverless handler wrapper
+├── public/                   # Static assets
+├── tailwind.config.ts        # Tailwind setup & custom breakpoints
+├── vite.config*.ts           # Vite client/server build configs
+├── package.json              # Scripts & deps (pnpm)
+└── readme.md                 # Documentation
+```
+
+## Project Structure (Detailed)
+
+- client/
+  - App.tsx
+    - Provides QueryClient, Tooltip/Toaster providers, Router, and layout.
+    - Routes: "/" → Index, "/planner" → Planner, "/dashboard" → Dashboard, "/login", "/signup", catch-all → NotFound.
+  - pages/
+    - Planner.tsx: AI itinerary, weather, nearby places, route & modes, transport options, plan & calendar, budget, hotels, currency. Uses safeFetch and ensureServer to call /api.
+    - Dashboard.tsx: Quick Actions, Insights, Upcoming Weather, Notifications, Saved Plans (search, pagination, per-plan delete/open), Recent Activity.
+      - Saved plans stored in localStorage (tg_saved_trips) and optionally enriched from /api/trips (when authenticated). Full plan payloads stored as tg_trip_<id>.
+      - Open plan sets tg_open_trip and navigates to Planner; Planner hydrates state from tg_trip_<id>.
+    - Index.tsx, Login.tsx, Signup.tsx, NotFound.tsx, Placeholder.tsx: basic pages.
+  - components/
+    - site/Navbar.tsx: Top nav (Home, Planner, Dashboard), theme toggle, auth links, mobile nav.
+    - site/Footer.tsx: Footer links and meta.
+    - ui/*: Shadcn-like UI primitives (button, card, tabs, select, input, badge, skeleton, pagination, etc.).
+  - hooks/: use-toast, use-mobile.
+  - lib/utils.ts: classNames helper (cn) and utilities.
+  - global.css: Tailwind layers and theme variables.
+
+- server/
+  - index.ts: Creates Express app, health/ping, mounts /api routes, global error handler.
+  - routes/
+    - ai.ts: POST /api/ai/itinerary (mocked AI generator).
+    - weather.ts: GET /api/weather (OpenWeather geocoding + forecast; hourly + alerts; cached fallback).
+    - travel.ts: GET /api/travel/options (Nominatim geocode + haversine to estimate km/time/prices).
+    - currency.ts: GET /api/currency/convert (exchangerate.host).
+    - geocode.ts: GET /api/geocode/reverse and /api/geocode/search.
+    - places.ts: GET /api/places (nearby places via Wikipedia).
+    - search.ts: GET /api/search/{flights,hotels} (demo data with rating/reviews).
+    - trips.ts: GET/POST /api/trips (auth‑protected, in‑memory store) for saved trips.
+    - auth.ts: POST /api/auth/{signup,login} (JWT issue/verify).
+  - middleware/auth.ts: Bearer JWT validation.
+  - utils/http.ts: fetchJsonWithRetry with timeouts; logger.ts, jwt.ts helpers.
+  - node-build.ts: Production entry serving SPA + API.
+
+- shared/
+  - api.ts: TypeScript interfaces shared across client/server (Itinerary, Weather, TravelOptions, etc.).
+
+- netlify/
+  - functions/api.ts & netlify.toml: Serverless adapter for Express under /.netlify/functions/api.
+
+- public/
+  - Static assets (favicon, robots.txt, placeholder.svg).
+
+## How things connect
+
+- client/App.tsx registers routes that render pages from client/pages/* and wraps them with Navbar/Footer.
+- client/pages/Planner.tsx calls backend endpoints under /api (or /.netlify/functions/api) using ensureServer, then renders UI via components/ui/*.
+- client/pages/Dashboard.tsx reads from localStorage and, when logged in, fetches /api/trips. Opening a saved plan sets tg_open_trip; Planner loads tg_trip_<id> to hydrate itinerary/calendar/origin/dates/etc.
+- server/index.ts mounts all routes under /api; each server/routes/*.ts file implements one feature area.
+- shared/api.ts shares the TypeScript types used by both sides.
+
+Naming & labels
+- Filenames are kebab/pascal case per convention (e.g., Planner.tsx, Navbar.tsx).
+- UI components are collocated under components/ui with clear, reusable names.
+- API routes are grouped by domain in server/routes (weather, travel, currency, trips, etc.).
+
 ## Installation Guide
 
 Prerequisites:

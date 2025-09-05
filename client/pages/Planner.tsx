@@ -597,6 +597,12 @@ export default function Planner() {
         });
       }
     } catch {}
+    try {
+      const raw = localStorage.getItem("tg_activity");
+      const list = raw ? JSON.parse(raw) : [];
+      list.unshift({ id: String(Date.now()), at: Date.now(), message: `Saved trip: ${entry.name}` });
+      localStorage.setItem("tg_activity", JSON.stringify(list));
+    } catch {}
   };
 
   return (

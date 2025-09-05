@@ -1541,7 +1541,7 @@ export default function Planner() {
                   />
                 </div>
                 {openBudget && (
-                  <div className="mt-3 h-56 w-full">
+                  <div className="mt-3 h-56 w-full" style={{ contain: "layout size" }}>
                     <ResponsiveContainer>
                       <PieChart>
                         <Pie

@@ -13,3 +13,9 @@
   from = "/api/*"
   status = 200
   to = "/.netlify/functions/api/:splat"
+
+# SPA fallback: serve index.html for all non-file, non-function routes
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

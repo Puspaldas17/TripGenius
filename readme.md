@@ -164,14 +164,16 @@ $env:OPENWEATHER_API_KEY="YOUR_KEY"
 Run locally (choose one):
 
 ```bash
-# A) Quick Dev (frontend HMR)
-pnpm dev
-# → Opens Vite dev server (API may be limited unless backend is available)
 
-# B) Full Backend (recommended for all features)
+# A) Dev (Vite + Express on one port)
+pnpm dev
+# → Vite dev server with Express middleware
+# → App & API available at http://localhost:8080 (see below)
+
+# B) Production-style (build + serve SPA + API)
 pnpm build
 pnpm start
-# → Serves SPA + Express API under /api (default http://localhost:3000)
+# → Serves SPA + Express API under /api (http://localhost:3000)
 ```
 
 Common scripts:
@@ -183,8 +185,8 @@ pnpm typecheck  # TypeScript checks
 
 Ports & URLs:
 
-- Dev: Vite prints a local URL (commonly http://localhost:5173)
-- Full: Server prints http://localhost:3000 and API at http://localhost:3000/api
+- Dev: http://localhost:8080 (API at http://localhost:8080/api)
+- Prod: http://localhost:3000 (API at http://localhost:3000/api)
 
 ---
 

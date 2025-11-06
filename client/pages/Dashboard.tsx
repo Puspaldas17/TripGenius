@@ -270,7 +270,7 @@ export default function Dashboard() {
                     No alerts.
                   </div>
                 )}
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {weather.daily.slice(0, 3).map((d) => (
                     <div key={d.date} className="rounded-md border p-2 text-xs">
                       <div className="font-medium">

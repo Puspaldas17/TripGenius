@@ -26,6 +26,11 @@ import {
   Calendar as CalIcon,
   ChevronDown,
 } from "lucide-react";
+import VisaChecker from "@/components/planner/VisaChecker";
+import PassportTracker from "@/components/planner/PassportTracker";
+import TripTimeline from "@/components/planner/TripTimeline";
+import LocalGuides from "@/components/planner/LocalGuides";
+import PackingList from "@/components/planner/PackingList";
 import {
   ResponsiveContainer,
   PieChart,

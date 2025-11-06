@@ -240,7 +240,7 @@ export default function Dashboard() {
               <CalendarDays className="h-5 w-5 text-primary" /> Insights
             </CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-3 text-sm">
+          <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
             <div className="rounded-md border p-3">
               Trips
               <div className="text-2xl font-bold">{stats.trips}</div>

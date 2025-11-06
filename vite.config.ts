@@ -15,6 +15,9 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     outDir: "dist/spa",
+    // Increase the warning threshold for large chunks (in kB) to reduce noisy warnings during build
+    // Default is 500 kB; set higher to accommodate UI libraries and router chunks
+    chunkSizeWarningLimit: 2000,
   },
   plugins: [react(), expressPlugin()],
   resolve: {

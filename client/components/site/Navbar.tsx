@@ -1,8 +1,16 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Plane, Map, Calendar, Users, Brain, Sun, Moon } from "lucide-react";
+import { Plane, Map, Calendar, Users, Brain, Sun, Moon, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Navbar() {
   const location = useLocation();

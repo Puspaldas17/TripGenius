@@ -82,15 +82,57 @@ export default function Navbar() {
               <Moon className="h-4 w-4" />
             )}
           </Button>
-          <Button asChild variant="ghost" className="hidden md:inline-flex">
-            <Link to="/login">Log in</Link>
-          </Button>
-          <Button asChild className="shadow-sm">
-            <Link to="/signup" className="flex items-center gap-2">
-              <Brain className="h-4 w-4" />
-              Get Started
-            </Link>
-          </Button>
+
+          {isLoading ? (
+            <Button variant="ghost" disabled>
+              Loading...
+            </Button>
+          ) : user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="hidden md:inline-flex gap-2">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+                    {user.name[0]?.toUpperCase()}
+                  </div>
+                  {user.name}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <div className="px-2 py-1.5">
+                  <p className="text-xs font-medium text-muted-foreground">
+                    {user.email}
+                  </p>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link to="/profile">Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/dashboard">Dashboard</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={logout}
+                  className="text-red-600 cursor-pointer"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <Button asChild variant="ghost" className="hidden md:inline-flex">
+                <Link to="/login">Log in</Link>
+              </Button>
+              <Button asChild className="shadow-sm">
+                <Link to="/signup" className="flex items-center gap-2">
+                  <Brain className="h-4 w-4" />
+                  Get Started
+                </Link>
+              </Button>
+            </>
+          )}
         </div>
       </nav>
       <div className="block border-t md:hidden" />

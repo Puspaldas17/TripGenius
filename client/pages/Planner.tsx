@@ -680,7 +680,7 @@ export default function Planner() {
             </div>
             <div className="space-y-2">
               <Label>Origin</Label>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <Input
                   value={origin}
                   onChange={(e) => setOrigin(e.target.value)}

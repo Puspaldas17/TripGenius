@@ -128,6 +128,8 @@ export default function Planner() {
   const [chatMessages, setChatMessages] = useState<
     { id: string; text: string; at: number }[]
   >([]);
+  const [nationality, setNationality] = useState<string>("India");
+  const [passportExpiry, setPassportExpiry] = useState<string>("");
 
   const exportPdf = () => {
     if (!itinerary && !calendar.length) return;

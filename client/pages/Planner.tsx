@@ -1894,6 +1894,31 @@ export default function Planner() {
               )}
             </CardContent>
           </Card>
+
+          <VisaChecker
+            destination={form.destination}
+            nationality={nationality}
+            onNationalityChange={setNationality}
+          />
+
+          <PassportTracker
+            expiryDate={passportExpiry}
+            onExpiryDateChange={setPassportExpiry}
+          />
+
+          <TripTimeline
+            itinerary={itinerary}
+            startDate={dateRange.from}
+            days={form.days}
+          />
+
+          <LocalGuides destination={form.destination} />
+
+          <PackingList
+            weather={weather}
+            destination={form.destination}
+            days={form.days}
+          />
         </div>
       </div>
     </div>

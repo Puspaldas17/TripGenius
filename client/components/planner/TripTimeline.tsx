@@ -83,11 +83,7 @@ export default function TripTimeline({
                 {/* Timeline content */}
                 <div className="ml-12">
                   <button
-                    onClick={() =>
-                      setExpandedDay(
-                        isExpanded ? null : day.day,
-                      )
-                    }
+                    onClick={() => setExpandedDay(isExpanded ? null : day.day)}
                     className="w-full text-left"
                   >
                     <div className="flex items-center justify-between rounded-lg border p-3 hover:bg-muted/50 transition">
@@ -151,7 +147,11 @@ export default function TripTimeline({
           <div className="flex items-center gap-2 text-sm">
             <MapIcon className="h-4 w-4 text-primary" />
             <span className="text-muted-foreground">
-              {itinerary.days.reduce((sum, day) => sum + day.activities.length, 0)} activities planned
+              {itinerary.days.reduce(
+                (sum, day) => sum + day.activities.length,
+                0,
+              )}{" "}
+              activities planned
             </span>
           </div>
         </div>

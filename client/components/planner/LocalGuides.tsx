@@ -152,9 +152,7 @@ export default function LocalGuides({ destination }: LocalGuidesProps) {
                   : "hover:border-primary/50"
               }`}
               onClick={() =>
-                setSelectedGuide(
-                  selectedGuide === guide.id ? null : guide.id,
-                )
+                setSelectedGuide(selectedGuide === guide.id ? null : guide.id)
               }
             >
               <div className="flex items-start justify-between">
@@ -183,7 +181,11 @@ export default function LocalGuides({ destination }: LocalGuidesProps) {
                         </p>
                         <div className="flex flex-wrap gap-1">
                           {guide.languages.map((lang) => (
-                            <Badge key={lang} variant="secondary" className="text-xs">
+                            <Badge
+                              key={lang}
+                              variant="secondary"
+                              className="text-xs"
+                            >
                               {lang}
                             </Badge>
                           ))}
@@ -196,7 +198,11 @@ export default function LocalGuides({ destination }: LocalGuidesProps) {
                         </p>
                         <div className="flex flex-wrap gap-1">
                           {guide.specialties.map((specialty) => (
-                            <Badge key={specialty} variant="outline" className="text-xs">
+                            <Badge
+                              key={specialty}
+                              variant="outline"
+                              className="text-xs"
+                            >
                               {specialty}
                             </Badge>
                           ))}

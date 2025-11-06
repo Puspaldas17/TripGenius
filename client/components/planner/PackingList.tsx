@@ -120,8 +120,7 @@ export default function PackingList({
     // Add weather-specific items
     if (weather) {
       const avgTemp =
-        (weather.daily[0]?.tempMax || 20) +
-        (weather.daily[0]?.tempMin || 15);
+        (weather.daily[0]?.tempMax || 20) + (weather.daily[0]?.tempMin || 15);
       const temp = avgTemp / 2;
 
       if (temp < 10) {
@@ -146,7 +145,10 @@ export default function PackingList({
 
   const downloadChecklist = () => {
     const content = getRecommendedItems
-      .map((cat) => `${cat.category}\n${cat.items.map((i) => `- ${i}`).join("\n")}`)
+      .map(
+        (cat) =>
+          `${cat.category}\n${cat.items.map((i) => `- ${i}`).join("\n")}`,
+      )
       .join("\n\n");
 
     const element = document.createElement("a");
@@ -165,7 +167,10 @@ export default function PackingList({
     getRecommendedItems.length > 0
       ? Math.round(
           (checkedItems.size /
-            getRecommendedItems.reduce((sum, cat) => sum + cat.items.length, 0)) *
+            getRecommendedItems.reduce(
+              (sum, cat) => sum + cat.items.length,
+              0,
+            )) *
             100,
         )
       : 0;

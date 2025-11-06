@@ -150,7 +150,9 @@ export default function VisaChecker({
                   variant={visaInfo.visaRequired ? "destructive" : "default"}
                   className="mt-2"
                 >
-                  {visaInfo.visaRequired ? "Visa Required" : "Visa Not Required"}
+                  {visaInfo.visaRequired
+                    ? "Visa Required"
+                    : "Visa Not Required"}
                 </Badge>
               </div>
               {visaInfo.visaRequired ? (

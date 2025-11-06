@@ -102,11 +102,15 @@ export default function PassportTracker({
                       : "Passport Valid"}
                 </p>
                 {daysRemaining >= 0 ? (
-                  <p className={`text-2xl font-bold mt-1 ${getStatusTextColor()}`}>
+                  <p
+                    className={`text-2xl font-bold mt-1 ${getStatusTextColor()}`}
+                  >
                     {daysRemaining} days
                   </p>
                 ) : (
-                  <p className={`text-2xl font-bold mt-1 ${getStatusTextColor()}`}>
+                  <p
+                    className={`text-2xl font-bold mt-1 ${getStatusTextColor()}`}
+                  >
                     Expired
                   </p>
                 )}
@@ -133,8 +137,8 @@ export default function PassportTracker({
               )}
               {status === "expired" && (
                 <p className="text-xs mt-2 opacity-75">
-                  Your passport has expired. You must renew it before international
-                  travel.
+                  Your passport has expired. You must renew it before
+                  international travel.
                 </p>
               )}
             </div>

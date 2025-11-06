@@ -7,7 +7,6 @@ import { useState, useMemo } from "react";
 import type { WeatherResponse } from "@shared/api";
 
 interface PackingItem {
-  id: string;
   category: string;
   items: string[];
 }

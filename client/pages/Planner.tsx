@@ -1211,7 +1211,7 @@ export default function Planner() {
               ) : null}
 
               {travel?.options?.length ? (
-                <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-5">
+                <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-5">
                   {(function () {
                     const opts = travel.options.filter((o) => o.available);
                     if (transportFilter === "cheapest")
@@ -1558,7 +1558,7 @@ export default function Planner() {
                 </button>
               </div>
               <CardContent className={openBudget ? "" : "hidden"}>
-                <div className="grid grid-cols-2 gap-3 text-sm">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                   <div className="rounded-lg bg-secondary p-3">
                     Total Budget
                     <div className="text-2xl font-bold">
@@ -1572,7 +1572,7 @@ export default function Planner() {
                     </div>
                   </div>
                 </div>
-                <div className="mt-3 grid grid-cols-2 gap-3 text-sm md:grid-cols-4">
+                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm md:grid-cols-4">
                   <div className="rounded-md border p-3">
                     Transport
                     <div className="font-semibold">

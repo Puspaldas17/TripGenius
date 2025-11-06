@@ -661,7 +661,7 @@ export default function Planner() {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label>Destination</Label>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <Input
                   value={form.destination}
                   onChange={(e) =>

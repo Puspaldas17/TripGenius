@@ -12,10 +12,13 @@ import Planner from "./pages/Planner";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import Navbar from "./components/site/Navbar";
 import Footer from "./components/site/Footer";
 import ErrorBoundary from "./components/site/ErrorBoundary";
+import { ProtectedRoute } from "./components/common/ProtectedRoute";
+import { AuthProvider } from "./contexts/AuthContext";
 import { toast } from "sonner";
 
 const queryClient = new QueryClient();

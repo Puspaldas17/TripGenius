@@ -32,6 +32,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const checkAuth = async () => {
       try {
+        // Check for guest mode
+        const guestMode = localStorage.getItem("guest_mode");
+        if (guestMode === "true") {
+          setIsGuest(true);
+          setIsLoading(false);
+          return;
+        }
+
         const token = localStorage.getItem("auth_token");
         if (token) {
           // Verify token with backend

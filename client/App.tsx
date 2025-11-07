@@ -95,7 +95,9 @@ const App = () => (
             <Navbar />
             <ErrorBoundary>
               <main className="flex-1">
-                <AppRoutes />
+                <PageTransition>
+                  <AppRoutes />
+                </PageTransition>
                 <GlobalErrorTrap />
               </main>
             </ErrorBoundary>

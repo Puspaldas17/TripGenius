@@ -18,6 +18,7 @@ import Navbar from "./components/site/Navbar";
 import Footer from "./components/site/Footer";
 import ErrorBoundary from "./components/site/ErrorBoundary";
 import { ProtectedRoute } from "./components/common/ProtectedRoute";
+import { PageTransition } from "./components/common/PageTransition";
 import { AuthProvider } from "./contexts/AuthContext";
 import { toast } from "sonner";
 

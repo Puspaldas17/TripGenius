@@ -2,10 +2,23 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
-import { signup, login } from "./routes/auth";
+import {
+  handleSignup,
+  handleLogin,
+  handleVerifyEmail,
+  handleGetMe,
+} from "./routes/auth-endpoints";
+import {
+  handleCreateTrip,
+  handleGetUserTrips,
+  handleGetTrip,
+  handleUpdateTrip,
+  handleToggleFavorite,
+  handleDeleteTrip,
+} from "./routes/trips";
+import { authMiddleware } from "./middleware/auth-middleware";
 import { generateItinerary } from "./routes/ai";
 import { getWeather } from "./routes/weather";
-import { listTrips, saveTrip } from "./routes/trips";
 import { searchFlights, searchHotels } from "./routes/search";
 import { convertCurrency } from "./routes/currency";
 import { reverseGeocode } from "./routes/geocode";

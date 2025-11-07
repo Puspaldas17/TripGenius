@@ -11,7 +11,7 @@ import { toast } from "sonner";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login, isLoading, error: authError } = useAuth();
+  const { login, loginAsGuest, isLoading, error: authError } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
 
   const { errors, touched, handleChange, handleBlur, validateAll } =

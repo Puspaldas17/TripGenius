@@ -120,6 +120,39 @@ export default function Navbar() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+          ) : isGuest ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="hidden md:inline-flex gap-2">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-xs text-amber-900 font-semibold">
+                    G
+                  </div>
+                  Guest Mode
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <div className="px-2 py-1.5">
+                  <p className="text-xs font-medium text-muted-foreground">
+                    Browsing as guest
+                  </p>
+                  <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
+                    Your data will be cleared when you logout
+                  </p>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link to="/planner">Planner</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={logout}
+                  className="text-red-600 cursor-pointer"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Exit Guest Mode
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             <>
               <Button asChild variant="ghost" className="hidden md:inline-flex">

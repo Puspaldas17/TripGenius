@@ -77,7 +77,7 @@ export const handleGetUserTrips: RequestHandler = (req, res) => {
     }
 
     const userTrips = Array.from(trips.values()).filter(
-      (t) => t.userId === userId
+      (t) => t.userId === userId,
     );
 
     res.json(userTrips);

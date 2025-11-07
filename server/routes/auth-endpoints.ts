@@ -67,7 +67,7 @@ export const handleSignup: RequestHandler = async (req, res) => {
 
     // In production: send verification email with user.verificationToken
     console.log(
-      `[Email Verification] Send email to ${email} with token: ${user.verificationToken}`
+      `[Email Verification] Send email to ${email} with token: ${user.verificationToken}`,
     );
 
     res.status(201).json({

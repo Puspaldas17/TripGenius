@@ -67,7 +67,11 @@ export function createServer() {
   app.post("/api/trips", authMiddleware, handleCreateTrip);
   app.get("/api/trips/:tripId", authMiddleware, handleGetTrip);
   app.put("/api/trips/:tripId", authMiddleware, handleUpdateTrip);
-  app.patch("/api/trips/:tripId/favorite", authMiddleware, handleToggleFavorite);
+  app.patch(
+    "/api/trips/:tripId/favorite",
+    authMiddleware,
+    handleToggleFavorite,
+  );
   app.delete("/api/trips/:tripId", authMiddleware, handleDeleteTrip);
 
   // Currency

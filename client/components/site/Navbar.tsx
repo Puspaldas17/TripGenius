@@ -14,7 +14,7 @@ import {
 
 export default function Navbar() {
   const location = useLocation();
-  const { user, isLoading, logout } = useAuth();
+  const { user, isGuest, isLoading, logout } = useAuth();
   const [theme, setTheme] = useState<"light" | "dark">(() => {
     try {
       const saved = localStorage.getItem("tg_theme");

@@ -75,16 +75,22 @@ export default function Index() {
 
       {/* Features */}
       <section id="features" className="mx-auto max-w-7xl px-4 py-16 md:px-6">
-        <h2 className="text-2xl font-extrabold md:text-3xl">
-          Everything you need for unforgettable trips
-        </h2>
-        <p className="mt-2 max-w-3xl text-muted-foreground">
-          AI itinerary generation, real-time data, booking search, budgeting,
-          and group planning — unified into a single seamless experience.
-        </p>
+        <div className="animate-fade-in">
+          <h2 className="text-2xl font-extrabold md:text-3xl">
+            Everything you need for unforgettable trips
+          </h2>
+          <p className="mt-2 max-w-3xl text-muted-foreground">
+            AI itinerary generation, real-time data, booking search, budgeting,
+            and group planning — unified into a single seamless experience.
+          </p>
+        </div>
         <div className="mt-8 grid grid-cols-1 gap-6 xs:grid-cols-2 md:grid-cols-3 2xl:gap-8">
-          {features.map((f) => (
-            <Card key={f.title} className="hover:shadow-lg transition">
+          {features.map((f, idx) => (
+            <Card
+              key={f.title}
+              className="transition-smooth hover-glow hover:scale-105 cursor-pointer"
+              style={{ animation: `slideInUp 0.5s ease-out ${idx * 0.1}s backwards` }}
+            >
               <CardContent className="p-6">
                 <div
                   className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl ${f.tint}`}

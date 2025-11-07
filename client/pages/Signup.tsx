@@ -77,6 +77,30 @@ export default function Signup() {
           </p>
         </CardHeader>
         <CardContent>
+          <div className="mb-6 rounded-lg bg-blue-50 dark:bg-blue-950/30 p-4 border border-blue-200 dark:border-blue-800">
+            <div className="flex gap-2 items-start">
+              <Zap className="h-5 w-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">
+                  Want to explore first?
+                </p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white border-blue-600 hover:border-blue-700"
+                  onClick={() => {
+                    loginAsGuest();
+                    navigate("/planner");
+                  }}
+                >
+                  <Zap className="h-4 w-4 mr-2" />
+                  Continue as Guest
+                </Button>
+              </div>
+            </div>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-4">
             {authError && (
               <div className="rounded-lg bg-red-50 p-3 flex gap-2 dark:bg-red-950/30">
@@ -142,7 +166,7 @@ export default function Signup() {
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
+                  placeholder="•���••••••"
                   value={formData.password}
                   onChange={handleInputChange}
                   onBlur={() => handleBlur("password")}

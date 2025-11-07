@@ -45,7 +45,15 @@ export const handleCreateTrip: RequestHandler = (req, res) => {
     const trip: Trip = {
       id: tripId,
       userId,
-      ...data,
+      destination: data.destination,
+      origin: data.origin,
+      startDate: data.startDate,
+      endDate: data.endDate,
+      days: data.days,
+      budget: data.budget,
+      members: data.members,
+      mood: data.mood || "Adventure",
+      itinerary: data.itinerary,
       isFavorite: false,
       createdAt: new Date().toISOString(),
     };

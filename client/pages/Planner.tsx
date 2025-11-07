@@ -31,6 +31,7 @@ import PassportTracker from "@/components/planner/PassportTracker";
 import TripTimeline from "@/components/planner/TripTimeline";
 import LocalGuides from "@/components/planner/LocalGuides";
 import PackingList from "@/components/planner/PackingList";
+import { CardSkeleton } from "@/components/common/LoadingSkeleton";
 import {
   ResponsiveContainer,
   PieChart,

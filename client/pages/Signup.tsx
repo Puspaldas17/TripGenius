@@ -12,6 +12,7 @@ import {
   Eye,
   EyeOff,
   CheckCircle2,
+  Zap,
 } from "lucide-react";
 import { toast } from "sonner";
 

@@ -142,7 +142,7 @@ export default function Index() {
 
       {/* CTA */}
       <section className="mx-auto mb-16 w-full max-w-7xl px-3 xs:px-4 md:px-6">
-        <div className="rounded-3xl bg-gradient-to-r from-primary to-accent px-6 py-8 text-primary-foreground xs:px-8 xs:py-10">
+        <div className="rounded-3xl bg-gradient-to-r from-primary to-accent px-6 py-8 text-primary-foreground xs:px-8 xs:py-10 animate-slide-in-up transition-smooth hover:shadow-2xl">
           <h3 className="text-xl font-extrabold xs:text-2xl lg:text-3xl">
             Start planning your next adventure
           </h3>

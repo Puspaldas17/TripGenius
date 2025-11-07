@@ -61,8 +61,8 @@ export default function Index() {
               </div>
             </div>
           </div>
-          <div className="relative">
-            <div className="rounded-3xl border bg-card p-2 shadow-xl">
+          <div className="relative animate-slide-in-right">
+            <div className="rounded-3xl border bg-card p-2 shadow-xl transition-smooth hover-glow">
               <img
                 src="https://images.pexels.com/photos/5953197/pexels-photo-5953197.jpeg"
                 alt="Modern travel planning with city skyline"

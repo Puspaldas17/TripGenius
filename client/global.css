@@ -139,6 +139,18 @@
   .hover-glow {
     @apply transition-shadow duration-200 hover:shadow-lg;
   }
+
+  .hover\:scale-102:hover {
+    transform: scale(1.02);
+  }
+
+  .smooth-scroll {
+    scroll-behavior: smooth;
+  }
+
+  .button-hover {
+    @apply transition-all duration-200 active:scale-95 hover:scale-105;
+  }
 }
 
 @keyframes fadeIn {

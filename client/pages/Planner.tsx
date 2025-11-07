@@ -654,8 +654,29 @@ export default function Planner() {
     } catch {}
   };
 
+  const { isGuest } = useAuth();
+
   return (
     <div className="mx-auto w-full max-w-7xl px-3 py-8 sm:px-4 md:px-6 md:py-10">
+      {isGuest && (
+        <div className="mb-6 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-4">
+          <div className="flex items-start gap-3">
+            <div className="text-2xl">👤</div>
+            <div className="flex-1">
+              <p className="font-semibold text-amber-900 dark:text-amber-200">
+                Guest Mode
+              </p>
+              <p className="text-sm text-amber-800 dark:text-amber-300 mt-1">
+                You're exploring as a guest. Your trips and data will be cleared when you logout.{" "}
+                <a href="/signup" className="underline font-medium hover:text-amber-900 dark:hover:text-amber-100">
+                  Create an account
+                </a>{" "}
+                to save your trips permanently.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
         <Card className="md:col-span-1">
           <CardHeader>

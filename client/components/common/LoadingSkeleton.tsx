@@ -12,9 +12,13 @@ export function LoadingSkeleton({ className, count = 1 }: LoadingSkeletonProps) 
         <div
           key={i}
           className={cn(
-            "bg-muted animate-pulse rounded-md",
+            "bg-gradient-to-r from-muted via-muted-foreground/10 to-muted animate-pulse rounded-md",
             className || "h-12 w-full"
           )}
+          style={{
+            animation: "shimmer 2s infinite",
+            backgroundSize: "200% 100%",
+          }}
         />
       ))}
     </>

@@ -32,6 +32,7 @@ import TripTimeline from "@/components/planner/TripTimeline";
 import LocalGuides from "@/components/planner/LocalGuides";
 import PackingList from "@/components/planner/PackingList";
 import { CardSkeleton } from "@/components/common/LoadingSkeleton";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   ResponsiveContainer,
   PieChart,

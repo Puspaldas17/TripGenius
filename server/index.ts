@@ -48,8 +48,10 @@ export function createServer() {
   app.get("/api/demo", handleDemo);
 
   // Auth
-  app.post("/api/auth/signup", signup);
-  app.post("/api/auth/login", login);
+  app.post("/api/auth/signup", handleSignup);
+  app.post("/api/auth/login", handleLogin);
+  app.post("/api/auth/verify-email", handleVerifyEmail);
+  app.get("/api/auth/me", handleGetMe);
 
   // AI + data
   app.post("/api/ai/itinerary", generateItinerary);

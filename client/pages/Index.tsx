@@ -22,7 +22,7 @@ export default function Index() {
       <section className="relative isolate">
         <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/10 via-accent/10 to-transparent" />
         <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 px-3 pb-10 pt-14 xs:px-4 md:grid-cols-2 md:px-6 md:pb-20 md:pt-24 2xl:gap-12">
-          <div>
+          <div className="animate-fade-in">
             <Badge className="mb-4 bg-accent text-accent-foreground">
               AI Travel Planner
             </Badge>

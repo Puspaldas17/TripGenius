@@ -62,9 +62,13 @@ export function createServer() {
   app.get("/api/search/flights", searchFlights);
   app.get("/api/search/hotels", searchHotels);
 
-  // Trips
-  app.get("/api/trips", listTrips);
-  app.post("/api/trips", saveTrip);
+  // Trips (protected routes)
+  app.get("/api/trips", authMiddleware, handleGetUserTrips);
+  app.post("/api/trips", authMiddleware, handleCreateTrip);
+  app.get("/api/trips/:tripId", authMiddleware, handleGetTrip);
+  app.put("/api/trips/:tripId", authMiddleware, handleUpdateTrip);
+  app.patch("/api/trips/:tripId/favorite", authMiddleware, handleToggleFavorite);
+  app.delete("/api/trips/:tripId", authMiddleware, handleDeleteTrip);
 
   // Currency
   app.get("/api/currency/convert", convertCurrency);

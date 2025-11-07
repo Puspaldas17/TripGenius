@@ -118,9 +118,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const loginAsGuest = () => {
+    localStorage.setItem("guest_mode", "true");
+    setIsGuest(true);
+    setUser(null);
+    setError(null);
+  };
+
   const logout = () => {
     localStorage.removeItem("auth_token");
+    localStorage.removeItem("guest_mode");
     setUser(null);
+    setIsGuest(false);
     setError(null);
   };
 
@@ -130,8 +139,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         user,
         isLoading,
         error,
+        isGuest,
         login,
         signup,
+        loginAsGuest,
         logout,
         isAuthenticated: !!user,
       }}

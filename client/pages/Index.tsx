@@ -107,7 +107,7 @@ export default function Index() {
 
       {/* Tech */}
       <section className="mx-auto w-full max-w-7xl px-3 pb-12 xs:px-4 md:px-6">
-        <div className="grid grid-cols-1 gap-6 rounded-3xl border p-6 xs:gap-8 xs:p-8 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 rounded-3xl border p-6 xs:gap-8 xs:p-8 md:grid-cols-2 animate-slide-in-up transition-smooth hover-glow">
           <div>
             <h3 className="text-xl font-bold">Tech Stack</h3>
             <ul className="mt-3 space-y-2 text-sm text-muted-foreground">

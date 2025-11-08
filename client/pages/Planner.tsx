@@ -31,9 +31,7 @@ import PassportTracker from "@/components/planner/PassportTracker";
 import TripTimeline from "@/components/planner/TripTimeline";
 import LocalGuides from "@/components/planner/LocalGuides";
 import PackingList from "@/components/planner/PackingList";
-import { BasicTripInfo } from "@/components/planner/BasicTripInfo";
-import { TripSchedule } from "@/components/planner/TripSchedule";
-import { TripPreferences } from "@/components/planner/TripPreferences";
+import { PlannerLayout } from "@/components/planner/PlannerLayout";
 import { CardSkeleton } from "@/components/common/LoadingSkeleton";
 import { useAuth } from "@/contexts/AuthContext";
 import {

@@ -667,8 +667,12 @@ export default function Planner() {
                 Guest Mode
               </p>
               <p className="text-sm text-amber-800 dark:text-amber-300 mt-1">
-                You're exploring as a guest. Your trips and data will be cleared when you logout.{" "}
-                <a href="/signup" className="underline font-medium hover:text-amber-900 dark:hover:text-amber-100">
+                You're exploring as a guest. Your trips and data will be cleared
+                when you logout.{" "}
+                <a
+                  href="/signup"
+                  className="underline font-medium hover:text-amber-900 dark:hover:text-amber-100"
+                >
                   Create an account
                 </a>{" "}
                 to save your trips permanently.
@@ -677,8 +681,14 @@ export default function Planner() {
           </div>
         </div>
       )}
-      <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4" style={{ animation: "fadeIn 0.5s ease-out" }}>
-        <Card className="md:col-span-1 transition-all duration-500 ease-out" style={{ animation: "slideInUp 0.5s ease-out 0.1s backwards" }}>
+      <div
+        className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4"
+        style={{ animation: "fadeIn 0.5s ease-out" }}
+      >
+        <Card
+          className="md:col-span-1 transition-all duration-500 ease-out"
+          style={{ animation: "slideInUp 0.5s ease-out 0.1s backwards" }}
+        >
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-accent" /> AI Itinerary Planner

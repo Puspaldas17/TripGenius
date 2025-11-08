@@ -1,5 +1,14 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Plane, Map, Calendar, Users, Brain, Sun, Moon, LogOut } from "lucide-react";
+import {
+  Plane,
+  Map,
+  Calendar,
+  Users,
+  Brain,
+  Sun,
+  Moon,
+  LogOut,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
@@ -62,7 +71,8 @@ export default function Navbar() {
                   isActive || location.pathname === l.to
                     ? "text-primary"
                     : "text-muted-foreground",
-                  (isActive || location.pathname === l.to) && "after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary after:rounded-full"
+                  (isActive || location.pathname === l.to) &&
+                    "after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary after:rounded-full",
                 )
               }
             >
@@ -124,7 +134,10 @@ export default function Navbar() {
           ) : isGuest ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="hidden md:inline-flex gap-2">
+                <Button
+                  variant="outline"
+                  className="hidden md:inline-flex gap-2"
+                >
                   <div className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-xs text-amber-900 font-semibold">
                     G
                   </div>

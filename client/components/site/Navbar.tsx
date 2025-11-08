@@ -58,10 +58,11 @@ export default function Navbar() {
               to={l.to}
               className={({ isActive }) =>
                 cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
+                  "text-sm font-medium transition-all duration-300 ease-out hover:text-primary relative",
                   isActive || location.pathname === l.to
                     ? "text-primary"
                     : "text-muted-foreground",
+                  (isActive || location.pathname === l.to) && "after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary after:rounded-full"
                 )
               }
             >

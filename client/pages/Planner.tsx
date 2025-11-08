@@ -677,8 +677,8 @@ export default function Planner() {
           </div>
         </div>
       )}
-      <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
-        <Card className="md:col-span-1">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4" style={{ animation: "fadeIn 0.5s ease-out" }}>
+        <Card className="md:col-span-1 transition-all duration-500 ease-out" style={{ animation: "slideInUp 0.5s ease-out 0.1s backwards" }}>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-accent" /> AI Itinerary Planner
@@ -1001,7 +1001,7 @@ export default function Planner() {
                 <>
                   {weather.alerts?.length ? (
                     <div className="mb-3 rounded-md border bg-amber-50 p-3 text-amber-800 dark:bg-amber-900/20 dark:text-amber-200">
-                      ⚠️ Alerts:{" "}
+                      ⚠��� Alerts:{" "}
                       {weather.alerts.map((a) => a.description).join(", ")}
                     </div>
                   ) : null}

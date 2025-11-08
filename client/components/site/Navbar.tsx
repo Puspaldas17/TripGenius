@@ -41,8 +41,8 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/50 dark:bg-background/70">
-      <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-3 py-3 xs:px-4 md:px-6">
+    <header className="sticky top-0 z-50 w-full border-b bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/50 dark:bg-background/70 transition-all duration-300">
+      <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-3 py-3 xs:px-4 md:px-6 transition-all duration-300">
         <Link to="/" className="flex items-center gap-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
             <Plane className="h-5 w-5" />

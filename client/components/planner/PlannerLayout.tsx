@@ -62,7 +62,10 @@ export function PlannerLayout({
   children,
 }: PlannerLayoutProps) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" style={{ animation: "fadeIn 0.5s ease-out" }}>
+    <div
+      className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+      style={{ animation: "fadeIn 0.5s ease-out" }}
+    >
       {/* LEFT COLUMN: FORM SECTIONS */}
       <div className="lg:col-span-1 space-y-4">
         <div className="sticky top-20 space-y-4">

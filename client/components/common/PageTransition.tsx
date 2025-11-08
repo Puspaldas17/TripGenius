@@ -26,9 +26,12 @@ export function PageTransition({ children }: PageTransitionProps) {
 
   return (
     <div
-      className={`transition-opacity duration-200 ${
+      className={`transition-opacity duration-300 ease-out ${
         transitionStage === "enter" ? "opacity-100" : "opacity-0"
       }`}
+      style={{
+        transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
+      }}
     >
       {children}
     </div>

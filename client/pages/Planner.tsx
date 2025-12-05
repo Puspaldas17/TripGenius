@@ -1280,7 +1280,7 @@ export default function Planner() {
               ) : null}
 
               {legsTravel?.length && mode ? (
-                <div className="mt-4 rounded-md border p-3 text-sm">
+                <div className="mt-2 rounded border p-2 text-xs">
                   {(() => {
                     const totalKm = legsTravel.reduce(
                       (s, l) => s + (l?.km || 0),
@@ -1297,19 +1297,19 @@ export default function Planner() {
                       { hours: 0, price: 0 },
                     );
                     return (
-                      <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
+                      <div className="grid grid-cols-1 gap-1 md:grid-cols-3 text-[10px]">
                         <div>
-                          Total distance:{" "}
+                          <span className="text-muted-foreground">Distance:</span>{" "}
                           <span className="font-medium">{totalKm} km</span>
                         </div>
                         <div>
-                          Estimated travel time:{" "}
+                          <span className="text-muted-foreground">Time:</span>{" "}
                           <span className="font-medium">
                             {totals.hours.toFixed(1)} h
                           </span>
                         </div>
                         <div>
-                          Total transport cost:{" "}
+                          <span className="text-muted-foreground">Cost:</span>{" "}
                           <span className="font-medium">
                             {formatINR(totals.price)}
                           </span>

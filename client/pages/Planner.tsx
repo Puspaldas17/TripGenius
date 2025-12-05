@@ -951,14 +951,14 @@ export default function Planner() {
             </CardHeader>
             <CardContent className={openNearby ? "" : "hidden"}>
               {places.length ? (
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
-                  {places.slice(0, 12).map((p) => (
+                <div className="grid grid-cols-1 gap-2 xs:grid-cols-2 md:grid-cols-3 auto-rows-fr">
+                  {places.slice(0, 9).map((p) => (
                     <a
                       key={p.id}
                       href={p.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="rounded-lg border p-3 hover:shadow-sm h-full flex flex-col"
+                      className="rounded border p-2 hover:shadow-sm h-full flex flex-col text-xs hover:bg-accent/20 transition-colors"
                       draggable
                       onDragStart={(e) =>
                         e.dataTransfer.setData(
@@ -967,8 +967,8 @@ export default function Planner() {
                         )
                       }
                     >
-                      <div className="font-medium">{p.title}</div>
-                      <div className="text-xs text-muted-foreground">
+                      <div className="font-medium text-xs">{p.title}</div>
+                      <div className="text-[11px] text-muted-foreground line-clamp-2">
                         {p.summary}
                       </div>
                     </a>

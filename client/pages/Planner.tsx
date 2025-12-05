@@ -1461,20 +1461,19 @@ export default function Planner() {
                   {calendar.map((d, di) => (
                     <div
                       key={d.day}
-                      className="rounded-lg border p-2 min-h-[180px] overflow-auto text-xs"
+                      className="rounded-lg border p-2 min-h-[160px] overflow-auto text-xs"
                     >
-                      <div className="mb-2 flex items-center justify-between">
-                        <div className="font-semibold">Day {d.day}</div>
-                        <div className="text-xs text-muted-foreground">
-                          Focus:{" "}
+                      <div className="mb-1 flex items-center justify-between gap-1">
+                        <div className="font-semibold text-xs">Day {d.day}</div>
+                        <div className="text-[10px] text-muted-foreground truncate">
                           {itinerary?.days.find((x) => x.day === d.day)?.theme}
                         </div>
                       </div>
-                      <ul className="space-y-2">
+                      <ul className="space-y-1">
                         {d.activities.map((a, ai) => (
                           <li
                             key={ai}
-                            className="cursor-move rounded-md border bg-card p-2 text-sm"
+                            className="cursor-move rounded border bg-card p-1 text-[10px]"
                             draggable
                             onDragStart={(e) => {
                               e.dataTransfer.setData(

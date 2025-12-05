@@ -819,11 +819,11 @@ export default function Planner() {
                   </Button>
                 </div>
                 {tripType === "multicity" && (
-                  <div className="pt-2">
-                    <Label>Stops (optional)</Label>
-                    <div className="mt-1 space-y-2">
+                  <div className="pt-1 col-span-full space-y-1.5">
+                    <Label className="text-xs">Stops (optional)</Label>
+                    <div className="space-y-1">
                       {stops.map((s, i) => (
-                        <div key={i} className="flex gap-2">
+                        <div key={i} className="flex gap-1">
                           <Input
                             value={s}
                             onChange={(e) =>
@@ -834,6 +834,7 @@ export default function Planner() {
                               )
                             }
                             placeholder="City, State"
+                            className="h-7 text-xs"
                           />
                           <Button
                             variant="outline"
@@ -842,6 +843,8 @@ export default function Planner() {
                                 prev.filter((_, idx) => idx !== i),
                               )
                             }
+                            size="sm"
+                            className="h-7 text-xs px-2"
                           >
                             Remove
                           </Button>
@@ -850,6 +853,8 @@ export default function Planner() {
                       <Button
                         variant="outline"
                         onClick={() => setStops((prev) => [...prev, ""])}
+                        size="sm"
+                        className="h-7 text-xs w-full"
                       >
                         Add stop
                       </Button>
@@ -857,8 +862,8 @@ export default function Planner() {
                   </div>
                 )}
               </div>
-              <div className="space-y-2">
-                <Label>Members</Label>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Members</Label>
                 <Input
                   type="number"
                   min={0}
@@ -866,23 +871,19 @@ export default function Planner() {
                   onChange={(e) =>
                     setMembers(Math.max(0, Number(e.target.value)))
                   }
+                  className="h-8 text-xs"
                 />
-                <div className="text-xs text-muted-foreground">
+                <div className="text-[10px] text-muted-foreground">
                   {members > 0 ? (
-                    <>
-                      Per person per day at current budget:{" "}
-                      <span className="font-medium">
-                        {formatINR(perPersonPerDay)}
-                      </span>
-                    </>
+                    <>Per day: {formatINR(perPersonPerDay)} per person</>
                   ) : (
-                    <>Set Members to see per-person estimates</>
+                    <>Set members for per-person estimates</>
                   )}
                 </div>
               </div>
             </div>
-            <div className="space-y-2">
-              <Label>Mood</Label>
+            <div className="space-y-1.5">
+              <Label className="text-xs">Mood</Label>
               <Select
                 value={form.mood}
                 onValueChange={(m) =>
@@ -892,7 +893,7 @@ export default function Planner() {
                   }))
                 }
               >
-                <SelectTrigger>
+                <SelectTrigger className="h-8 text-xs">
                   <SelectValue placeholder="Pick a vibe" />
                 </SelectTrigger>
                 <SelectContent>

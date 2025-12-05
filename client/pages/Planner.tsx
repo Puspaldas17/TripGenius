@@ -1361,16 +1361,16 @@ export default function Planner() {
                 value={mode ?? undefined}
                 onValueChange={(v) => setMode(v as any)}
               >
-                <TabsList className="grid grid-cols-5 rounded-md bg-muted/20 p-1 overflow-x-auto">
-                  <TabsTrigger value="flight">Flight</TabsTrigger>
-                  <TabsTrigger value="train">Train</TabsTrigger>
-                  <TabsTrigger value="bus">Bus</TabsTrigger>
-                  <TabsTrigger value="car">Car</TabsTrigger>
-                  <TabsTrigger value="waterway">Waterway</TabsTrigger>
+                <TabsList className="grid grid-cols-5 rounded-md bg-muted/20 p-0.5 overflow-x-auto h-8">
+                  <TabsTrigger value="flight" className="text-xs">Flight</TabsTrigger>
+                  <TabsTrigger value="train" className="text-xs">Train</TabsTrigger>
+                  <TabsTrigger value="bus" className="text-xs">Bus</TabsTrigger>
+                  <TabsTrigger value="car" className="text-xs">Car</TabsTrigger>
+                  <TabsTrigger value="waterway" className="text-xs">Waterway</TabsTrigger>
                 </TabsList>
                 {(["flight", "train", "bus", "car", "waterway"] as const).map(
                   (t) => (
-                    <TabsContent key={t} value={t} className="mt-4">
+                    <TabsContent key={t} value={t} className="mt-2">
                       <div className="grid grid-cols-1 gap-3">
                         {getLegs(tripType, origin, form.destination, stops).map(
                           ([lo, ld], i) => (

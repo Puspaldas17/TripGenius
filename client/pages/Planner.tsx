@@ -1415,48 +1415,47 @@ export default function Planner() {
             </CardContent>
           </Card>
 
-          <Card className="order-10">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <CalIcon className="h-5 w-5 text-primary" /> Plan & Calendar
-                  📅
-                </CardTitle>
-                <div className="flex items-center gap-2">
+          <Card>
+            <CardHeader className="space-y-3">
+              <div className="flex items-start justify-between gap-2 flex-wrap">
+                <div className="flex-1 min-w-0">
+                  <CardTitle className="flex items-center gap-2 text-base">
+                    <CalIcon className="h-5 w-5 text-primary" /> Plan & Calendar 📅
+                  </CardTitle>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Drag items between days, export as PDF
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
                   <Button
                     onClick={saveTrip}
                     variant="default"
-                    className="gap-2"
+                    size="sm"
                     disabled={!itinerary}
+                    className="text-xs"
                   >
-                    Save Trip
+                    Save
                   </Button>
                   <Button
                     onClick={exportPdf}
                     variant="outline"
-                    className="gap-2"
+                    size="sm"
+                    className="text-xs"
                   >
-                    <FileDown className="h-4 w-4" /> Export PDF
+                    <FileDown className="h-3 w-3" />
                   </Button>
+                  <button
+                    onClick={() => setOpenCalendar((v) => !v)}
+                    aria-expanded={openCalendar}
+                    className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+                  >
+                    <ChevronDown
+                      className={`h-4 w-4 transition-transform ${openCalendar ? "rotate-180" : "rotate-0"}`}
+                    />
+                  </button>
                 </div>
               </div>
-              <p className="text-sm text-muted-foreground mt-1">
-                Drag to arrange your day. Shows what to do, where, and at what
-                time for each day.
-              </p>
             </CardHeader>
-            <div className="flex items-center justify-end px-6 -mt-2">
-              <button
-                onClick={() => setOpenCalendar((v) => !v)}
-                aria-expanded={openCalendar}
-                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
-              >
-                {openCalendar ? "Collapse" : "Expand"}
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform ${openCalendar ? "rotate-180" : "rotate-0"}`}
-                />
-              </button>
-            </div>
             <CardContent className={openCalendar ? "" : "hidden"}>
               {calendar?.length ? (
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">

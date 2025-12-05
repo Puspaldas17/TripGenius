@@ -1956,9 +1956,9 @@ function ShareTrip() {
   };
 
   return (
-    <div className="mt-2 flex items-center gap-2">
-      <Input readOnly value={code} className="font-mono" />
-      <Button onClick={copy} variant="outline">
+    <div className="mt-1 flex items-center gap-1">
+      <Input readOnly value={code} className="font-mono h-7 text-xs" />
+      <Button onClick={copy} variant="outline" size="sm" className="h-7 text-xs px-2">
         Copy
       </Button>
     </div>

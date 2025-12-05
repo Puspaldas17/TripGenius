@@ -1568,28 +1568,27 @@ export default function Planner() {
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
             <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Wallet className="h-5 w-5 text-primary" /> Budget Overview 💰
-                </CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Smart cost breakdowns that adapt to members, days, and mode.
-                </p>
-              </CardHeader>
-              <div className="flex items-center justify-end px-6 -mt-2">
+              <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+                <div>
+                  <CardTitle className="flex items-center gap-2 text-base">
+                    <Wallet className="h-5 w-5 text-primary" /> Budget Overview 💰
+                  </CardTitle>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Cost breakdowns by category
+                  </p>
+                </div>
                 <button
                   onClick={() => setOpenBudget((v) => !v)}
                   aria-expanded={openBudget}
-                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
                 >
-                  {openBudget ? "Collapse" : "Expand"}
                   <ChevronDown
                     className={`h-4 w-4 transition-transform ${openBudget ? "rotate-180" : "rotate-0"}`}
                   />
                 </button>
-              </div>
+              </CardHeader>
               <CardContent className={openBudget ? "" : "hidden"}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                   <div className="rounded-lg bg-secondary p-3">

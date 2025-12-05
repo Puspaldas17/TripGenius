@@ -1144,47 +1144,46 @@ export default function Planner() {
           </Card>
 
           <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <MapIcon className="h-5 w-5 text-primary" /> Route & Modes 🧭
-                </CardTitle>
-                {travel?.options?.length ? (
-                  <Select
-                    value={mode ?? undefined}
-                    onValueChange={(v) => setMode(v as any)}
-                  >
-                    <SelectTrigger className="w-40">
-                      <SelectValue placeholder="Mode" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {travel.options
-                        .filter((o) => o.available)
-                        .map((o) => (
-                          <SelectItem key={o.mode} value={o.mode}>
-                            {o.mode} • {o.timeHours}h • {formatINR(o.price)}
-                          </SelectItem>
-                        ))}
-                    </SelectContent>
-                  </Select>
-                ) : null}
+            <CardHeader className="space-y-3">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <CardTitle className="flex items-center gap-2 text-base">
+                    <MapIcon className="h-5 w-5 text-primary" /> Route & Modes 🧭
+                  </CardTitle>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Preview route and choose travel mode
+                  </p>
+                </div>
+                <button
+                  onClick={() => setOpenRoute((v) => !v)}
+                  aria-expanded={openRoute}
+                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
+                >
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform ${openRoute ? "rotate-180" : "rotate-0"}`}
+                  />
+                </button>
               </div>
-              <p className="text-sm text-muted-foreground mt-1">
-                Preview your route and choose a travel mode.
-              </p>
+              {travel?.options?.length ? (
+                <Select
+                  value={mode ?? undefined}
+                  onValueChange={(v) => setMode(v as any)}
+                >
+                  <SelectTrigger className="w-full sm:w-48 text-xs">
+                    <SelectValue placeholder="Select mode" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {travel.options
+                      .filter((o) => o.available)
+                      .map((o) => (
+                        <SelectItem key={o.mode} value={o.mode}>
+                          {o.mode} • {o.timeHours}h • {formatINR(o.price)}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+              ) : null}
             </CardHeader>
-            <div className="flex items-center justify-end px-6 -mt-2">
-              <button
-                onClick={() => setOpenRoute((v) => !v)}
-                aria-expanded={openRoute}
-                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
-              >
-                {openRoute ? "Collapse" : "Expand"}
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform ${openRoute ? "rotate-180" : "rotate-0"}`}
-                />
-              </button>
-            </div>
             <CardContent className={openRoute ? "" : "hidden"}>
               <div className="aspect-[16/9] w-full overflow-hidden rounded-xl border">
                 <iframe

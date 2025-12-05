@@ -1672,35 +1672,32 @@ export default function Planner() {
                     </ResponsiveContainer>
                   </div>
                 )}
-                <div className="mt-3 rounded-md border p-3 text-sm">
-                  Suggested trip total:{" "}
-                  <span className="font-semibold">
-                    {formatINR(suggestedTotal)}
-                  </span>
-                  <span className="ml-2 text-xs text-muted-foreground">
-                    ({members > 0 ? `${members} members, ` : ""}
-                    {daysCalc} days)
-                  </span>
-                  <div className="mt-1 text-xs">
+                <div className="mt-2 rounded-md border p-2 text-xs">
+                  <div className="font-semibold text-foreground">
+                    Suggested: {formatINR(suggestedTotal)}
+                  </div>
+                  <div className="text-[10px] text-muted-foreground mt-1">
+                    ({members > 0 ? `${members}×, ` : ""}{daysCalc}d)
+                  </div>
+                  <div className="mt-1 text-[10px]">
                     {form.budget >= suggestedTotal ? (
                       <span className="text-green-600">
-                        Within budget by{" "}
-                        {formatINR(form.budget - suggestedTotal)}
+                        +{formatINR(form.budget - suggestedTotal)}
                       </span>
                     ) : (
                       <span className="text-red-600">
-                        Short by {formatINR(suggestedTotal - form.budget)}
+                        -{formatINR(suggestedTotal - form.budget)}
                       </span>
                     )}
                     <Button
                       size="sm"
                       variant="ghost"
-                      className="ml-2 h-7 px-2"
+                      className="ml-1 h-5 px-1 text-[9px]"
                       onClick={() =>
                         setForm((f) => ({ ...f, budget: suggestedTotal }))
                       }
                     >
-                      Set as budget
+                      Use
                     </Button>
                   </div>
                 </div>

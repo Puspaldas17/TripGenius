@@ -1392,6 +1392,8 @@ export default function Planner() {
                                     asChild
                                     key={l.href}
                                     variant="outline"
+                                    size="sm"
+                                    className="h-7 text-xs"
                                   >
                                     <a
                                       href={l.href}

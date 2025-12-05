@@ -1473,7 +1473,7 @@ export default function Planner() {
                         {d.activities.map((a, ai) => (
                           <li
                             key={ai}
-                            className="cursor-move rounded border bg-card p-1 text-[10px]"
+                            className="cursor-move rounded border bg-card p-1 text-[10px] hover:bg-accent/20"
                             draggable
                             onDragStart={(e) => {
                               e.dataTransfer.setData(
@@ -1482,7 +1482,7 @@ export default function Planner() {
                               );
                             }}
                           >
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-1">
                               <input
                                 type="time"
                                 value={a.time}
@@ -1499,17 +1499,14 @@ export default function Planner() {
                                     return next;
                                   });
                                 }}
-                                className="h-8 rounded border px-2 text-xs"
+                                className="h-6 rounded border px-1 text-[9px]"
                               />
-                              <span className="font-medium">
-                                {a.time || "--:--"}
-                              </span>
-                              <span>• {a.text}</span>
+                              <span className="text-[9px] truncate">{a.text}</span>
                             </div>
                           </li>
                         ))}
                         <li
-                          className="rounded-md border border-dashed p-2 text-center text-xs text-muted-foreground"
+                          className="rounded border border-dashed p-1 text-center text-[10px] text-muted-foreground"
                           onDragOver={(e) => e.preventDefault()}
                           onDrop={(e) => {
                             e.preventDefault();

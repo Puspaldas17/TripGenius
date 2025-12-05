@@ -1768,27 +1768,27 @@ export default function Planner() {
           </div>
 
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="space-y-2 pb-2">
+              <CardTitle className="flex items-center gap-2 text-base">
                 <Hotel className="h-5 w-5 text-primary" /> Hotel Search 🏨
               </CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">
-                Compare stays by rating and price; open results on your
-                preferred site.
+              <p className="text-xs text-muted-foreground">
+                Compare by rating and price
               </p>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex flex-col gap-2 sm:flex-row">
+              <div className="flex flex-col gap-1 xs:flex-row pt-1">
                 <Input
                   placeholder="City or hotel name"
                   value={hotelQuery}
                   onChange={(e) => setHotelQuery(e.target.value)}
+                  className="h-8 text-xs"
                 />
-                <Button className="w-full xs:w-auto" onClick={doHotelSearch}>
+                <Button className="h-8 text-xs px-3 shrink-0" onClick={doHotelSearch}>
                   Search
                 </Button>
               </div>
-              <div className="space-y-2 text-sm">
+            </CardHeader>
+            <CardContent className="space-y-1 text-xs">
+              <div className="space-y-1">
                 {hotels.map((h) => (
                   <div
                     key={h.id}

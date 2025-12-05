@@ -1011,16 +1011,16 @@ export default function Planner() {
                       {weather.alerts.map((a) => a.description).join(", ")}
                     </div>
                   ) : null}
-                  <div className="mb-3 flex items-center gap-2 text-xs">
+                  <div className="mb-2 flex items-center gap-1 text-xs">
                     <span className="text-muted-foreground">View:</span>
                     <button
-                      className={`rounded border px-2 py-1 ${!showHourly ? "border-primary text-primary" : ""}`}
+                      className={`rounded border px-2 py-0.5 text-xs ${!showHourly ? "border-primary text-primary" : ""}`}
                       onClick={() => setShowHourly(false)}
                     >
                       Daily
                     </button>
                     <button
-                      className={`rounded border px-2 py-1 ${showHourly ? "border-primary text-primary" : ""}`}
+                      className={`rounded border px-2 py-0.5 text-xs ${showHourly ? "border-primary text-primary" : ""}`}
                       onClick={() => setShowHourly(true)}
                     >
                       Hourly

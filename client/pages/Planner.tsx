@@ -984,26 +984,25 @@ export default function Planner() {
           </Card>
 
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CloudSun className="h-5 w-5 text-primary" /> Weather Preview ☀️
-              </CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">
-                5-day daily outlook so you can plan activities with confidence.
-              </p>
-            </CardHeader>
-            <div className="flex items-center justify-end px-6 -mt-2">
+            <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+              <div>
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <CloudSun className="h-5 w-5 text-primary" /> Weather Preview ☀️
+                </CardTitle>
+                <p className="text-xs text-muted-foreground mt-2">
+                  5-day outlook to plan activities
+                </p>
+              </div>
               <button
                 onClick={() => setOpenWeather((v) => !v)}
                 aria-expanded={openWeather}
-                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
               >
-                {openWeather ? "Collapse" : "Expand"}
                 <ChevronDown
                   className={`h-4 w-4 transition-transform ${openWeather ? "rotate-180" : "rotate-0"}`}
                 />
               </button>
-            </div>
+            </CardHeader>
             <CardContent className={openWeather ? "" : "hidden"}>
               {weather ? (
                 <>

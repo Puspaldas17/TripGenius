@@ -1204,7 +1204,7 @@ export default function Planner() {
 
               {travel?.options?.length ? (
                 <>
-                  <div className="mt-3 rounded-md border p-3 text-xs">
+                  <div className="mt-2 rounded border p-2 text-xs">
                     {(() => {
                       const opts = travel.options.filter((o) => o.available);
                       const cheapest = opts.reduce(
@@ -1217,23 +1217,23 @@ export default function Planner() {
                       );
                       const eco = pickEco(travel.options);
                       return (
-                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                        <div className="grid grid-cols-1 gap-1 sm:grid-cols-3 text-[10px]">
                           <div>
-                            Cheapest:{" "}
+                            <span className="text-muted-foreground">Cheapest:</span>{" "}
                             <span className="font-medium capitalize">
                               {cheapest?.mode}
                             </span>{" "}
                             • {formatINR(cheapest?.price || 0)}
                           </div>
                           <div>
-                            Fastest:{" "}
+                            <span className="text-muted-foreground">Fastest:</span>{" "}
                             <span className="font-medium capitalize">
                               {fastest?.mode}
                             </span>{" "}
                             • {fastest?.timeHours}h
                           </div>
                           <div>
-                            Eco‑friendly:{" "}
+                            <span className="text-muted-foreground">Eco:</span>{" "}
                             <span className="font-medium capitalize">
                               {eco?.mode || "-"}
                             </span>

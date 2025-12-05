@@ -1184,7 +1184,7 @@ export default function Planner() {
               ) : null}
             </CardHeader>
             <CardContent className={openRoute ? "" : "hidden"}>
-              <div className="aspect-[16/9] w-full overflow-hidden rounded-xl border">
+              <div className="aspect-video w-full overflow-hidden rounded border">
                 <iframe
                   title="map"
                   className="h-full w-full"

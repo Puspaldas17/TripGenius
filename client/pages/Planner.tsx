@@ -739,14 +739,14 @@ export default function Planner() {
                 </Button>
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="space-y-2">
-                <Label>Trip Type</Label>
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-2">
+              <div className="space-y-1.5">
+                <Label className="text-xs">Trip Type</Label>
                 <Select
                   value={tripType}
                   onValueChange={(v) => setTripType(v as any)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="h-8 text-xs">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -756,8 +756,8 @@ export default function Planner() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2">
-                <Label>Start Date</Label>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Start Date</Label>
                 <Input
                   type="date"
                   value={
@@ -773,10 +773,11 @@ export default function Planner() {
                         : undefined,
                     }))
                   }
+                  className="h-8 text-xs"
                 />
               </div>
-              <div className="space-y-2">
-                <Label>End Date</Label>
+              <div className="space-y-1.5">
+                <Label className="text-xs">End Date</Label>
                 <Input
                   type="date"
                   value={
@@ -790,10 +791,11 @@ export default function Planner() {
                       to: e.target.value ? new Date(e.target.value) : undefined,
                     }))
                   }
+                  className="h-8 text-xs"
                 />
               </div>
-              <div className="space-y-2">
-                <Label>Budget (₹)</Label>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Budget (₹)</Label>
                 <Input
                   type="number"
                   min={0}
@@ -801,21 +803,19 @@ export default function Planner() {
                   onChange={(e) =>
                     setForm((f) => ({ ...f, budget: Number(e.target.value) }))
                   }
+                  className="h-8 text-xs"
                 />
-                <div className="text-xs text-muted-foreground">
-                  Suggested for your trip:{" "}
-                  <span className="font-medium">
-                    {formatINR(suggestedTotal)}
-                  </span>
+                <div className="text-[10px] text-muted-foreground flex items-center gap-1">
+                  <span>Suggested: {formatINR(suggestedTotal)}</span>
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="ml-2 h-7 px-2"
+                    className="h-5 px-1 text-[10px]"
                     onClick={() =>
                       setForm((f) => ({ ...f, budget: suggestedTotal }))
                     }
                   >
-                    Set budget
+                    Set
                   </Button>
                 </div>
                 {tripType === "multicity" && (

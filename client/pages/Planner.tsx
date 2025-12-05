@@ -1246,7 +1246,7 @@ export default function Planner() {
               ) : null}
 
               {travel?.options?.length ? (
-                <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-5">
+                <div className="mt-2 grid grid-cols-1 gap-2 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
                   {(function () {
                     const opts = travel.options.filter((o) => o.available);
                     if (transportFilter === "cheapest")
@@ -1268,10 +1268,10 @@ export default function Planner() {
                     <button
                       key={o.mode}
                       onClick={() => setMode(o.mode)}
-                      className={`rounded-lg border p-3 text-left text-sm transition ${mode === o.mode ? "border-primary ring-2 ring-primary/30" : ""}`}
+                      className={`rounded border p-2 text-left text-xs transition hover:bg-accent/20 ${mode === o.mode ? "border-primary ring-1 ring-primary/50" : ""}`}
                     >
-                      <div className="font-medium capitalize">{o.mode}</div>
-                      <div className="text-muted-foreground">
+                      <div className="font-medium capitalize text-xs">{o.mode}</div>
+                      <div className="text-muted-foreground text-[10px] mt-1">
                         {o.timeHours}h • {formatINR(o.price)}
                       </div>
                     </button>

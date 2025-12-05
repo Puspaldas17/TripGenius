@@ -1638,7 +1638,7 @@ export default function Planner() {
                 </div>
                 {openBudget && (
                   <div
-                    className="mt-3 h-56 w-full"
+                    className="mt-2 h-40 w-full"
                     style={{ contain: "layout size" }}
                   >
                     <ResponsiveContainer>
@@ -1651,9 +1651,9 @@ export default function Planner() {
                             { name: "Food", value: foodTotal },
                             { name: "Activities", value: actTotal },
                           ]}
-                          innerRadius={40}
-                          outerRadius={70}
-                          paddingAngle={2}
+                          innerRadius={25}
+                          outerRadius={50}
+                          paddingAngle={1}
                         >
                           {["#60a5fa", "#a78bfa", "#34d399", "#f59e0b"].map(
                             (c, i) => (

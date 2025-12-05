@@ -1712,27 +1712,25 @@ export default function Planner() {
               </CardContent>
             </Card>
             <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Users className="h-5 w-5 text-primary" /> Group Collaboration
-                  👥
-                </CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Share a code so friends can view and plan together.
-                </p>
-              </CardHeader>
-              <div className="flex items-center justify-end px-6 -mt-2">
+              <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+                <div>
+                  <CardTitle className="flex items-center gap-2 text-base">
+                    <Users className="h-5 w-5 text-primary" /> Group Collab 👥
+                  </CardTitle>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Share plan with friends
+                  </p>
+                </div>
                 <button
                   onClick={() => setOpenGroup((v) => !v)}
                   aria-expanded={openGroup}
-                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
                 >
-                  {openGroup ? "Collapse" : "Expand"}
                   <ChevronDown
                     className={`h-4 w-4 transition-transform ${openGroup ? "rotate-180" : "rotate-0"}`}
                   />
                 </button>
-              </div>
+              </CardHeader>
               <CardContent className={openGroup ? "" : "hidden"}>
                 <p className="text-sm text-muted-foreground">
                   Share your plan with friends using your trip code.

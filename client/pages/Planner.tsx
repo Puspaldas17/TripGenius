@@ -698,38 +698,42 @@ export default function Planner() {
               day-by-day plan.
             </p>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label>Destination</Label>
-              <div className="flex flex-col sm:flex-row gap-2">
+          <CardContent className="space-y-3">
+            <div className="space-y-1.5">
+              <Label className="text-xs">Destination</Label>
+              <div className="flex flex-col xs:flex-row gap-2">
                 <Input
                   value={form.destination}
                   onChange={(e) =>
                     setForm((f) => ({ ...f, destination: e.target.value }))
                   }
-                  placeholder="City, State (e.g., Mumbai, Maharashtra)"
+                  placeholder="City, State"
+                  className="h-8 text-xs"
                 />
                 <Button
                   variant="outline"
                   onClick={useCurrentLocation}
-                  className="shrink-0"
+                  className="shrink-0 h-8 text-xs px-2"
+                  size="sm"
                 >
                   Use current
                 </Button>
               </div>
             </div>
-            <div className="space-y-2">
-              <Label>Origin</Label>
-              <div className="flex flex-col sm:flex-row gap-2">
+            <div className="space-y-1.5">
+              <Label className="text-xs">Origin</Label>
+              <div className="flex flex-col xs:flex-row gap-2">
                 <Input
                   value={origin}
                   onChange={(e) => setOrigin(e.target.value)}
-                  placeholder="City, State (e.g., Kolkata, West Bengal)"
+                  placeholder="City, State"
+                  className="h-8 text-xs"
                 />
                 <Button
                   variant="outline"
                   onClick={useCurrentOrigin}
-                  className="shrink-0"
+                  className="shrink-0 h-8 text-xs px-2"
+                  size="sm"
                 >
                   Use current
                 </Button>

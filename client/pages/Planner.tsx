@@ -1605,28 +1605,28 @@ export default function Planner() {
                   </div>
                 </div>
                 <div className="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-                  <div className="rounded-md border p-3">
-                    Transport
-                    <div className="font-semibold">
+                  <div className="rounded-md border p-2">
+                    <div className="text-muted-foreground text-xs">Transport</div>
+                    <div className="font-semibold text-sm mt-1">
                       {formatINR(transportTotal)}
                     </div>
                   </div>
-                  <div className="rounded-md border p-3">
-                    Stay
-                    <div className="font-semibold">
+                  <div className="rounded-md border p-2">
+                    <div className="text-muted-foreground text-xs">Stay</div>
+                    <div className="font-semibold text-sm mt-1">
                       {formatINR(stayTotal)}{" "}
-                      <span className="text-xs text-muted-foreground">
-                        ({rooms} rooms)
+                      <span className="text-[10px] text-muted-foreground">
+                        ({rooms}rm)
                       </span>
                     </div>
                   </div>
-                  <div className="rounded-md border p-3">
-                    Food
-                    <div className="font-semibold">{formatINR(foodTotal)}</div>
+                  <div className="rounded-md border p-2">
+                    <div className="text-muted-foreground text-xs">Food</div>
+                    <div className="font-semibold text-sm mt-1">{formatINR(foodTotal)}</div>
                   </div>
-                  <div className="rounded-md border p-3">
-                    Activities
-                    <div className="font-semibold">{formatINR(actTotal)}</div>
+                  <div className="rounded-md border p-2">
+                    <div className="text-muted-foreground text-xs">Activities</div>
+                    <div className="font-semibold text-sm mt-1">{formatINR(actTotal)}</div>
                   </div>
                 </div>
                 <div className="mt-3 flex items-center gap-2 text-xs">

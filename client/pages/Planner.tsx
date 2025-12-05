@@ -1859,51 +1859,51 @@ export default function Planner() {
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="grid grid-cols-1 gap-2 xs:grid-cols-2 lg:grid-cols-4">
-                <div className="md:col-span-1">
-                  <Label>Amount</Label>
+                <div>
+                  <Label className="text-xs">Amount</Label>
                   <Input
                     type="number"
                     value={fx.amount}
                     onChange={(e) =>
                       setFx({ ...fx, amount: Number(e.target.value) })
                     }
+                    className="h-8 text-xs"
                   />
                 </div>
-                <div className="md:col-span-1">
-                  <Label>From</Label>
+                <div>
+                  <Label className="text-xs">From</Label>
                   <Input
                     value={fx.from}
                     onChange={(e) =>
                       setFx({ ...fx, from: e.target.value.toUpperCase() })
                     }
+                    className="h-8 text-xs"
                   />
                 </div>
-                <div className="md:col-span-1">
-                  <Label>To</Label>
+                <div>
+                  <Label className="text-xs">To</Label>
                   <Input
                     value={fx.to}
                     onChange={(e) =>
                       setFx({ ...fx, to: e.target.value.toUpperCase() })
                     }
+                    className="h-8 text-xs"
                   />
                 </div>
-                <div className="flex items-end md:col-span-1">
-                  <Button onClick={convert} className="w-full">
+                <div className="flex items-end">
+                  <Button onClick={convert} className="w-full h-8 text-xs">
                     Convert
                   </Button>
                 </div>
               </div>
               {fx.result ? (
-                <div className="rounded-md bg-secondary p-3 text-sm">
-                  {fx.amount} {fx.from} ={" "}
-                  <span className="font-semibold">
-                    {fx.result.toFixed(2)} {fx.to}
-                  </span>{" "}
-                  (rate {fx.rate.toFixed(4)})
+                <div className="rounded border bg-secondary p-2 text-xs">
+                  <div>{fx.amount} {fx.from} = <span className="font-semibold">{fx.result.toFixed(2)} {fx.to}</span></div>
+                  <div className="text-[10px] text-muted-foreground mt-1">Rate: {fx.rate.toFixed(4)}</div>
                 </div>
               ) : (
-                <div className="text-sm text-muted-foreground">
-                  Enter values and convert.
+                <div className="text-xs text-muted-foreground text-center py-2">
+                  Enter values and convert
                 </div>
               )}
             </CardContent>

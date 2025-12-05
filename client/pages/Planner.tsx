@@ -1371,17 +1371,17 @@ export default function Planner() {
                 {(["flight", "train", "bus", "car", "waterway"] as const).map(
                   (t) => (
                     <TabsContent key={t} value={t} className="mt-2">
-                      <div className="grid grid-cols-1 gap-3">
+                      <div className="grid grid-cols-1 gap-2">
                         {getLegs(tripType, origin, form.destination, stops).map(
                           ([lo, ld], i) => (
                             <div
                               key={i}
-                              className="space-y-2 rounded-md border p-3"
+                              className="space-y-1 rounded border p-2"
                             >
                               <div className="text-xs text-muted-foreground">
                                 Leg {i + 1}: {lo} → {ld}
                               </div>
-                              <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                              <div className="grid grid-cols-1 gap-1 md:grid-cols-2">
                                 {buildTransportLinks(
                                   t,
                                   lo,

@@ -911,23 +911,17 @@ export default function Planner() {
                 </SelectContent>
               </Select>
             </div>
-            <Button onClick={generate} disabled={loading} className="w-full">
+            <Button onClick={generate} disabled={loading} className="w-full h-8 text-xs">
               {loading ? "Generating..." : "Generate Itinerary"}
             </Button>
-            <div className="rounded-md bg-secondary p-3 text-sm text-muted-foreground">
+            <div className="rounded-md bg-secondary p-2 text-xs text-muted-foreground">
               {members > 0 ? (
                 <>
-                  Daily budget per person:{" "}
-                  <span className="font-semibold text-foreground">
-                    {formatINR(perPersonPerDay)}
-                  </span>
+                  Daily: <span className="font-semibold text-foreground">{formatINR(perPersonPerDay)}</span> per person
                 </>
               ) : (
                 <>
-                  Daily budget:{" "}
-                  <span className="font-semibold text-foreground">
-                    {formatINR(form.budget / Math.max(1, daysCalc))}
-                  </span>
+                  Daily: <span className="font-semibold text-foreground">{formatINR(form.budget / Math.max(1, daysCalc))}</span>
                 </>
               )}
             </div>

@@ -929,29 +929,27 @@ export default function Planner() {
           </CardContent>
         </Card>
 
-        <div className="md:col-span-2 space-y-6 flex flex-col">
-          <Card className="order-10">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <MapIcon className="h-5 w-5 text-primary" /> Nearby Places 🗺️
-              </CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">
-                Discover points of interest around your destination. Drag any
-                place into your plan.
-              </p>
-            </CardHeader>
-            <div className="flex items-center justify-end px-6 -mt-2">
+        <div className="lg:col-span-2 space-y-3 flex flex-col">
+          <Card>
+            <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+              <div>
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <MapIcon className="h-5 w-5 text-primary" /> Nearby Places 🗺️
+                </CardTitle>
+                <p className="text-xs text-muted-foreground mt-2">
+                  Discover POI around your destination
+                </p>
+              </div>
               <button
                 onClick={() => setOpenNearby((v) => !v)}
                 aria-expanded={openNearby}
-                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
               >
-                {openNearby ? "Collapse" : "Expand"}
                 <ChevronDown
                   className={`h-4 w-4 transition-transform ${openNearby ? "rotate-180" : "rotate-0"}`}
                 />
               </button>
-            </div>
+            </CardHeader>
             <CardContent className={openNearby ? "" : "hidden"}>
               {places.length ? (
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">

@@ -1849,17 +1849,16 @@ export default function Planner() {
           </Card>
 
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <DollarSign className="h-5 w-5 text-primary" /> Currency
-                Converter 💱
+            <CardHeader className="space-y-2 pb-2">
+              <CardTitle className="flex items-center gap-2 text-base">
+                <DollarSign className="h-5 w-5 text-primary" /> Currency Converter 💱
               </CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">
-                Convert costs instantly with live rates and offline fallbacks.
+              <p className="text-xs text-muted-foreground">
+                Convert with live rates
               </p>
             </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="grid grid-cols-1 gap-3 xs:grid-cols-2 md:grid-cols-4">
+            <CardContent className="space-y-2">
+              <div className="grid grid-cols-1 gap-2 xs:grid-cols-2 lg:grid-cols-4">
                 <div className="md:col-span-1">
                   <Label>Amount</Label>
                   <Input

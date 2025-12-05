@@ -1590,21 +1590,21 @@ export default function Planner() {
                 </button>
               </CardHeader>
               <CardContent className={openBudget ? "" : "hidden"}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                  <div className="rounded-lg bg-secondary p-3">
-                    Total Budget
-                    <div className="text-2xl font-bold">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                  <div className="rounded-lg bg-secondary p-2">
+                    <div className="text-muted-foreground">Total Budget</div>
+                    <div className="text-lg font-bold mt-1">
                       {formatINR(form.budget)}
                     </div>
                   </div>
-                  <div className="rounded-lg bg-secondary p-3">
-                    Per Day
-                    <div className="text-2xl font-bold">
+                  <div className="rounded-lg bg-secondary p-2">
+                    <div className="text-muted-foreground">Per Day</div>
+                    <div className="text-lg font-bold mt-1">
                       {formatINR(form.budget / Math.max(1, daysCalc))}
                     </div>
                   </div>
                 </div>
-                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm md:grid-cols-4">
+                <div className="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                   <div className="rounded-md border p-3">
                     Transport
                     <div className="font-semibold">

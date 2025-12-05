@@ -1344,13 +1344,13 @@ export default function Planner() {
             </CardHeader>
             <CardContent className={openTransport ? "" : "hidden"}>
               {travel?.options?.length ? (
-                <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
+                <div className="mb-2 flex flex-wrap items-center gap-1 text-xs">
                   <span className="text-muted-foreground">Filter:</span>
                   {(["all", "cheapest", "fastest", "eco"] as const).map((f) => (
                     <button
                       key={f}
                       onClick={() => setTransportFilter(f)}
-                      className={`rounded border px-2 py-1 capitalize ${transportFilter === f ? "border-primary text-primary" : ""}`}
+                      className={`rounded border px-2 py-0.5 text-xs capitalize ${transportFilter === f ? "border-primary text-primary" : ""}`}
                     >
                       {f}
                     </button>

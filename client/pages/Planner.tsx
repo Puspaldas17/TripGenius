@@ -1457,11 +1457,11 @@ export default function Planner() {
             </CardHeader>
             <CardContent className={openCalendar ? "" : "hidden"}>
               {calendar?.length ? (
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
+                <div className="grid grid-cols-1 gap-2 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                   {calendar.map((d, di) => (
                     <div
                       key={d.day}
-                      className="rounded-xl border p-3 min-h-[240px] overflow-auto"
+                      className="rounded-lg border p-2 min-h-[180px] overflow-auto text-xs"
                     >
                       <div className="mb-2 flex items-center justify-between">
                         <div className="font-semibold">Day {d.day}</div>

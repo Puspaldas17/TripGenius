@@ -1726,43 +1726,44 @@ export default function Planner() {
                 </button>
               </CardHeader>
               <CardContent className={openGroup ? "" : "hidden"}>
-                <p className="text-sm text-muted-foreground">
-                  Share your plan with friends using your trip code.
+                <p className="text-xs text-muted-foreground">
+                  Share trip code with friends to plan together
                 </p>
                 <ShareTrip />
-                <div className="mt-4">
-                  <div className="mb-2 text-xs text-muted-foreground">
-                    Trip comments
+                <div className="mt-2">
+                  <div className="mb-1 text-xs text-muted-foreground">
+                    Trip Comments
                   </div>
-                  <div className="max-h-48 overflow-auto rounded-md border p-2 text-sm space-y-2">
+                  <div className="max-h-32 overflow-auto rounded border p-2 text-xs space-y-1">
                     {chatMessages.length ? (
                       chatMessages.map((m) => (
-                        <div key={m.id} className="flex items-start gap-2">
-                          <div className="mt-1 h-1.5 w-1.5 rounded-full bg-primary" />
-                          <div>
-                            <div>{m.text}</div>
-                            <div className="text-[10px] text-muted-foreground">
-                              {new Date(m.at).toLocaleString()}
+                        <div key={m.id} className="flex items-start gap-1">
+                          <div className="mt-1 h-1 w-1 rounded-full bg-primary shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <div className="text-[11px] break-words">{m.text}</div>
+                            <div className="text-[8px] text-muted-foreground">
+                              {new Date(m.at).toLocaleTimeString()}
                             </div>
                           </div>
                         </div>
                       ))
                     ) : (
-                      <div className="text-xs text-muted-foreground">
-                        No messages yet. Start the conversation!
+                      <div className="text-xs text-muted-foreground text-center py-2">
+                        No comments yet
                       </div>
                     )}
                   </div>
-                  <div className="mt-2 flex items-center gap-2">
+                  <div className="mt-2 flex items-center gap-1">
                     <Input
-                      placeholder="Write a message"
+                      placeholder="Comment"
                       value={chatInput}
                       onChange={(e) => setChatInput(e.target.value)}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") sendChat();
                       }}
+                      className="h-7 text-xs"
                     />
-                    <Button onClick={sendChat}>Send</Button>
+                    <Button onClick={sendChat} size="sm" className="h-7 text-xs px-2">Send</Button>
                   </div>
                 </div>
               </CardContent>

@@ -1830,8 +1830,8 @@ export default function Planner() {
                       <div className="text-sm font-bold">
                         ₹
                         {new Intl.NumberFormat("en-IN").format(h.pricePerNight)}
-                        /night
                       </div>
+                      <div className="text-[9px] text-muted-foreground">/night</div>
                       <a
                         className="text-xs text-primary underline"
                         href={h.url}

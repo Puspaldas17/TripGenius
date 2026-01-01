@@ -1821,7 +1821,7 @@ export default function Planner() {
                         </Badge>
                       </div>
                       {h.reviews?.length ? (
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-[9px] text-muted-foreground line-clamp-1">
                           “{h.reviews[0]}”
                         </div>
                       ) : null}

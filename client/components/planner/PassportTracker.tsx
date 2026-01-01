@@ -69,22 +69,22 @@ export default function PassportTracker({
   return (
     <Card className="hover:shadow-lg transition">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-base">
           <AlertTriangle className="h-5 w-5 text-primary" />
           Passport Expiry Tracking
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label>Passport Expiry Date</Label>
+      <CardContent className="space-y-2">
+        <div className="space-y-1">
+          <Label className="text-xs">Passport Expiry Date</Label>
           <Input
             type="date"
             value={expiryDate}
             onChange={(e) => onExpiryDateChange(e.target.value)}
-            className="w-full"
+            className="w-full h-8 text-xs"
           />
-          <p className="text-xs text-muted-foreground">
-            Most countries require at least 6 months validity for entry
+          <p className="text-[10px] text-muted-foreground">
+            Most countries require at least 6 months validity
           </p>
         </div>
 

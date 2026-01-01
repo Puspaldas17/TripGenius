@@ -116,14 +116,14 @@ export default function LocalGuides({ destination }: LocalGuidesProps) {
     return (
       <Card className="hover:shadow-lg transition">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-base">
             <Users className="h-5 w-5 text-primary" />
             Local Guide Connections
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="rounded-lg bg-muted/50 p-6 text-center text-sm text-muted-foreground">
-            No local guides available for {destination} yet. Check back soon!
+          <div className="rounded-lg bg-muted/50 p-2 text-center text-xs text-muted-foreground">
+            No guides available for {destination} yet.
           </div>
         </CardContent>
       </Card>
@@ -133,16 +133,16 @@ export default function LocalGuides({ destination }: LocalGuidesProps) {
   return (
     <Card className="hover:shadow-lg transition">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-base">
           <Users className="h-5 w-5 text-primary" />
           Local Guide Connections
         </CardTitle>
-        <p className="text-sm text-muted-foreground mt-2">
-          Connect with verified local guides in {destination}
+        <p className="text-xs text-muted-foreground mt-1">
+          Verified guides in {destination}
         </p>
       </CardHeader>
       <CardContent>
-        <div className="space-y-3">
+        <div className="space-y-2">
           {guides.map((guide) => (
             <div
               key={guide.id}

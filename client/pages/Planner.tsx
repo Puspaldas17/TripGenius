@@ -382,6 +382,19 @@ export default function Planner() {
     return () => clearInterval(id);
   }, [form.destination, serverOk]);
 
+  // Auto-fetch nearby places and weather based on destination changes
+  useEffect(() => {
+    if (!form.destination) {
+      setPlaces([]);
+      return;
+    }
+    const timer = setTimeout(() => {
+      fetchPlaces(form.destination);
+      fetchWeather(form.destination);
+    }, 500); // Debounce for 500ms to avoid excessive API calls while typing
+    return () => clearTimeout(timer);
+  }, [form.destination]);
+
   // Action-time server detection to avoid fetch errors on mount
   const ensureServer = async () => {
     if (serverOk) return true;

@@ -170,6 +170,55 @@ export default function Planner() {
   };
 
   const travelAbort = useRef<AbortController | null>(null);
+  const placesAbort = useRef<AbortController | null>(null);
+  const weatherAbort = useRef<AbortController | null>(null);
+
+  const fetchPlaces = async (destination: string) => {
+    try {
+      if (!destination || destination.length < 3 || !(await ensureServer())) return;
+      placesAbort.current?.abort();
+      const ac = new AbortController();
+      placesAbort.current = ac;
+      const pr = await safeFetch(
+        `${apiBase}/places?location=${encodeURIComponent(destination)}`,
+        { signal: ac.signal },
+      );
+      if (placesAbort.current !== ac) return;
+      if (!pr.ok) {
+        setPlaces([]);
+        return;
+      }
+      const pj = await pr.json();
+      setPlaces(pj.places || []);
+    } catch (e) {
+      if ((e as any)?.name === "AbortError") return;
+      setPlaces([]);
+    }
+  };
+
+  const fetchWeather = async (destination: string) => {
+    try {
+      if (!destination || destination.length < 3 || !(await ensureServer())) return;
+      weatherAbort.current?.abort();
+      const ac = new AbortController();
+      weatherAbort.current = ac;
+      const wRes = await safeFetch(
+        `${apiBase}/weather?location=${encodeURIComponent(destination)}`,
+        { signal: ac.signal },
+      );
+      if (weatherAbort.current !== ac) return;
+      if (!wRes.ok) {
+        setWeather(null);
+        return;
+      }
+      const w = (await wRes.json()) as WeatherResponse;
+      setWeather(w);
+    } catch (e) {
+      if ((e as any)?.name === "AbortError") return;
+      setWeather(null);
+    }
+  };
+
   const fetchTravel = async () => {
     try {
       const o = origin.trim();

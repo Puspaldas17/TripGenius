@@ -173,7 +173,8 @@ export default function VisaChecker({
                 <Clock className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400 flex-shrink-0" />
                 <div>
                   <p className="text-[10px] font-medium text-amber-900 dark:text-amber-200">
-                    Processing: {visaInfo.processingDays} days • {visaInfo.currency} {visaInfo.cost}
+                    Processing: {visaInfo.processingDays} days •{" "}
+                    {visaInfo.currency} {visaInfo.cost}
                   </p>
                 </div>
               </div>
@@ -195,7 +196,12 @@ export default function VisaChecker({
             </div>
 
             {visaInfo.visaRequired && (
-              <Button className="w-full h-7" size="sm" variant="outline" className="text-xs">
+              <Button
+                className="w-full h-7"
+                size="sm"
+                variant="outline"
+                className="text-xs"
+              >
                 Apply for Visa
               </Button>
             )}
@@ -204,7 +210,8 @@ export default function VisaChecker({
 
         {!visaInfo && destination && (
           <div className="rounded-lg bg-muted/50 p-2 text-center text-xs text-muted-foreground">
-            Visa information for {destination} not available. Please check with your embassy.
+            Visa information for {destination} not available. Please check with
+            your embassy.
           </div>
         )}
       </CardContent>

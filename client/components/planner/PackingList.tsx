@@ -252,7 +252,11 @@ export default function PackingList({
             <Download className="h-3 w-3" />
             Download
           </Button>
-          <Button size="sm" variant="outline" className="flex-1 h-6 text-[9px] gap-1">
+          <Button
+            size="sm"
+            variant="outline"
+            className="flex-1 h-6 text-[9px] gap-1"
+          >
             <Plus className="h-3 w-3" />
             Add
           </Button>

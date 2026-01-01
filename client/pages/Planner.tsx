@@ -175,7 +175,8 @@ export default function Planner() {
 
   const fetchPlaces = async (destination: string) => {
     try {
-      if (!destination || destination.length < 3 || !(await ensureServer())) return;
+      if (!destination || destination.length < 3 || !(await ensureServer()))
+        return;
       placesAbort.current?.abort();
       const ac = new AbortController();
       placesAbort.current = ac;
@@ -198,7 +199,8 @@ export default function Planner() {
 
   const fetchWeather = async (destination: string) => {
     try {
-      if (!destination || destination.length < 3 || !(await ensureServer())) return;
+      if (!destination || destination.length < 3 || !(await ensureServer()))
+        return;
       weatherAbort.current?.abort();
       const ac = new AbortController();
       weatherAbort.current = ac;
@@ -723,7 +725,8 @@ export default function Planner() {
                 Guest Mode
               </p>
               <p className="text-xs text-amber-800 dark:text-amber-300 mt-1">
-                You're exploring as a guest. Your trips will be cleared when you logout.{" "}
+                You're exploring as a guest. Your trips will be cleared when you
+                logout.{" "}
                 <a
                   href="/signup"
                   className="underline font-medium hover:text-amber-900 dark:hover:text-amber-100"
@@ -966,17 +969,28 @@ export default function Planner() {
                 </SelectContent>
               </Select>
             </div>
-            <Button onClick={generate} disabled={loading} className="w-full h-8 text-xs">
+            <Button
+              onClick={generate}
+              disabled={loading}
+              className="w-full h-8 text-xs"
+            >
               {loading ? "Generating..." : "Generate Itinerary"}
             </Button>
             <div className="rounded-md bg-secondary p-2 text-xs text-muted-foreground">
               {members > 0 ? (
                 <>
-                  Daily: <span className="font-semibold text-foreground">{formatINR(perPersonPerDay)}</span> per person
+                  Daily:{" "}
+                  <span className="font-semibold text-foreground">
+                    {formatINR(perPersonPerDay)}
+                  </span>{" "}
+                  per person
                 </>
               ) : (
                 <>
-                  Daily: <span className="font-semibold text-foreground">{formatINR(form.budget / Math.max(1, daysCalc))}</span>
+                  Daily:{" "}
+                  <span className="font-semibold text-foreground">
+                    {formatINR(form.budget / Math.max(1, daysCalc))}
+                  </span>
                 </>
               )}
             </div>
@@ -1031,7 +1045,9 @@ export default function Planner() {
                 </div>
               ) : (
                 <div className="text-muted-foreground text-xs">
-                  {form.destination ? "Loading nearby places..." : "Enter a destination to see nearby places."}
+                  {form.destination
+                    ? "Loading nearby places..."
+                    : "Enter a destination to see nearby places."}
                 </div>
               )}
             </CardContent>
@@ -1041,7 +1057,8 @@ export default function Planner() {
             <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
               <div>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <CloudSun className="h-5 w-5 text-primary" /> Weather Preview ☀️
+                  <CloudSun className="h-5 w-5 text-primary" /> Weather Preview
+                  ☀️
                 </CardTitle>
                 <p className="text-xs text-muted-foreground mt-2">
                   5-day outlook to plan activities
@@ -1089,7 +1106,10 @@ export default function Planner() {
                           className="rounded border p-2 h-full flex flex-col"
                         >
                           <div className="font-medium text-[10px]">
-                            {new Date(d.date).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}
+                            {new Date(d.date).toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                            })}
                           </div>
                           <div className="mt-1 text-[10px] text-muted-foreground truncate">
                             {d.summary}
@@ -1103,7 +1123,10 @@ export default function Planner() {
                   ) : (
                     <div className="grid grid-cols-2 gap-2 text-xs xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6">
                       {(weather.hourly || []).map((h) => (
-                        <div key={h.timeISO} className="rounded border p-2 text-[10px]">
+                        <div
+                          key={h.timeISO}
+                          className="rounded border p-2 text-[10px]"
+                        >
                           <div className="font-medium">
                             {new Date(h.timeISO).toLocaleTimeString([], {
                               hour: "2-digit",
@@ -1113,7 +1136,9 @@ export default function Planner() {
                           <div className="mt-1 text-[10px] text-muted-foreground truncate">
                             {h.desc}
                           </div>
-                          <div className="mt-1 text-[9px]">{Math.round(h.temp)}°C</div>
+                          <div className="mt-1 text-[9px]">
+                            {Math.round(h.temp)}°C
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -1121,7 +1146,9 @@ export default function Planner() {
                 </>
               ) : (
                 <div className="text-muted-foreground text-xs">
-                  {form.destination ? "Loading weather..." : "Enter a destination to see weather."}
+                  {form.destination
+                    ? "Loading weather..."
+                    : "Enter a destination to see weather."}
                 </div>
               )}
             </CardContent>
@@ -1202,7 +1229,8 @@ export default function Planner() {
               <div className="flex items-start justify-between gap-2">
                 <div>
                   <CardTitle className="flex items-center gap-2 text-base">
-                    <MapIcon className="h-5 w-5 text-primary" /> Route & Modes 🧭
+                    <MapIcon className="h-5 w-5 text-primary" /> Route & Modes
+                    🧭
                   </CardTitle>
                   <p className="text-xs text-muted-foreground mt-2">
                     Preview route and choose travel mode
@@ -1274,14 +1302,18 @@ export default function Planner() {
                       return (
                         <div className="grid grid-cols-1 gap-1 sm:grid-cols-3 text-[10px]">
                           <div>
-                            <span className="text-muted-foreground">Cheapest:</span>{" "}
+                            <span className="text-muted-foreground">
+                              Cheapest:
+                            </span>{" "}
                             <span className="font-medium capitalize">
                               {cheapest?.mode}
                             </span>{" "}
                             • {formatINR(cheapest?.price || 0)}
                           </div>
                           <div>
-                            <span className="text-muted-foreground">Fastest:</span>{" "}
+                            <span className="text-muted-foreground">
+                              Fastest:
+                            </span>{" "}
                             <span className="font-medium capitalize">
                               {fastest?.mode}
                             </span>{" "}
@@ -1325,7 +1357,9 @@ export default function Planner() {
                       onClick={() => setMode(o.mode)}
                       className={`rounded border p-2 text-left text-xs transition hover:bg-accent/20 ${mode === o.mode ? "border-primary ring-1 ring-primary/50" : ""}`}
                     >
-                      <div className="font-medium capitalize text-xs">{o.mode}</div>
+                      <div className="font-medium capitalize text-xs">
+                        {o.mode}
+                      </div>
                       <div className="text-muted-foreground text-[10px] mt-1">
                         {o.timeHours}h • {formatINR(o.price)}
                       </div>
@@ -1354,7 +1388,9 @@ export default function Planner() {
                     return (
                       <div className="grid grid-cols-1 gap-1 md:grid-cols-3 text-[10px]">
                         <div>
-                          <span className="text-muted-foreground">Distance:</span>{" "}
+                          <span className="text-muted-foreground">
+                            Distance:
+                          </span>{" "}
                           <span className="font-medium">{totalKm} km</span>
                         </div>
                         <div>
@@ -1381,7 +1417,8 @@ export default function Planner() {
             <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
               <div>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <PlaneTakeoff className="h-5 w-5 text-primary" /> Transport Options ✈️🚆🚌🚗⛴️
+                  <PlaneTakeoff className="h-5 w-5 text-primary" /> Transport
+                  Options ✈️🚆🚌🚗⛴️
                 </CardTitle>
                 <p className="text-xs text-muted-foreground mt-2">
                   Quick links for each leg of your journey
@@ -1417,11 +1454,21 @@ export default function Planner() {
                 onValueChange={(v) => setMode(v as any)}
               >
                 <TabsList className="grid grid-cols-5 rounded-md bg-muted/20 p-0.5 overflow-x-auto h-8">
-                  <TabsTrigger value="flight" className="text-xs">Flight</TabsTrigger>
-                  <TabsTrigger value="train" className="text-xs">Train</TabsTrigger>
-                  <TabsTrigger value="bus" className="text-xs">Bus</TabsTrigger>
-                  <TabsTrigger value="car" className="text-xs">Car</TabsTrigger>
-                  <TabsTrigger value="waterway" className="text-xs">Waterway</TabsTrigger>
+                  <TabsTrigger value="flight" className="text-xs">
+                    Flight
+                  </TabsTrigger>
+                  <TabsTrigger value="train" className="text-xs">
+                    Train
+                  </TabsTrigger>
+                  <TabsTrigger value="bus" className="text-xs">
+                    Bus
+                  </TabsTrigger>
+                  <TabsTrigger value="car" className="text-xs">
+                    Car
+                  </TabsTrigger>
+                  <TabsTrigger value="waterway" className="text-xs">
+                    Waterway
+                  </TabsTrigger>
                 </TabsList>
                 {(["flight", "train", "bus", "car", "waterway"] as const).map(
                   (t) => (
@@ -1476,7 +1523,8 @@ export default function Planner() {
               <div className="flex items-start justify-between gap-2 flex-wrap">
                 <div className="flex-1 min-w-0">
                   <CardTitle className="flex items-center gap-2 text-base">
-                    <CalIcon className="h-5 w-5 text-primary" /> Plan & Calendar 📅
+                    <CalIcon className="h-5 w-5 text-primary" /> Plan & Calendar
+                    📅
                   </CardTitle>
                   <p className="text-xs text-muted-foreground mt-2">
                     Drag items between days, export as PDF
@@ -1558,7 +1606,9 @@ export default function Planner() {
                                 }}
                                 className="h-6 rounded border px-1 text-[9px]"
                               />
-                              <span className="text-[9px] truncate">{a.text}</span>
+                              <span className="text-[9px] truncate">
+                                {a.text}
+                              </span>
                             </div>
                           </li>
                         ))}
@@ -1625,7 +1675,8 @@ export default function Planner() {
               <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
                 <div>
                   <CardTitle className="flex items-center gap-2 text-base">
-                    <Wallet className="h-5 w-5 text-primary" /> Budget Overview 💰
+                    <Wallet className="h-5 w-5 text-primary" /> Budget Overview
+                    💰
                   </CardTitle>
                   <p className="text-xs text-muted-foreground mt-2">
                     Cost breakdowns by category
@@ -1658,7 +1709,9 @@ export default function Planner() {
                 </div>
                 <div className="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                   <div className="rounded-md border p-2">
-                    <div className="text-muted-foreground text-xs">Transport</div>
+                    <div className="text-muted-foreground text-xs">
+                      Transport
+                    </div>
                     <div className="font-semibold text-sm mt-1">
                       {formatINR(transportTotal)}
                     </div>
@@ -1674,11 +1727,17 @@ export default function Planner() {
                   </div>
                   <div className="rounded-md border p-2">
                     <div className="text-muted-foreground text-xs">Food</div>
-                    <div className="font-semibold text-sm mt-1">{formatINR(foodTotal)}</div>
+                    <div className="font-semibold text-sm mt-1">
+                      {formatINR(foodTotal)}
+                    </div>
                   </div>
                   <div className="rounded-md border p-2">
-                    <div className="text-muted-foreground text-xs">Activities</div>
-                    <div className="font-semibold text-sm mt-1">{formatINR(actTotal)}</div>
+                    <div className="text-muted-foreground text-xs">
+                      Activities
+                    </div>
+                    <div className="font-semibold text-sm mt-1">
+                      {formatINR(actTotal)}
+                    </div>
                   </div>
                 </div>
                 <div className="mt-3 flex items-center gap-2 text-xs">
@@ -1734,7 +1793,8 @@ export default function Planner() {
                     Suggested: {formatINR(suggestedTotal)}
                   </div>
                   <div className="text-[10px] text-muted-foreground mt-1">
-                    ({members > 0 ? `${members}×, ` : ""}{daysCalc}d)
+                    ({members > 0 ? `${members}×, ` : ""}
+                    {daysCalc}d)
                   </div>
                   <div className="mt-1 text-[10px]">
                     {form.budget >= suggestedTotal ? (
@@ -1795,7 +1855,9 @@ export default function Planner() {
                         <div key={m.id} className="flex items-start gap-1">
                           <div className="mt-1 h-1 w-1 rounded-full bg-primary shrink-0" />
                           <div className="flex-1 min-w-0">
-                            <div className="text-[11px] break-words">{m.text}</div>
+                            <div className="text-[11px] break-words">
+                              {m.text}
+                            </div>
                             <div className="text-[8px] text-muted-foreground">
                               {new Date(m.at).toLocaleTimeString()}
                             </div>
@@ -1818,7 +1880,13 @@ export default function Planner() {
                       }}
                       className="h-7 text-xs"
                     />
-                    <Button onClick={sendChat} size="sm" className="h-7 text-xs px-2">Send</Button>
+                    <Button
+                      onClick={sendChat}
+                      size="sm"
+                      className="h-7 text-xs px-2"
+                    >
+                      Send
+                    </Button>
                   </div>
                 </div>
               </CardContent>
@@ -1840,7 +1908,10 @@ export default function Planner() {
                   onChange={(e) => setHotelQuery(e.target.value)}
                   className="h-8 text-xs"
                 />
-                <Button className="h-8 text-xs px-3 shrink-0" onClick={doHotelSearch}>
+                <Button
+                  className="h-8 text-xs px-3 shrink-0"
+                  onClick={doHotelSearch}
+                >
                   Search
                 </Button>
               </div>
@@ -1886,7 +1957,9 @@ export default function Planner() {
                         ₹
                         {new Intl.NumberFormat("en-IN").format(h.pricePerNight)}
                       </div>
-                      <div className="text-[9px] text-muted-foreground">/night</div>
+                      <div className="text-[9px] text-muted-foreground">
+                        /night
+                      </div>
                       <a
                         className="text-[9px] text-primary underline hover:no-underline"
                         href={h.url}
@@ -1910,7 +1983,8 @@ export default function Planner() {
           <Card>
             <CardHeader className="space-y-2 pb-2">
               <CardTitle className="flex items-center gap-2 text-base">
-                <DollarSign className="h-5 w-5 text-primary" /> Currency Converter 💱
+                <DollarSign className="h-5 w-5 text-primary" /> Currency
+                Converter 💱
               </CardTitle>
               <p className="text-xs text-muted-foreground">
                 Convert with live rates
@@ -1957,8 +2031,15 @@ export default function Planner() {
               </div>
               {fx.result ? (
                 <div className="rounded border bg-secondary p-2 text-xs">
-                  <div>{fx.amount} {fx.from} = <span className="font-semibold">{fx.result.toFixed(2)} {fx.to}</span></div>
-                  <div className="text-[10px] text-muted-foreground mt-1">Rate: {fx.rate.toFixed(4)}</div>
+                  <div>
+                    {fx.amount} {fx.from} ={" "}
+                    <span className="font-semibold">
+                      {fx.result.toFixed(2)} {fx.to}
+                    </span>
+                  </div>
+                  <div className="text-[10px] text-muted-foreground mt-1">
+                    Rate: {fx.rate.toFixed(4)}
+                  </div>
                 </div>
               ) : (
                 <div className="text-xs text-muted-foreground text-center py-2">
@@ -2014,7 +2095,12 @@ function ShareTrip() {
   return (
     <div className="mt-1 flex items-center gap-1">
       <Input readOnly value={code} className="font-mono h-7 text-xs" />
-      <Button onClick={copy} variant="outline" size="sm" className="h-7 text-xs px-2">
+      <Button
+        onClick={copy}
+        variant="outline"
+        size="sm"
+        className="h-7 text-xs px-2"
+      >
         Copy
       </Button>
     </div>

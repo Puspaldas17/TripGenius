@@ -1826,7 +1826,7 @@ export default function Planner() {
                         </div>
                       ) : null}
                     </div>
-                    <div className="text-right">
+                    <div className="text-right pl-2 shrink-0">
                       <div className="text-sm font-bold">
                         ₹
                         {new Intl.NumberFormat("en-IN").format(h.pricePerNight)}

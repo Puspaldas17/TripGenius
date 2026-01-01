@@ -1844,7 +1844,7 @@ export default function Planner() {
                   </div>
                 ))}
                 {hotels.length === 0 && (
-                  <div className="text-muted-foreground">
+                  <div className="text-muted-foreground text-xs text-center py-2">
                     Search to see hotel options.
                   </div>
                 )}

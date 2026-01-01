@@ -126,12 +126,12 @@ export default function VisaChecker({
   return (
     <Card className="hover:shadow-lg transition">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-base">
           <AlertCircle className="h-5 w-5 text-primary" />
           Visa & Documentation Checker
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-2">
         <div className="space-y-2">
           <Label>Your Nationality</Label>
           <Input

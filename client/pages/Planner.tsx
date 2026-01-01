@@ -1811,6 +1811,7 @@ export default function Planner() {
                                 ? "secondary"
                                 : "outline"
                           }
+                          className="text-[9px] py-0"
                         >
                           {h.rating >= 4.5
                             ? "Excellent"

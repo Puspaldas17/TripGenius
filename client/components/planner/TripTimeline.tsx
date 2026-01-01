@@ -43,13 +43,13 @@ export default function TripTimeline({
     return (
       <Card className="hover:shadow-lg transition">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-base">
             <Calendar className="h-5 w-5 text-primary" />
             Trip Timeline
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="rounded-lg bg-muted/50 p-6 text-center text-sm text-muted-foreground">
+          <div className="rounded-lg bg-muted/50 p-2 text-center text-xs text-muted-foreground">
             Generate an itinerary to see your trip timeline
           </div>
         </CardContent>
@@ -60,13 +60,13 @@ export default function TripTimeline({
   return (
     <Card className="hover:shadow-lg transition">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-base">
           <Calendar className="h-5 w-5 text-primary" />
           Trip Timeline
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-3">
+        <div className="space-y-2">
           {itinerary.days.map((day, idx) => {
             const dayDate = dates[idx];
             const isExpanded = expandedDay === day.day;

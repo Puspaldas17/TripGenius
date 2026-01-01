@@ -169,36 +169,33 @@ export default function VisaChecker({
             </div>
 
             {visaInfo.processingDays > 0 && (
-              <div className="flex items-center gap-2 rounded-md bg-amber-50 p-2 dark:bg-amber-950/30">
-                <Clock className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+              <div className="flex items-center gap-2 rounded-md bg-amber-50 p-1.5 dark:bg-amber-950/30">
+                <Clock className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400 flex-shrink-0" />
                 <div>
-                  <p className="text-xs font-medium text-amber-900 dark:text-amber-200">
-                    Processing Time: {visaInfo.processingDays} days
-                  </p>
-                  <p className="text-xs text-amber-700 dark:text-amber-300">
-                    Cost: {visaInfo.currency} {visaInfo.cost}
+                  <p className="text-[10px] font-medium text-amber-900 dark:text-amber-200">
+                    Processing: {visaInfo.processingDays} days • {visaInfo.currency} {visaInfo.cost}
                   </p>
                 </div>
               </div>
             )}
 
             <div>
-              <p className="text-sm font-medium mb-2">Required Documents</p>
-              <ul className="space-y-1">
+              <p className="text-xs font-medium mb-1">Required Documents</p>
+              <ul className="space-y-0.5">
                 {visaInfo.documents.map((doc, i) => (
                   <li
                     key={i}
-                    className="flex items-center gap-2 text-sm text-muted-foreground"
+                    className="flex items-center gap-1.5 text-xs text-muted-foreground"
                   >
-                    <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                    {doc}
+                    <span className="h-1 w-1 rounded-full bg-primary flex-shrink-0" />
+                    <span className="line-clamp-1">{doc}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
             {visaInfo.visaRequired && (
-              <Button className="w-full" size="sm" variant="outline">
+              <Button className="w-full h-7" size="sm" variant="outline" className="text-xs">
                 Apply for Visa
               </Button>
             )}

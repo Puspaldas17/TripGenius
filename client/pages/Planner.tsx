@@ -1797,10 +1797,10 @@ export default function Planner() {
                     key={h.id}
                     className="flex items-center justify-between rounded-md border p-2"
                   >
-                    <div className="flex flex-col gap-1">
-                      <span className="font-medium">{h.name}</span>
-                      <div className="flex items-center gap-2">
-                        <span className="text-muted-foreground">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="font-medium text-xs">{h.name}</span>
+                      <div className="flex items-center gap-1">
+                        <span className="text-muted-foreground text-[10px]">
                           ⭐ {h.rating}
                         </span>
                         <Badge

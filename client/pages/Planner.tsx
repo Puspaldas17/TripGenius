@@ -1833,7 +1833,7 @@ export default function Planner() {
                       </div>
                       <div className="text-[9px] text-muted-foreground">/night</div>
                       <a
-                        className="text-xs text-primary underline"
+                        className="text-[9px] text-primary underline hover:no-underline"
                         href={h.url}
                         target="_blank"
                         rel="noreferrer"

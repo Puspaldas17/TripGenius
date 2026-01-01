@@ -301,14 +301,7 @@ export default function Planner() {
         })),
       );
       setWeather(w);
-      // travel options will refresh via effect
-      try {
-        const pr = await safeFetch(
-          `${apiBase}/places?location=${encodeURIComponent(form.destination)}`,
-        );
-        const pj = await pr.json();
-        setPlaces(pj.places || []);
-      } catch {}
+      // Places and weather are already fetched via auto-fetch effect
     } catch (e) {
       // swallow
     } finally {

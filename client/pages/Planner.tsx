@@ -1030,8 +1030,8 @@ export default function Planner() {
                   ))}
                 </div>
               ) : (
-                <div className="text-muted-foreground">
-                  Generate to load nearby places for your destination.
+                <div className="text-muted-foreground text-xs">
+                  {form.destination ? "Loading nearby places..." : "Enter a destination to see nearby places."}
                 </div>
               )}
             </CardContent>

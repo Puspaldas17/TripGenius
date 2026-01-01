@@ -203,9 +203,8 @@ export default function VisaChecker({
         )}
 
         {!visaInfo && destination && (
-          <div className="rounded-lg bg-muted/50 p-4 text-center text-sm text-muted-foreground">
-            Visa information for {destination} not available. Please check with
-            your embassy.
+          <div className="rounded-lg bg-muted/50 p-2 text-center text-xs text-muted-foreground">
+            Visa information for {destination} not available. Please check with your embassy.
           </div>
         )}
       </CardContent>

@@ -1795,7 +1795,7 @@ export default function Planner() {
                 {hotels.map((h) => (
                   <div
                     key={h.id}
-                    className="flex items-center justify-between rounded-md border p-3"
+                    className="flex items-center justify-between rounded-md border p-2"
                   >
                     <div className="flex flex-col gap-1">
                       <span className="font-medium">{h.name}</span>

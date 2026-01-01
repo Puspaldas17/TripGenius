@@ -137,21 +137,21 @@ export default function TripTimeline({
         </div>
 
         {/* Summary */}
-        <div className="mt-6 rounded-lg bg-primary/5 p-4 space-y-2">
-          <div className="flex items-center gap-2 text-sm">
-            <Plane className="h-4 w-4 text-primary" />
+        <div className="mt-2 rounded-lg bg-primary/5 p-2 space-y-1">
+          <div className="flex items-center gap-1.5 text-xs">
+            <Plane className="h-3.5 w-3.5 text-primary flex-shrink-0" />
             <span className="font-medium">
               {itinerary.days.length} day trip
             </span>
           </div>
-          <div className="flex items-center gap-2 text-sm">
-            <MapIcon className="h-4 w-4 text-primary" />
+          <div className="flex items-center gap-1.5 text-xs">
+            <MapIcon className="h-3.5 w-3.5 text-primary flex-shrink-0" />
             <span className="text-muted-foreground">
               {itinerary.days.reduce(
                 (sum, day) => sum + day.activities.length,
                 0,
               )}{" "}
-              activities planned
+              activities
             </span>
           </div>
         </div>

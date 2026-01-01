@@ -146,10 +146,10 @@ export default function VisaChecker({
           <div className="space-y-2 rounded-lg bg-muted/50 p-2">
             <div className="flex items-start justify-between">
               <div>
-                <h3 className="font-semibold">{visaInfo.country}</h3>
+                <h3 className="font-semibold text-sm">{visaInfo.country}</h3>
                 <Badge
                   variant={visaInfo.visaRequired ? "destructive" : "default"}
-                  className="mt-2"
+                  className="mt-1 text-[9px] py-0"
                 >
                   {visaInfo.visaRequired
                     ? "Visa Required"
@@ -157,15 +157,15 @@ export default function VisaChecker({
                 </Badge>
               </div>
               {visaInfo.visaRequired ? (
-                <AlertCircle className="h-5 w-5 text-destructive" />
+                <AlertCircle className="h-4 w-4 text-destructive" />
               ) : (
-                <CheckCircle className="h-5 w-5 text-green-600" />
+                <CheckCircle className="h-4 w-4 text-green-600" />
               )}
             </div>
 
             <div>
-              <p className="text-sm text-muted-foreground">Visa Type</p>
-              <p className="font-medium">{visaInfo.visaType}</p>
+              <p className="text-xs text-muted-foreground">Visa Type</p>
+              <p className="font-medium text-sm">{visaInfo.visaType}</p>
             </div>
 
             {visaInfo.processingDays > 0 && (

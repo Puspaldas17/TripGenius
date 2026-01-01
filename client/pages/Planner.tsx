@@ -1120,8 +1120,8 @@ export default function Planner() {
                   )}
                 </>
               ) : (
-                <div className="text-muted-foreground">
-                  Generate an itinerary to see upcoming weather.
+                <div className="text-muted-foreground text-xs">
+                  {form.destination ? "Loading weather..." : "Enter a destination to see weather."}
                 </div>
               )}
             </CardContent>

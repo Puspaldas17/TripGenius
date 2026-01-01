@@ -132,17 +132,18 @@ export default function VisaChecker({
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
-        <div className="space-y-2">
-          <Label>Your Nationality</Label>
+        <div className="space-y-1">
+          <Label className="text-xs">Your Nationality</Label>
           <Input
             value={nationality}
             onChange={(e) => onNationalityChange(e.target.value)}
             placeholder="e.g., India, USA, UK"
+            className="h-8 text-xs"
           />
         </div>
 
         {visaInfo && (
-          <div className="space-y-3 rounded-lg bg-muted/50 p-4">
+          <div className="space-y-2 rounded-lg bg-muted/50 p-2">
             <div className="flex items-start justify-between">
               <div>
                 <h3 className="font-semibold">{visaInfo.country}</h3>

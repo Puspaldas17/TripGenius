@@ -133,7 +133,7 @@ export default function VisaChecker({
       </CardHeader>
       <CardContent className="space-y-2">
         <div className="space-y-1">
-          <Label className="text-xs">Your Nationality</Label>
+          <Label className="text-sm">Your Nationality</Label>
           <Input
             value={nationality}
             onChange={(e) => onNationalityChange(e.target.value)}
@@ -149,7 +149,7 @@ export default function VisaChecker({
                 <h3 className="font-semibold text-sm">{visaInfo.country}</h3>
                 <Badge
                   variant={visaInfo.visaRequired ? "destructive" : "default"}
-                  className="mt-1 text-[9px] py-0"
+                  className="mt-1 text-xs py-0"
                 >
                   {visaInfo.visaRequired
                     ? "Visa Required"
@@ -164,7 +164,7 @@ export default function VisaChecker({
             </div>
 
             <div>
-              <p className="text-xs text-muted-foreground">Visa Type</p>
+              <p className="text-sm text-muted-foreground">Visa Type</p>
               <p className="font-medium text-sm">{visaInfo.visaType}</p>
             </div>
 
@@ -172,7 +172,7 @@ export default function VisaChecker({
               <div className="flex items-center gap-2 rounded-md bg-amber-50 p-1.5 dark:bg-amber-950/30">
                 <Clock className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400 flex-shrink-0" />
                 <div>
-                  <p className="text-[10px] font-medium text-amber-900 dark:text-amber-200">
+                  <p className="text-xs font-medium text-amber-900 dark:text-amber-200">
                     Processing: {visaInfo.processingDays} days •{" "}
                     {visaInfo.currency} {visaInfo.cost}
                   </p>
@@ -200,7 +200,7 @@ export default function VisaChecker({
                 className="w-full h-7"
                 size="sm"
                 variant="outline"
-                className="text-xs"
+                className="text-sm"
               >
                 Apply for Visa
               </Button>

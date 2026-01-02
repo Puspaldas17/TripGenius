@@ -89,11 +89,11 @@ export default function TripTimeline({
                     <div className="flex items-center justify-between rounded-lg border p-2 hover:bg-muted/50 transition">
                       <div className="flex-1">
                         <div className="flex items-center gap-1.5">
-                          <Badge variant="outline" className="text-[9px] py-0">
+                          <Badge variant="outline" className="text-xs py-0">
                             Day {day.day}
                           </Badge>
                           {dayDate && (
-                            <span className="text-[10px] text-muted-foreground">
+                            <span className="text-xs text-muted-foreground">
                               {dayDate.toLocaleDateString("en-US", {
                                 month: "short",
                                 day: "numeric",

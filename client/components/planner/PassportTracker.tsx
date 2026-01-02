@@ -76,14 +76,14 @@ export default function PassportTracker({
       </CardHeader>
       <CardContent className="space-y-2">
         <div className="space-y-1">
-          <Label className="text-xs">Passport Expiry Date</Label>
+          <Label className="text-sm">Passport Expiry Date</Label>
           <Input
             type="date"
             value={expiryDate}
             onChange={(e) => onExpiryDateChange(e.target.value)}
             className="w-full h-8 text-xs"
           />
-          <p className="text-[10px] text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             Most countries require at least 6 months validity
           </p>
         </div>
@@ -125,18 +125,18 @@ export default function PassportTracker({
             </div>
 
             <div>
-              <p className={`text-[10px] font-medium ${getStatusTextColor()}`}>
+              <p className={`text-xs font-medium ${getStatusTextColor()}`}>
                 Expiry: {new Date(expiryDate).toLocaleDateString()}
               </p>
               {status === "warning" && daysRemaining !== null && (
-                <p className="text-[9px] mt-0.5 opacity-75">
+                <p className="text-xs mt-0.5 opacity-75">
                   {daysRemaining < 180 && daysRemaining >= 0
                     ? `Expires in ${daysRemaining} days. Renew soon.`
                     : "Approaching expiration."}
                 </p>
               )}
               {status === "expired" && (
-                <p className="text-[9px] mt-0.5 opacity-75">
+                <p className="text-xs mt-0.5 opacity-75">
                   Expired. Renew before travel.
                 </p>
               )}
@@ -144,7 +144,7 @@ export default function PassportTracker({
 
             {status !== "valid" && (
               <div className="pt-1 border-t border-current border-opacity-20">
-                <p className="text-[9px] font-medium opacity-75">
+                <p className="text-sm font-medium opacity-75">
                   {status === "expired"
                     ? "🚨 Contact passport office"
                     : "⏱️ Plan renewal soon"}

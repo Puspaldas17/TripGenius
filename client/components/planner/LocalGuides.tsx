@@ -163,10 +163,10 @@ export default function LocalGuides({ destination }: LocalGuidesProps) {
                       <h4 className="font-semibold text-xs">{guide.name}</h4>
                       <div className="flex items-center gap-0.5 mt-0.5">
                         <Star className="h-3 w-3 fill-yellow-400 text-yellow-400 flex-shrink-0" />
-                        <span className="text-[10px] font-medium">
+                        <span className="text-xs font-medium">
                           {guide.rating}
                         </span>
-                        <span className="text-[9px] text-muted-foreground">
+                        <span className="text-sm text-muted-foreground">
                           ({guide.reviews})
                         </span>
                       </div>
@@ -176,7 +176,7 @@ export default function LocalGuides({ destination }: LocalGuidesProps) {
                   {selectedGuide === guide.id && (
                     <div className="mt-2 space-y-1.5 animate-in fade-in slide-in-from-top-2">
                       <div>
-                        <p className="text-[9px] font-medium text-muted-foreground mb-0.5">
+                        <p className="text-xs font-medium text-muted-foreground mb-0.5">
                           Languages
                         </p>
                         <div className="flex flex-wrap gap-0.5">
@@ -184,7 +184,7 @@ export default function LocalGuides({ destination }: LocalGuidesProps) {
                             <Badge
                               key={lang}
                               variant="secondary"
-                              className="text-[8px] py-0"
+                              className="text-xs py-0"
                             >
                               {lang}
                             </Badge>
@@ -193,7 +193,7 @@ export default function LocalGuides({ destination }: LocalGuidesProps) {
                       </div>
 
                       <div>
-                        <p className="text-[9px] font-medium text-muted-foreground mb-0.5">
+                        <p className="text-xs font-medium text-muted-foreground mb-0.5">
                           Specialties
                         </p>
                         <div className="flex flex-wrap gap-0.5">
@@ -201,7 +201,7 @@ export default function LocalGuides({ destination }: LocalGuidesProps) {
                             <Badge
                               key={specialty}
                               variant="outline"
-                              className="text-[8px] py-0"
+                              className="text-xs py-0"
                             >
                               {specialty}
                             </Badge>
@@ -211,7 +211,7 @@ export default function LocalGuides({ destination }: LocalGuidesProps) {
 
                       <div className="flex items-center justify-between pt-1 border-t">
                         <div>
-                          <p className="text-[9px] text-muted-foreground">
+                          <p className="text-sm text-muted-foreground">
                             Per day
                           </p>
                           <p className="font-semibold text-xs">
@@ -220,7 +220,7 @@ export default function LocalGuides({ destination }: LocalGuidesProps) {
                               : `₹${guide.pricePerDay}`}
                           </p>
                         </div>
-                        <Button size="sm" className="h-6 text-[9px] px-2 gap-1">
+                        <Button size="sm" className="h-6 text-xs px-2 gap-1">
                           <MessageCircle className="h-3 w-3" />
                           Contact
                         </Button>
@@ -231,12 +231,12 @@ export default function LocalGuides({ destination }: LocalGuidesProps) {
 
                 {!selectedGuide && (
                   <div className="text-right pl-2 shrink-0">
-                    <p className="text-xs font-semibold">
+                    <p className="text-sm font-semibold">
                       {typeof guide.pricePerDay === "number"
                         ? `$${guide.pricePerDay}`
                         : `₹${guide.pricePerDay}`}
                     </p>
-                    <p className="text-[9px] text-muted-foreground">per day</p>
+                    <p className="text-sm text-muted-foreground">per day</p>
                   </div>
                 )}
               </div>

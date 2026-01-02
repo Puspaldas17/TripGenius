@@ -185,7 +185,7 @@ export default function PackingList({
           </CardTitle>
           <div className="text-right">
             <p className="text-xl font-bold">{completionPercentage}%</p>
-            <p className="text-xs text-muted-foreground">packed</p>
+            <p className="text-sm text-muted-foreground">packed</p>
           </div>
         </div>
         <p className="text-sm text-muted-foreground mt-1">
@@ -227,7 +227,7 @@ export default function PackingList({
                         className="h-3.5 w-3.5 flex-shrink-0"
                       />
                       <label
-                        className={`flex-1 text-xs cursor-pointer transition ${
+                        className={`flex-1 text-sm cursor-pointer transition ${
                           isChecked ? "line-through text-muted-foreground" : ""
                         }`}
                       >
@@ -247,7 +247,7 @@ export default function PackingList({
             onClick={downloadChecklist}
             variant="outline"
             size="sm"
-            className="flex-1 h-6 text-xs gap-1"
+            className="flex-1 h-6 text-sm gap-1"
           >
             <Download className="h-3 w-3" />
             Download
@@ -255,7 +255,7 @@ export default function PackingList({
           <Button
             size="sm"
             variant="outline"
-            className="flex-1 h-6 text-xs gap-1"
+            className="flex-1 h-6 text-sm gap-1"
           >
             <Plus className="h-3 w-3" />
             Add
@@ -263,7 +263,7 @@ export default function PackingList({
         </div>
 
         {/* Tips */}
-        <div className="rounded-lg bg-blue-50 dark:bg-blue-950/30 p-2 text-xs text-blue-900 dark:text-blue-200">
+        <div className="rounded-lg bg-blue-50 dark:bg-blue-950/30 p-2 text-sm text-blue-900 dark:text-blue-200">
           <p className="font-medium mb-0.5">💡 Tips</p>
           <ul className="space-y-0.5 list-disc list-inside">
             <li>Roll clothes to save space</li>

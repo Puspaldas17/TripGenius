@@ -1044,7 +1044,7 @@ export default function Planner() {
                   ))}
                 </div>
               ) : (
-                <div className="text-muted-foreground text-xs">
+                <div className="text-muted-foreground text-sm">
                   {form.destination
                     ? "Loading nearby places..."
                     : "Enter a destination to see nearby places."}
@@ -1145,7 +1145,7 @@ export default function Planner() {
                   )}
                 </>
               ) : (
-                <div className="text-muted-foreground text-xs">
+                <div className="text-muted-foreground text-sm">
                   {form.destination
                     ? "Loading weather..."
                     : "Enter a destination to see weather."}

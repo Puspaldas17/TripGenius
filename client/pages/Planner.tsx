@@ -1606,9 +1606,7 @@ export default function Planner() {
                                 }}
                                 className="h-6 rounded border px-1 text-xs"
                               />
-                              <span className="text-xs truncate">
-                                {a.text}
-                              </span>
+                              <span className="text-xs truncate">{a.text}</span>
                             </div>
                           </li>
                         ))}
@@ -1855,9 +1853,7 @@ export default function Planner() {
                         <div key={m.id} className="flex items-start gap-1">
                           <div className="mt-1 h-1 w-1 rounded-full bg-primary shrink-0" />
                           <div className="flex-1 min-w-0">
-                            <div className="text-sm break-words">
-                              {m.text}
-                            </div>
+                            <div className="text-sm break-words">{m.text}</div>
                             <div className="text-[9px] text-muted-foreground">
                               {new Date(m.at).toLocaleTimeString()}
                             </div>
@@ -2026,7 +2022,10 @@ export default function Planner() {
                   />
                 </div>
                 <div className="flex items-end">
-                  <Button onClick={convert} className="w-full h-9 text-sm font-medium">
+                  <Button
+                    onClick={convert}
+                    className="w-full h-9 text-sm font-medium"
+                  >
                     Convert
                   </Button>
                 </div>
@@ -2034,10 +2033,14 @@ export default function Planner() {
               {fx.result ? (
                 <div className="rounded-lg border-2 border-primary/30 bg-primary/5 p-4 space-y-2 mt-2">
                   <div className="text-lg font-semibold text-foreground">
-                    {fx.amount} <span className="text-muted-foreground">{fx.from}</span> = <span className="text-primary">{fx.result.toFixed(2)}</span> <span className="text-muted-foreground">{fx.to}</span>
+                    {fx.amount}{" "}
+                    <span className="text-muted-foreground">{fx.from}</span> ={" "}
+                    <span className="text-primary">{fx.result.toFixed(2)}</span>{" "}
+                    <span className="text-muted-foreground">{fx.to}</span>
                   </div>
                   <div className="text-sm text-muted-foreground border-t pt-2">
-                    <span className="font-medium">Exchange Rate:</span> 1 {fx.from} = {fx.rate.toFixed(4)} {fx.to}
+                    <span className="font-medium">Exchange Rate:</span> 1{" "}
+                    {fx.from} = {fx.rate.toFixed(4)} {fx.to}
                   </div>
                 </div>
               ) : (

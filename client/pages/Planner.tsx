@@ -724,7 +724,7 @@ export default function Planner() {
               <p className="font-semibold text-amber-900 dark:text-amber-200 text-sm">
                 Guest Mode
               </p>
-              <p className="text-xs text-amber-800 dark:text-amber-300 mt-1">
+              <p className="text-sm text-amber-800 dark:text-amber-300 mt-1">
                 You're exploring as a guest. Your trips will be cleared when you
                 logout.{" "}
                 <a
@@ -758,7 +758,7 @@ export default function Planner() {
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="space-y-1.5">
-              <Label className="text-xs">Destination</Label>
+              <Label className="text-sm">Destination</Label>
               <div className="flex flex-col xs:flex-row gap-2">
                 <Input
                   value={form.destination}
@@ -766,7 +766,7 @@ export default function Planner() {
                     setForm((f) => ({ ...f, destination: e.target.value }))
                   }
                   placeholder="City, State"
-                  className="h-8 text-xs"
+                  className="h-8 text-sm"
                 />
                 <Button
                   variant="outline"
@@ -779,13 +779,13 @@ export default function Planner() {
               </div>
             </div>
             <div className="space-y-1.5">
-              <Label className="text-xs">Origin</Label>
+              <Label className="text-sm">Origin</Label>
               <div className="flex flex-col xs:flex-row gap-2">
                 <Input
                   value={origin}
                   onChange={(e) => setOrigin(e.target.value)}
                   placeholder="City, State"
-                  className="h-8 text-xs"
+                  className="h-8 text-sm"
                 />
                 <Button
                   variant="outline"
@@ -799,12 +799,12 @@ export default function Planner() {
             </div>
             <div className="grid grid-cols-1 xs:grid-cols-2 gap-2">
               <div className="space-y-1.5">
-                <Label className="text-xs">Trip Type</Label>
+                <Label className="text-sm">Trip Type</Label>
                 <Select
                   value={tripType}
                   onValueChange={(v) => setTripType(v as any)}
                 >
-                  <SelectTrigger className="h-8 text-xs">
+                  <SelectTrigger className="h-8 text-sm">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -815,7 +815,7 @@ export default function Planner() {
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">Start Date</Label>
+                <Label className="text-sm">Start Date</Label>
                 <Input
                   type="date"
                   value={
@@ -831,11 +831,11 @@ export default function Planner() {
                         : undefined,
                     }))
                   }
-                  className="h-8 text-xs"
+                  className="h-8 text-sm"
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">End Date</Label>
+                <Label className="text-sm">End Date</Label>
                 <Input
                   type="date"
                   value={
@@ -849,11 +849,11 @@ export default function Planner() {
                       to: e.target.value ? new Date(e.target.value) : undefined,
                     }))
                   }
-                  className="h-8 text-xs"
+                  className="h-8 text-sm"
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">Budget (₹)</Label>
+                <Label className="text-sm">Budget (₹)</Label>
                 <Input
                   type="number"
                   min={0}
@@ -861,14 +861,14 @@ export default function Planner() {
                   onChange={(e) =>
                     setForm((f) => ({ ...f, budget: Number(e.target.value) }))
                   }
-                  className="h-8 text-xs"
+                  className="h-8 text-sm"
                 />
-                <div className="text-[10px] text-muted-foreground flex items-center gap-1">
+                <div className="text-xs text-muted-foreground flex items-center gap-1">
                   <span>Suggested: {formatINR(suggestedTotal)}</span>
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="h-5 px-1 text-[10px]"
+                    className="h-5 px-1 text-xs"
                     onClick={() =>
                       setForm((f) => ({ ...f, budget: suggestedTotal }))
                     }
@@ -878,7 +878,7 @@ export default function Planner() {
                 </div>
                 {tripType === "multicity" && (
                   <div className="pt-1 col-span-full space-y-1.5">
-                    <Label className="text-xs">Stops (optional)</Label>
+                    <Label className="text-sm">Stops (optional)</Label>
                     <div className="space-y-1">
                       {stops.map((s, i) => (
                         <div key={i} className="flex gap-1">
@@ -921,7 +921,7 @@ export default function Planner() {
                 )}
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">Members</Label>
+                <Label className="text-sm">Members</Label>
                 <Input
                   type="number"
                   min={0}
@@ -929,9 +929,9 @@ export default function Planner() {
                   onChange={(e) =>
                     setMembers(Math.max(0, Number(e.target.value)))
                   }
-                  className="h-8 text-xs"
+                  className="h-8 text-sm"
                 />
-                <div className="text-[10px] text-muted-foreground">
+                <div className="text-xs text-muted-foreground">
                   {members > 0 ? (
                     <>Per day: {formatINR(perPersonPerDay)} per person</>
                   ) : (
@@ -941,7 +941,7 @@ export default function Planner() {
               </div>
             </div>
             <div className="space-y-1.5">
-              <Label className="text-xs">Mood</Label>
+              <Label className="text-sm">Mood</Label>
               <Select
                 value={form.mood}
                 onValueChange={(m) =>
@@ -951,7 +951,7 @@ export default function Planner() {
                   }))
                 }
               >
-                <SelectTrigger className="h-8 text-xs">
+                <SelectTrigger className="h-8 text-sm">
                   <SelectValue placeholder="Pick a vibe" />
                 </SelectTrigger>
                 <SelectContent>
@@ -1004,7 +1004,7 @@ export default function Planner() {
                 <CardTitle className="flex items-center gap-2 text-base">
                   <MapIcon className="h-5 w-5 text-primary" /> Nearby Places 🗺️
                 </CardTitle>
-                <p className="text-xs text-muted-foreground mt-2">
+                <p className="text-sm text-muted-foreground mt-2">
                   Discover POI around your destination
                 </p>
               </div>
@@ -1037,7 +1037,7 @@ export default function Planner() {
                       }
                     >
                       <div className="font-medium text-xs">{p.title}</div>
-                      <div className="text-[11px] text-muted-foreground line-clamp-2">
+                      <div className="text-sm text-muted-foreground line-clamp-2">
                         {p.summary}
                       </div>
                     </a>
@@ -1060,7 +1060,7 @@ export default function Planner() {
                   <CloudSun className="h-5 w-5 text-primary" /> Weather Preview
                   ☀️
                 </CardTitle>
-                <p className="text-xs text-muted-foreground mt-2">
+                <p className="text-sm text-muted-foreground mt-2">
                   5-day outlook to plan activities
                 </p>
               </div>
@@ -1105,16 +1105,16 @@ export default function Planner() {
                           key={d.date}
                           className="rounded border p-2 h-full flex flex-col"
                         >
-                          <div className="font-medium text-[10px]">
+                          <div className="font-medium text-xs">
                             {new Date(d.date).toLocaleDateString("en-US", {
                               month: "short",
                               day: "numeric",
                             })}
                           </div>
-                          <div className="mt-1 text-[10px] text-muted-foreground truncate">
+                          <div className="mt-1 text-xs text-muted-foreground truncate">
                             {d.summary}
                           </div>
-                          <div className="mt-1 text-[9px]">
+                          <div className="mt-1 text-xs">
                             {Math.round(d.tempMin)}° / {Math.round(d.tempMax)}°
                           </div>
                         </div>
@@ -1125,7 +1125,7 @@ export default function Planner() {
                       {(weather.hourly || []).map((h) => (
                         <div
                           key={h.timeISO}
-                          className="rounded border p-2 text-[10px]"
+                          className="rounded border p-2 text-xs"
                         >
                           <div className="font-medium">
                             {new Date(h.timeISO).toLocaleTimeString([], {
@@ -1133,10 +1133,10 @@ export default function Planner() {
                               minute: "2-digit",
                             })}
                           </div>
-                          <div className="mt-1 text-[10px] text-muted-foreground truncate">
+                          <div className="mt-1 text-xs text-muted-foreground truncate">
                             {h.desc}
                           </div>
-                          <div className="mt-1 text-[9px]">
+                          <div className="mt-1 text-xs">
                             {Math.round(h.temp)}°C
                           </div>
                         </div>
@@ -1232,7 +1232,7 @@ export default function Planner() {
                     <MapIcon className="h-5 w-5 text-primary" /> Route & Modes
                     🧭
                   </CardTitle>
-                  <p className="text-xs text-muted-foreground mt-2">
+                  <p className="text-sm text-muted-foreground mt-2">
                     Preview route and choose travel mode
                   </p>
                 </div>
@@ -1300,7 +1300,7 @@ export default function Planner() {
                       );
                       const eco = pickEco(travel.options);
                       return (
-                        <div className="grid grid-cols-1 gap-1 sm:grid-cols-3 text-[10px]">
+                        <div className="grid grid-cols-1 gap-1 sm:grid-cols-3 text-xs">
                           <div>
                             <span className="text-muted-foreground">
                               Cheapest:
@@ -1360,7 +1360,7 @@ export default function Planner() {
                       <div className="font-medium capitalize text-xs">
                         {o.mode}
                       </div>
-                      <div className="text-muted-foreground text-[10px] mt-1">
+                      <div className="text-muted-foreground text-xs mt-1">
                         {o.timeHours}h • {formatINR(o.price)}
                       </div>
                     </button>
@@ -1386,7 +1386,7 @@ export default function Planner() {
                       { hours: 0, price: 0 },
                     );
                     return (
-                      <div className="grid grid-cols-1 gap-1 md:grid-cols-3 text-[10px]">
+                      <div className="grid grid-cols-1 gap-1 md:grid-cols-3 text-xs">
                         <div>
                           <span className="text-muted-foreground">
                             Distance:
@@ -1420,7 +1420,7 @@ export default function Planner() {
                   <PlaneTakeoff className="h-5 w-5 text-primary" /> Transport
                   Options ✈️🚆🚌🚗⛴️
                 </CardTitle>
-                <p className="text-xs text-muted-foreground mt-2">
+                <p className="text-sm text-muted-foreground mt-2">
                   Quick links for each leg of your journey
                 </p>
               </div>
@@ -1454,19 +1454,19 @@ export default function Planner() {
                 onValueChange={(v) => setMode(v as any)}
               >
                 <TabsList className="grid grid-cols-5 rounded-md bg-muted/20 p-0.5 overflow-x-auto h-8">
-                  <TabsTrigger value="flight" className="text-xs">
+                  <TabsTrigger value="flight" className="text-sm">
                     Flight
                   </TabsTrigger>
-                  <TabsTrigger value="train" className="text-xs">
+                  <TabsTrigger value="train" className="text-sm">
                     Train
                   </TabsTrigger>
-                  <TabsTrigger value="bus" className="text-xs">
+                  <TabsTrigger value="bus" className="text-sm">
                     Bus
                   </TabsTrigger>
-                  <TabsTrigger value="car" className="text-xs">
+                  <TabsTrigger value="car" className="text-sm">
                     Car
                   </TabsTrigger>
-                  <TabsTrigger value="waterway" className="text-xs">
+                  <TabsTrigger value="waterway" className="text-sm">
                     Waterway
                   </TabsTrigger>
                 </TabsList>
@@ -1480,7 +1480,7 @@ export default function Planner() {
                               key={i}
                               className="space-y-1 rounded border p-2"
                             >
-                              <div className="text-xs text-muted-foreground">
+                              <div className="text-sm text-muted-foreground">
                                 Leg {i + 1}: {lo} → {ld}
                               </div>
                               <div className="grid grid-cols-1 gap-1 md:grid-cols-2">
@@ -1526,7 +1526,7 @@ export default function Planner() {
                     <CalIcon className="h-5 w-5 text-primary" /> Plan & Calendar
                     📅
                   </CardTitle>
-                  <p className="text-xs text-muted-foreground mt-2">
+                  <p className="text-sm text-muted-foreground mt-2">
                     Drag items between days, export as PDF
                   </p>
                 </div>
@@ -1570,7 +1570,7 @@ export default function Planner() {
                     >
                       <div className="mb-1 flex items-center justify-between gap-1">
                         <div className="font-semibold text-xs">Day {d.day}</div>
-                        <div className="text-[10px] text-muted-foreground truncate">
+                        <div className="text-xs text-muted-foreground truncate">
                           {itinerary?.days.find((x) => x.day === d.day)?.theme}
                         </div>
                       </div>
@@ -1578,7 +1578,7 @@ export default function Planner() {
                         {d.activities.map((a, ai) => (
                           <li
                             key={ai}
-                            className="cursor-move rounded border bg-card p-1 text-[10px] hover:bg-accent/20"
+                            className="cursor-move rounded border bg-card p-1 text-xs hover:bg-accent/20"
                             draggable
                             onDragStart={(e) => {
                               e.dataTransfer.setData(
@@ -1604,16 +1604,16 @@ export default function Planner() {
                                     return next;
                                   });
                                 }}
-                                className="h-6 rounded border px-1 text-[9px]"
+                                className="h-6 rounded border px-1 text-xs"
                               />
-                              <span className="text-[9px] truncate">
+                              <span className="text-xs truncate">
                                 {a.text}
                               </span>
                             </div>
                           </li>
                         ))}
                         <li
-                          className="rounded border border-dashed p-1 text-center text-[10px] text-muted-foreground"
+                          className="rounded border border-dashed p-1 text-center text-xs text-muted-foreground"
                           onDragOver={(e) => e.preventDefault()}
                           onDrop={(e) => {
                             e.preventDefault();
@@ -1678,7 +1678,7 @@ export default function Planner() {
                     <Wallet className="h-5 w-5 text-primary" /> Budget Overview
                     💰
                   </CardTitle>
-                  <p className="text-xs text-muted-foreground mt-2">
+                  <p className="text-sm text-muted-foreground mt-2">
                     Cost breakdowns by category
                   </p>
                 </div>
@@ -1720,7 +1720,7 @@ export default function Planner() {
                     <div className="text-muted-foreground text-xs">Stay</div>
                     <div className="font-semibold text-sm mt-1">
                       {formatINR(stayTotal)}{" "}
-                      <span className="text-[10px] text-muted-foreground">
+                      <span className="text-xs text-muted-foreground">
                         ({rooms}rm)
                       </span>
                     </div>
@@ -1792,11 +1792,11 @@ export default function Planner() {
                   <div className="font-semibold text-foreground">
                     Suggested: {formatINR(suggestedTotal)}
                   </div>
-                  <div className="text-[10px] text-muted-foreground mt-1">
+                  <div className="text-xs text-muted-foreground mt-1">
                     ({members > 0 ? `${members}×, ` : ""}
                     {daysCalc}d)
                   </div>
-                  <div className="mt-1 text-[10px]">
+                  <div className="mt-1 text-xs">
                     {form.budget >= suggestedTotal ? (
                       <span className="text-green-600">
                         +{formatINR(form.budget - suggestedTotal)}
@@ -1809,7 +1809,7 @@ export default function Planner() {
                     <Button
                       size="sm"
                       variant="ghost"
-                      className="ml-1 h-5 px-1 text-[9px]"
+                      className="ml-1 h-5 px-1 text-xs"
                       onClick={() =>
                         setForm((f) => ({ ...f, budget: suggestedTotal }))
                       }
@@ -1826,7 +1826,7 @@ export default function Planner() {
                   <CardTitle className="flex items-center gap-2 text-base">
                     <Users className="h-5 w-5 text-primary" /> Group Collab 👥
                   </CardTitle>
-                  <p className="text-xs text-muted-foreground mt-2">
+                  <p className="text-sm text-muted-foreground mt-2">
                     Share plan with friends
                   </p>
                 </div>
@@ -1841,7 +1841,7 @@ export default function Planner() {
                 </button>
               </CardHeader>
               <CardContent className={openGroup ? "" : "hidden"}>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-sm text-muted-foreground">
                   Share trip code with friends to plan together
                 </p>
                 <ShareTrip />
@@ -1855,17 +1855,17 @@ export default function Planner() {
                         <div key={m.id} className="flex items-start gap-1">
                           <div className="mt-1 h-1 w-1 rounded-full bg-primary shrink-0" />
                           <div className="flex-1 min-w-0">
-                            <div className="text-[11px] break-words">
+                            <div className="text-sm break-words">
                               {m.text}
                             </div>
-                            <div className="text-[8px] text-muted-foreground">
+                            <div className="text-[9px] text-muted-foreground">
                               {new Date(m.at).toLocaleTimeString()}
                             </div>
                           </div>
                         </div>
                       ))
                     ) : (
-                      <div className="text-xs text-muted-foreground text-center py-2">
+                      <div className="text-sm text-muted-foreground text-center py-2">
                         No comments yet
                       </div>
                     )}
@@ -1898,7 +1898,7 @@ export default function Planner() {
               <CardTitle className="flex items-center gap-2 text-base">
                 <Hotel className="h-5 w-5 text-primary" /> Hotel Search 🏨
               </CardTitle>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 Compare by rating and price
               </p>
               <div className="flex flex-col gap-1 xs:flex-row pt-1">
@@ -1906,7 +1906,7 @@ export default function Planner() {
                   placeholder="City or hotel name"
                   value={hotelQuery}
                   onChange={(e) => setHotelQuery(e.target.value)}
-                  className="h-8 text-xs"
+                  className="h-8 text-sm"
                 />
                 <Button
                   className="h-8 text-xs px-3 shrink-0"
@@ -1926,7 +1926,7 @@ export default function Planner() {
                     <div className="flex flex-col gap-0.5">
                       <span className="font-medium text-xs">{h.name}</span>
                       <div className="flex items-center gap-1">
-                        <span className="text-muted-foreground text-[10px]">
+                        <span className="text-muted-foreground text-xs">
                           ⭐ {h.rating}
                         </span>
                         <Badge
@@ -1937,7 +1937,7 @@ export default function Planner() {
                                 ? "secondary"
                                 : "outline"
                           }
-                          className="text-[9px] py-0"
+                          className="text-xs py-0"
                         >
                           {h.rating >= 4.5
                             ? "Excellent"
@@ -1947,7 +1947,7 @@ export default function Planner() {
                         </Badge>
                       </div>
                       {h.reviews?.length ? (
-                        <div className="text-[9px] text-muted-foreground line-clamp-1">
+                        <div className="text-xs text-muted-foreground line-clamp-1">
                           “{h.reviews[0]}”
                         </div>
                       ) : null}
@@ -1957,11 +1957,11 @@ export default function Planner() {
                         ₹
                         {new Intl.NumberFormat("en-IN").format(h.pricePerNight)}
                       </div>
-                      <div className="text-[9px] text-muted-foreground">
+                      <div className="text-xs text-muted-foreground">
                         /night
                       </div>
                       <a
-                        className="text-[9px] text-primary underline hover:no-underline"
+                        className="text-xs text-primary underline hover:no-underline"
                         href={h.url}
                         target="_blank"
                         rel="noreferrer"
@@ -1986,41 +1986,41 @@ export default function Planner() {
                 <DollarSign className="h-5 w-5 text-primary" /> Currency
                 Converter 💱
               </CardTitle>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 Convert with live rates
               </p>
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="grid grid-cols-1 gap-2 xs:grid-cols-2 lg:grid-cols-4">
                 <div>
-                  <Label className="text-xs">Amount</Label>
+                  <Label className="text-sm">Amount</Label>
                   <Input
                     type="number"
                     value={fx.amount}
                     onChange={(e) =>
                       setFx({ ...fx, amount: Number(e.target.value) })
                     }
-                    className="h-8 text-xs"
+                    className="h-8 text-sm"
                   />
                 </div>
                 <div>
-                  <Label className="text-xs">From</Label>
+                  <Label className="text-sm">From</Label>
                   <Input
                     value={fx.from}
                     onChange={(e) =>
                       setFx({ ...fx, from: e.target.value.toUpperCase() })
                     }
-                    className="h-8 text-xs"
+                    className="h-8 text-sm"
                   />
                 </div>
                 <div>
-                  <Label className="text-xs">To</Label>
+                  <Label className="text-sm">To</Label>
                   <Input
                     value={fx.to}
                     onChange={(e) =>
                       setFx({ ...fx, to: e.target.value.toUpperCase() })
                     }
-                    className="h-8 text-xs"
+                    className="h-8 text-sm"
                   />
                 </div>
                 <div className="flex items-end">
@@ -2037,12 +2037,12 @@ export default function Planner() {
                       {fx.result.toFixed(2)} {fx.to}
                     </span>
                   </div>
-                  <div className="text-[10px] text-muted-foreground mt-1">
+                  <div className="text-xs text-muted-foreground mt-1">
                     Rate: {fx.rate.toFixed(4)}
                   </div>
                 </div>
               ) : (
-                <div className="text-xs text-muted-foreground text-center py-2">
+                <div className="text-sm text-muted-foreground text-center py-2">
                   Enter values and convert
                 </div>
               )}

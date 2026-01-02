@@ -1036,7 +1036,7 @@ export default function Planner() {
                         )
                       }
                     >
-                      <div className="font-medium text-xs">{p.title}</div>
+                      <div className="font-medium text-sm">{p.title}</div>
                       <div className="text-sm text-muted-foreground line-clamp-2">
                         {p.summary}
                       </div>
@@ -1099,29 +1099,29 @@ export default function Planner() {
                     </button>
                   </div>
                   {!showHourly ? (
-                    <div className="grid grid-cols-2 gap-2 text-xs xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 auto-rows-fr">
+                    <div className="grid grid-cols-2 gap-2 text-sm xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 auto-rows-fr">
                       {weather.daily.map((d) => (
                         <div
                           key={d.date}
                           className="rounded border p-2 h-full flex flex-col"
                         >
-                          <div className="font-medium text-xs">
+                          <div className="font-medium text-sm">
                             {new Date(d.date).toLocaleDateString("en-US", {
                               month: "short",
                               day: "numeric",
                             })}
                           </div>
-                          <div className="mt-1 text-xs text-muted-foreground truncate">
+                          <div className="mt-1 text-sm text-muted-foreground truncate">
                             {d.summary}
                           </div>
-                          <div className="mt-1 text-xs">
+                          <div className="mt-1 text-sm">
                             {Math.round(d.tempMin)}° / {Math.round(d.tempMax)}°
                           </div>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <div className="grid grid-cols-2 gap-2 text-xs xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6">
+                    <div className="grid grid-cols-2 gap-2 text-sm xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6">
                       {(weather.hourly || []).map((h) => (
                         <div
                           key={h.timeISO}
@@ -1133,10 +1133,10 @@ export default function Planner() {
                               minute: "2-digit",
                             })}
                           </div>
-                          <div className="mt-1 text-xs text-muted-foreground truncate">
+                          <div className="mt-1 text-sm text-muted-foreground truncate">
                             {h.desc}
                           </div>
-                          <div className="mt-1 text-xs">
+                          <div className="mt-1 text-sm">
                             {Math.round(h.temp)}°C
                           </div>
                         </div>

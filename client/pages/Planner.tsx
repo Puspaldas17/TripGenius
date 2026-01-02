@@ -1990,60 +1990,59 @@ export default function Planner() {
                 Convert with live rates
               </p>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="grid grid-cols-1 gap-2 xs:grid-cols-2 lg:grid-cols-4">
+            <CardContent className="space-y-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 <div>
-                  <Label className="text-sm">Amount</Label>
+                  <Label className="text-sm font-medium">Amount</Label>
                   <Input
                     type="number"
                     value={fx.amount}
                     onChange={(e) =>
                       setFx({ ...fx, amount: Number(e.target.value) })
                     }
-                    className="h-8 text-sm"
+                    className="h-9 text-base mt-1"
                   />
                 </div>
                 <div>
-                  <Label className="text-sm">From</Label>
+                  <Label className="text-sm font-medium">From (Currency)</Label>
                   <Input
                     value={fx.from}
                     onChange={(e) =>
                       setFx({ ...fx, from: e.target.value.toUpperCase() })
                     }
-                    className="h-8 text-sm"
+                    placeholder="e.g., INR"
+                    className="h-9 text-base mt-1"
                   />
                 </div>
                 <div>
-                  <Label className="text-sm">To</Label>
+                  <Label className="text-sm font-medium">To (Currency)</Label>
                   <Input
                     value={fx.to}
                     onChange={(e) =>
                       setFx({ ...fx, to: e.target.value.toUpperCase() })
                     }
-                    className="h-8 text-sm"
+                    placeholder="e.g., USD"
+                    className="h-9 text-base mt-1"
                   />
                 </div>
                 <div className="flex items-end">
-                  <Button onClick={convert} className="w-full h-8 text-xs">
+                  <Button onClick={convert} className="w-full h-9 text-sm font-medium">
                     Convert
                   </Button>
                 </div>
               </div>
               {fx.result ? (
-                <div className="rounded border bg-secondary p-2 text-xs">
-                  <div>
-                    {fx.amount} {fx.from} ={" "}
-                    <span className="font-semibold">
-                      {fx.result.toFixed(2)} {fx.to}
-                    </span>
+                <div className="rounded-lg border-2 border-primary/30 bg-primary/5 p-4 space-y-2 mt-2">
+                  <div className="text-lg font-semibold text-foreground">
+                    {fx.amount} <span className="text-muted-foreground">{fx.from}</span> = <span className="text-primary">{fx.result.toFixed(2)}</span> <span className="text-muted-foreground">{fx.to}</span>
                   </div>
-                  <div className="text-xs text-muted-foreground mt-1">
-                    Rate: {fx.rate.toFixed(4)}
+                  <div className="text-sm text-muted-foreground border-t pt-2">
+                    <span className="font-medium">Exchange Rate:</span> 1 {fx.from} = {fx.rate.toFixed(4)} {fx.to}
                   </div>
                 </div>
               ) : (
-                <div className="text-sm text-muted-foreground text-center py-2">
-                  Enter values and convert
+                <div className="text-base text-muted-foreground text-center py-4 rounded-lg bg-muted/30">
+                  Enter values and click Convert
                 </div>
               )}
             </CardContent>

@@ -2069,14 +2069,14 @@ export default function Planner() {
           />
 
           <LocalGuides destination={form.destination} />
-
-          <PackingList
-            weather={weather}
-            destination={form.destination}
-            days={form.days}
-          />
         </div>
       </div>
+
+      <PackingList
+        weather={weather}
+        destination={form.destination}
+        days={form.days}
+      />
     </div>
   );
 }

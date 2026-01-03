@@ -1848,7 +1848,7 @@ export default function Planner() {
               </div>
               <div className="max-h-32 overflow-auto rounded border p-2 text-xs space-y-1">
                     {chatMessages.length ? (
-                      chatMessages.map((m) => (
+                chatMessages.map((m) => (
                         <div key={m.id} className="flex items-start gap-1">
                           <div className="mt-1 h-1 w-1 rounded-full bg-primary shrink-0" />
                           <div className="flex-1 min-w-0">
@@ -1882,13 +1882,13 @@ export default function Planner() {
                     >
                       Send
                     </Button>
-                  </div>
-                </div>
-              </CardContent>
+              </div>
+            </div>
+          </CardContent>
         </Card>
 
         <Card>
-            <CardHeader className="space-y-2 pb-2">
+          <CardHeader className="space-y-2 pb-2">
               <CardTitle className="flex items-center gap-2 text-base">
                 <Hotel className="h-5 w-5 text-primary" /> Hotel Search 🏨
               </CardTitle>

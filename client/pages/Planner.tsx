@@ -998,821 +998,804 @@ export default function Planner() {
         </Card>
 
         <Card>
-            <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-              <div>
-                <CardTitle className="flex items-center gap-2 text-base">
-                  <MapIcon className="h-5 w-5 text-primary" /> Nearby Places 🗺️
-                </CardTitle>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Discover POI around your destination
-                </p>
-              </div>
-              <button
-                onClick={() => setOpenNearby((v) => !v)}
-                aria-expanded={openNearby}
-                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
-              >
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform ${openNearby ? "rotate-180" : "rotate-0"}`}
-                />
-              </button>
-            </CardHeader>
-            <CardContent className={openNearby ? "" : "hidden"}>
-              {places.length ? (
-                <div className="grid grid-cols-1 gap-2 xs:grid-cols-2 md:grid-cols-3 auto-rows-fr">
-                  {places.slice(0, 9).map((p) => (
-                    <a
-                      key={p.id}
-                      href={p.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="rounded border p-2 hover:shadow-sm h-full flex flex-col text-xs hover:bg-accent/20 transition-colors"
-                      draggable
-                      onDragStart={(e) =>
-                        e.dataTransfer.setData(
-                          "text/plain",
-                          JSON.stringify({ place: p.title }),
-                        )
-                      }
-                    >
-                      <div className="font-medium text-sm">{p.title}</div>
-                      <div className="text-sm text-muted-foreground line-clamp-2">
-                        {p.summary}
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-muted-foreground text-sm">
-                  {form.destination
-                    ? "Loading nearby places..."
-                    : "Enter a destination to see nearby places."}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-              <div>
-                <CardTitle className="flex items-center gap-2 text-base">
-                  <CloudSun className="h-5 w-5 text-primary" /> Weather Preview
-                  ☀️
-                </CardTitle>
-                <p className="text-sm text-muted-foreground mt-2">
-                  5-day outlook to plan activities
-                </p>
-              </div>
-              <button
-                onClick={() => setOpenWeather((v) => !v)}
-                aria-expanded={openWeather}
-                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
-              >
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform ${openWeather ? "rotate-180" : "rotate-0"}`}
-                />
-              </button>
-            </CardHeader>
-            <CardContent className={openWeather ? "" : "hidden"}>
-              {weather ? (
-                <>
-                  {weather.alerts?.length ? (
-                    <div className="mb-3 rounded-md border bg-amber-50 p-3 text-amber-800 dark:bg-amber-900/20 dark:text-amber-200">
-                      ⚠��� Alerts:{" "}
-                      {weather.alerts.map((a) => a.description).join(", ")}
-                    </div>
-                  ) : null}
-                  <div className="mb-2 flex items-center gap-1 text-xs">
-                    <span className="text-muted-foreground">View:</span>
-                    <button
-                      className={`rounded border px-2 py-0.5 text-xs ${!showHourly ? "border-primary text-primary" : ""}`}
-                      onClick={() => setShowHourly(false)}
-                    >
-                      Daily
-                    </button>
-                    <button
-                      className={`rounded border px-2 py-0.5 text-xs ${showHourly ? "border-primary text-primary" : ""}`}
-                      onClick={() => setShowHourly(true)}
-                    >
-                      Hourly
-                    </button>
-                  </div>
-                  {!showHourly ? (
-                    <div className="grid grid-cols-2 gap-2 text-sm xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 auto-rows-fr">
-                      {weather.daily.map((d) => (
-                        <div
-                          key={d.date}
-                          className="rounded border p-2 h-full flex flex-col"
-                        >
-                          <div className="font-medium text-sm">
-                            {new Date(d.date).toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                            })}
-                          </div>
-                          <div className="mt-1 text-sm text-muted-foreground truncate">
-                            {d.summary}
-                          </div>
-                          <div className="mt-1 text-sm">
-                            {Math.round(d.tempMin)}° / {Math.round(d.tempMax)}°
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="grid grid-cols-2 gap-2 text-sm xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6">
-                      {(weather.hourly || []).map((h) => (
-                        <div
-                          key={h.timeISO}
-                          className="rounded border p-2 text-xs"
-                        >
-                          <div className="font-medium">
-                            {new Date(h.timeISO).toLocaleTimeString([], {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
-                          </div>
-                          <div className="mt-1 text-sm text-muted-foreground truncate">
-                            {h.desc}
-                          </div>
-                          <div className="mt-1 text-sm">
-                            {Math.round(h.temp)}°C
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </>
-              ) : (
-                <div className="text-muted-foreground text-sm">
-                  {form.destination
-                    ? "Loading weather..."
-                    : "Enter a destination to see weather."}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          <Card className="hidden">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Plane className="h-5 w-5 text-primary" /> Suggested Plan
-                </CardTitle>
-                <Button onClick={exportPdf} variant="outline" className="gap-2">
-                  <FileDown className="h-4 w-4" /> Export PDF
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              {calendar?.length ? (
-                <div className="space-y-5">
-                  {calendar.map((day) => (
-                    <div key={day.day} className="rounded-xl border p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="font-semibold">Day {day.day}</div>
-                        <div className="text-sm text-muted-foreground">
-                          Focus:{" "}
-                          {
-                            itinerary?.days.find((d) => d.day === day.day)
-                              ?.theme
-                          }
-                        </div>
-                      </div>
-                      <Separator className="my-3" />
-                      <ul className="space-y-2 text-sm">
-                        {day.activities.map((a, idx) => (
-                          <li key={idx} className="flex items-center gap-3">
-                            <input
-                              type="time"
-                              value={a.time}
-                              onChange={(e) => {
-                                setCalendar((prev) =>
-                                  prev.map((d2) =>
-                                    d2.day === day.day
-                                      ? {
-                                          ...d2,
-                                          activities: d2.activities.map(
-                                            (x, j) =>
-                                              j === idx
-                                                ? { ...x, time: e.target.value }
-                                                : x,
-                                          ),
-                                        }
-                                      : d2,
-                                  ),
-                                );
-                              }}
-                              className="h-8 rounded border px-2 text-xs"
-                            />
-                            <span className="font-medium">
-                              {a.time || "--:--"}
-                            </span>
-                            <span>• {a.text}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-muted-foreground">
-                  Your AI plan will appear here.
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="space-y-3">
-              <div className="flex items-start justify-between gap-2">
-                <div>
-                  <CardTitle className="flex items-center gap-2 text-base">
-                    <MapIcon className="h-5 w-5 text-primary" /> Route & Modes
-                    🧭
-                  </CardTitle>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Preview route and choose travel mode
-                  </p>
-                </div>
-                <button
-                  onClick={() => setOpenRoute((v) => !v)}
-                  aria-expanded={openRoute}
-                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
-                >
-                  <ChevronDown
-                    className={`h-4 w-4 transition-transform ${openRoute ? "rotate-180" : "rotate-0"}`}
-                  />
-                </button>
-              </div>
-              {travel?.options?.length ? (
-                <Select
-                  value={mode ?? undefined}
-                  onValueChange={(v) => setMode(v as any)}
-                >
-                  <SelectTrigger className="w-full sm:w-48 text-xs">
-                    <SelectValue placeholder="Select mode" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {travel.options
-                      .filter((o) => o.available)
-                      .map((o) => (
-                        <SelectItem key={o.mode} value={o.mode}>
-                          {o.mode} • {o.timeHours}h • {formatINR(o.price)}
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
-              ) : null}
-            </CardHeader>
-            <CardContent className={openRoute ? "" : "hidden"}>
-              <div className="aspect-video w-full overflow-hidden rounded border">
-                <iframe
-                  title="map"
-                  className="h-full w-full"
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(origin + " to " + form.destination)}&output=embed`}
-                  loading="lazy"
-                />
-              </div>
-              {travel ? (
-                <div className="mt-3 text-sm text-muted-foreground">
-                  Approx distance: {travel.km} km • Selected: {mode || "-"}
-                </div>
-              ) : (
-                <p className="mt-2 text-xs text-muted-foreground">
-                  Generate to see route and modes.
-                </p>
-              )}
-
-              {travel?.options?.length ? (
-                <>
-                  <div className="mt-2 rounded border p-2 text-xs">
-                    {(() => {
-                      const opts = travel.options.filter((o) => o.available);
-                      const cheapest = opts.reduce(
-                        (a, b) => (a && a.price <= b.price ? a : b),
-                        opts[0],
-                      );
-                      const fastest = opts.reduce(
-                        (a, b) => (a && a.timeHours <= b.timeHours ? a : b),
-                        opts[0],
-                      );
-                      const eco = pickEco(travel.options);
-                      return (
-                        <div className="grid grid-cols-1 gap-1 sm:grid-cols-3 text-xs">
-                          <div>
-                            <span className="text-muted-foreground">
-                              Cheapest:
-                            </span>{" "}
-                            <span className="font-medium capitalize">
-                              {cheapest?.mode}
-                            </span>{" "}
-                            • {formatINR(cheapest?.price || 0)}
-                          </div>
-                          <div>
-                            <span className="text-muted-foreground">
-                              Fastest:
-                            </span>{" "}
-                            <span className="font-medium capitalize">
-                              {fastest?.mode}
-                            </span>{" "}
-                            • {fastest?.timeHours}h
-                          </div>
-                          <div>
-                            <span className="text-muted-foreground">Eco:</span>{" "}
-                            <span className="font-medium capitalize">
-                              {eco?.mode || "-"}
-                            </span>
-                          </div>
-                        </div>
-                      );
-                    })()}
-                  </div>
-                </>
-              ) : null}
-
-              {travel?.options?.length ? (
-                <div className="mt-2 grid grid-cols-1 gap-2 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
-                  {(function () {
-                    const opts = travel.options.filter((o) => o.available);
-                    if (transportFilter === "cheapest")
-                      opts.sort((a, b) => a.price - b.price);
-                    if (transportFilter === "fastest")
-                      opts.sort((a, b) => a.timeHours - b.timeHours);
-                    if (transportFilter === "eco") {
-                      const rank: Record<string, number> = {
-                        train: 1,
-                        bus: 2,
-                        car: 3,
-                        waterway: 4,
-                        flight: 5,
-                      } as any;
-                      opts.sort((a, b) => rank[a.mode] - rank[b.mode]);
+          <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+            <div>
+              <CardTitle className="flex items-center gap-2 text-base">
+                <MapIcon className="h-5 w-5 text-primary" /> Nearby Places 🗺️
+              </CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">
+                Discover POI around your destination
+              </p>
+            </div>
+            <button
+              onClick={() => setOpenNearby((v) => !v)}
+              aria-expanded={openNearby}
+              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
+            >
+              <ChevronDown
+                className={`h-4 w-4 transition-transform ${openNearby ? "rotate-180" : "rotate-0"}`}
+              />
+            </button>
+          </CardHeader>
+          <CardContent className={openNearby ? "" : "hidden"}>
+            {places.length ? (
+              <div className="grid grid-cols-1 gap-2 xs:grid-cols-2 md:grid-cols-3 auto-rows-fr">
+                {places.slice(0, 9).map((p) => (
+                  <a
+                    key={p.id}
+                    href={p.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded border p-2 hover:shadow-sm h-full flex flex-col text-xs hover:bg-accent/20 transition-colors"
+                    draggable
+                    onDragStart={(e) =>
+                      e.dataTransfer.setData(
+                        "text/plain",
+                        JSON.stringify({ place: p.title }),
+                      )
                     }
-                    return opts;
-                  })().map((o) => (
-                    <button
-                      key={o.mode}
-                      onClick={() => setMode(o.mode)}
-                      className={`rounded border p-2 text-left text-xs transition hover:bg-accent/20 ${mode === o.mode ? "border-primary ring-1 ring-primary/50" : ""}`}
-                    >
-                      <div className="font-medium capitalize text-xs">
-                        {o.mode}
-                      </div>
-                      <div className="text-muted-foreground text-xs mt-1">
-                        {o.timeHours}h • {formatINR(o.price)}
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              ) : null}
+                  >
+                    <div className="font-medium text-sm">{p.title}</div>
+                    <div className="text-sm text-muted-foreground line-clamp-2">
+                      {p.summary}
+                    </div>
+                  </a>
+                ))}
+              </div>
+            ) : (
+              <div className="text-muted-foreground text-sm">
+                {form.destination
+                  ? "Loading nearby places..."
+                  : "Enter a destination to see nearby places."}
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
-              {legsTravel?.length && mode ? (
+        <Card>
+          <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+            <div>
+              <CardTitle className="flex items-center gap-2 text-base">
+                <CloudSun className="h-5 w-5 text-primary" /> Weather Preview ☀️
+              </CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">
+                5-day outlook to plan activities
+              </p>
+            </div>
+            <button
+              onClick={() => setOpenWeather((v) => !v)}
+              aria-expanded={openWeather}
+              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
+            >
+              <ChevronDown
+                className={`h-4 w-4 transition-transform ${openWeather ? "rotate-180" : "rotate-0"}`}
+              />
+            </button>
+          </CardHeader>
+          <CardContent className={openWeather ? "" : "hidden"}>
+            {weather ? (
+              <>
+                {weather.alerts?.length ? (
+                  <div className="mb-3 rounded-md border bg-amber-50 p-3 text-amber-800 dark:bg-amber-900/20 dark:text-amber-200">
+                    ⚠��� Alerts:{" "}
+                    {weather.alerts.map((a) => a.description).join(", ")}
+                  </div>
+                ) : null}
+                <div className="mb-2 flex items-center gap-1 text-xs">
+                  <span className="text-muted-foreground">View:</span>
+                  <button
+                    className={`rounded border px-2 py-0.5 text-xs ${!showHourly ? "border-primary text-primary" : ""}`}
+                    onClick={() => setShowHourly(false)}
+                  >
+                    Daily
+                  </button>
+                  <button
+                    className={`rounded border px-2 py-0.5 text-xs ${showHourly ? "border-primary text-primary" : ""}`}
+                    onClick={() => setShowHourly(true)}
+                  >
+                    Hourly
+                  </button>
+                </div>
+                {!showHourly ? (
+                  <div className="grid grid-cols-2 gap-2 text-sm xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 auto-rows-fr">
+                    {weather.daily.map((d) => (
+                      <div
+                        key={d.date}
+                        className="rounded border p-2 h-full flex flex-col"
+                      >
+                        <div className="font-medium text-sm">
+                          {new Date(d.date).toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </div>
+                        <div className="mt-1 text-sm text-muted-foreground truncate">
+                          {d.summary}
+                        </div>
+                        <div className="mt-1 text-sm">
+                          {Math.round(d.tempMin)}° / {Math.round(d.tempMax)}°
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 gap-2 text-sm xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6">
+                    {(weather.hourly || []).map((h) => (
+                      <div
+                        key={h.timeISO}
+                        className="rounded border p-2 text-xs"
+                      >
+                        <div className="font-medium">
+                          {new Date(h.timeISO).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </div>
+                        <div className="mt-1 text-sm text-muted-foreground truncate">
+                          {h.desc}
+                        </div>
+                        <div className="mt-1 text-sm">
+                          {Math.round(h.temp)}°C
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="text-muted-foreground text-sm">
+                {form.destination
+                  ? "Loading weather..."
+                  : "Enter a destination to see weather."}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card className="hidden">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center gap-2">
+                <Plane className="h-5 w-5 text-primary" /> Suggested Plan
+              </CardTitle>
+              <Button onClick={exportPdf} variant="outline" className="gap-2">
+                <FileDown className="h-4 w-4" /> Export PDF
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {calendar?.length ? (
+              <div className="space-y-5">
+                {calendar.map((day) => (
+                  <div key={day.day} className="rounded-xl border p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="font-semibold">Day {day.day}</div>
+                      <div className="text-sm text-muted-foreground">
+                        Focus:{" "}
+                        {itinerary?.days.find((d) => d.day === day.day)?.theme}
+                      </div>
+                    </div>
+                    <Separator className="my-3" />
+                    <ul className="space-y-2 text-sm">
+                      {day.activities.map((a, idx) => (
+                        <li key={idx} className="flex items-center gap-3">
+                          <input
+                            type="time"
+                            value={a.time}
+                            onChange={(e) => {
+                              setCalendar((prev) =>
+                                prev.map((d2) =>
+                                  d2.day === day.day
+                                    ? {
+                                        ...d2,
+                                        activities: d2.activities.map((x, j) =>
+                                          j === idx
+                                            ? { ...x, time: e.target.value }
+                                            : x,
+                                        ),
+                                      }
+                                    : d2,
+                                ),
+                              );
+                            }}
+                            className="h-8 rounded border px-2 text-xs"
+                          />
+                          <span className="font-medium">
+                            {a.time || "--:--"}
+                          </span>
+                          <span>• {a.text}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-muted-foreground">
+                Your AI plan will appear here.
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="space-y-3">
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <MapIcon className="h-5 w-5 text-primary" /> Route & Modes 🧭
+                </CardTitle>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Preview route and choose travel mode
+                </p>
+              </div>
+              <button
+                onClick={() => setOpenRoute((v) => !v)}
+                aria-expanded={openRoute}
+                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
+              >
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${openRoute ? "rotate-180" : "rotate-0"}`}
+                />
+              </button>
+            </div>
+            {travel?.options?.length ? (
+              <Select
+                value={mode ?? undefined}
+                onValueChange={(v) => setMode(v as any)}
+              >
+                <SelectTrigger className="w-full sm:w-48 text-xs">
+                  <SelectValue placeholder="Select mode" />
+                </SelectTrigger>
+                <SelectContent>
+                  {travel.options
+                    .filter((o) => o.available)
+                    .map((o) => (
+                      <SelectItem key={o.mode} value={o.mode}>
+                        {o.mode} • {o.timeHours}h • {formatINR(o.price)}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+            ) : null}
+          </CardHeader>
+          <CardContent className={openRoute ? "" : "hidden"}>
+            <div className="aspect-video w-full overflow-hidden rounded border">
+              <iframe
+                title="map"
+                className="h-full w-full"
+                src={`https://www.google.com/maps?q=${encodeURIComponent(origin + " to " + form.destination)}&output=embed`}
+                loading="lazy"
+              />
+            </div>
+            {travel ? (
+              <div className="mt-3 text-sm text-muted-foreground">
+                Approx distance: {travel.km} km • Selected: {mode || "-"}
+              </div>
+            ) : (
+              <p className="mt-2 text-xs text-muted-foreground">
+                Generate to see route and modes.
+              </p>
+            )}
+
+            {travel?.options?.length ? (
+              <>
                 <div className="mt-2 rounded border p-2 text-xs">
                   {(() => {
-                    const totalKm = legsTravel.reduce(
-                      (s, l) => s + (l?.km || 0),
-                      0,
+                    const opts = travel.options.filter((o) => o.available);
+                    const cheapest = opts.reduce(
+                      (a, b) => (a && a.price <= b.price ? a : b),
+                      opts[0],
                     );
-                    const totals = legsTravel.reduce(
-                      (acc, l) => {
-                        const opt = l.options.find((o) => o.mode === mode);
-                        return {
-                          hours: acc.hours + (opt?.timeHours || 0),
-                          price: acc.price + (opt?.price || 0),
-                        };
-                      },
-                      { hours: 0, price: 0 },
+                    const fastest = opts.reduce(
+                      (a, b) => (a && a.timeHours <= b.timeHours ? a : b),
+                      opts[0],
                     );
+                    const eco = pickEco(travel.options);
                     return (
-                      <div className="grid grid-cols-1 gap-1 md:grid-cols-3 text-xs">
+                      <div className="grid grid-cols-1 gap-1 sm:grid-cols-3 text-xs">
                         <div>
                           <span className="text-muted-foreground">
-                            Distance:
+                            Cheapest:
                           </span>{" "}
-                          <span className="font-medium">{totalKm} km</span>
+                          <span className="font-medium capitalize">
+                            {cheapest?.mode}
+                          </span>{" "}
+                          • {formatINR(cheapest?.price || 0)}
                         </div>
                         <div>
-                          <span className="text-muted-foreground">Time:</span>{" "}
-                          <span className="font-medium">
-                            {totals.hours.toFixed(1)} h
-                          </span>
+                          <span className="text-muted-foreground">
+                            Fastest:
+                          </span>{" "}
+                          <span className="font-medium capitalize">
+                            {fastest?.mode}
+                          </span>{" "}
+                          • {fastest?.timeHours}h
                         </div>
                         <div>
-                          <span className="text-muted-foreground">Cost:</span>{" "}
-                          <span className="font-medium">
-                            {formatINR(totals.price)}
+                          <span className="text-muted-foreground">Eco:</span>{" "}
+                          <span className="font-medium capitalize">
+                            {eco?.mode || "-"}
                           </span>
                         </div>
                       </div>
                     );
                   })()}
                 </div>
-              ) : null}
-            </CardContent>
-          </Card>
+              </>
+            ) : null}
 
-          <Card>
-            <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-              <div>
-                <CardTitle className="flex items-center gap-2 text-base">
-                  <PlaneTakeoff className="h-5 w-5 text-primary" /> Transport
-                  Options ✈️🚆🚌🚗⛴️
-                </CardTitle>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Quick links for each leg of your journey
-                </p>
-              </div>
-              <button
-                onClick={() => setOpenTransport((v) => !v)}
-                aria-expanded={openTransport}
-                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
-              >
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform ${openTransport ? "rotate-180" : "rotate-0"}`}
-                />
-              </button>
-            </CardHeader>
-            <CardContent className={openTransport ? "" : "hidden"}>
-              {travel?.options?.length ? (
-                <div className="mb-2 flex flex-wrap items-center gap-1 text-xs">
-                  <span className="text-muted-foreground">Filter:</span>
-                  {(["all", "cheapest", "fastest", "eco"] as const).map((f) => (
-                    <button
-                      key={f}
-                      onClick={() => setTransportFilter(f)}
-                      className={`rounded border px-2 py-0.5 text-xs capitalize ${transportFilter === f ? "border-primary text-primary" : ""}`}
-                    >
-                      {f}
-                    </button>
-                  ))}
-                </div>
-              ) : null}
-              <Tabs
-                value={mode ?? undefined}
-                onValueChange={(v) => setMode(v as any)}
-              >
-                <TabsList className="grid grid-cols-5 rounded-md bg-muted/20 p-0.5 overflow-x-auto h-8">
-                  <TabsTrigger value="flight" className="text-sm">
-                    Flight
-                  </TabsTrigger>
-                  <TabsTrigger value="train" className="text-sm">
-                    Train
-                  </TabsTrigger>
-                  <TabsTrigger value="bus" className="text-sm">
-                    Bus
-                  </TabsTrigger>
-                  <TabsTrigger value="car" className="text-sm">
-                    Car
-                  </TabsTrigger>
-                  <TabsTrigger value="waterway" className="text-sm">
-                    Waterway
-                  </TabsTrigger>
-                </TabsList>
-                {(["flight", "train", "bus", "car", "waterway"] as const).map(
-                  (t) => (
-                    <TabsContent key={t} value={t} className="mt-2">
-                      <div className="grid grid-cols-1 gap-2">
-                        {getLegs(tripType, origin, form.destination, stops).map(
-                          ([lo, ld], i) => (
-                            <div
-                              key={i}
-                              className="space-y-1 rounded border p-2"
-                            >
-                              <div className="text-sm text-muted-foreground">
-                                Leg {i + 1}: {lo} → {ld}
-                              </div>
-                              <div className="grid grid-cols-1 gap-1 md:grid-cols-2">
-                                {buildTransportLinks(
-                                  t,
-                                  lo,
-                                  ld,
-                                  dateRange.from,
-                                )?.map((l) => (
-                                  <Button
-                                    asChild
-                                    key={l.href}
-                                    variant="outline"
-                                    size="sm"
-                                    className="h-7 text-xs"
-                                  >
-                                    <a
-                                      href={l.href}
-                                      target="_blank"
-                                      rel="noreferrer"
-                                    >
-                                      {l.label}
-                                    </a>
-                                  </Button>
-                                ))}
-                              </div>
-                            </div>
-                          ),
-                        )}
-                      </div>
-                    </TabsContent>
-                  ),
-                )}
-              </Tabs>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="space-y-3">
-              <div className="flex items-start justify-between gap-2 flex-wrap">
-                <div className="flex-1 min-w-0">
-                  <CardTitle className="flex items-center gap-2 text-base">
-                    <CalIcon className="h-5 w-5 text-primary" /> Plan & Calendar
-                    📅
-                  </CardTitle>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Drag items between days, export as PDF
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <Button
-                    onClick={saveTrip}
-                    variant="default"
-                    size="sm"
-                    disabled={!itinerary}
-                    className="text-xs"
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    onClick={exportPdf}
-                    variant="outline"
-                    size="sm"
-                    className="text-xs"
-                  >
-                    <FileDown className="h-3 w-3" />
-                  </Button>
+            {travel?.options?.length ? (
+              <div className="mt-2 grid grid-cols-1 gap-2 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
+                {(function () {
+                  const opts = travel.options.filter((o) => o.available);
+                  if (transportFilter === "cheapest")
+                    opts.sort((a, b) => a.price - b.price);
+                  if (transportFilter === "fastest")
+                    opts.sort((a, b) => a.timeHours - b.timeHours);
+                  if (transportFilter === "eco") {
+                    const rank: Record<string, number> = {
+                      train: 1,
+                      bus: 2,
+                      car: 3,
+                      waterway: 4,
+                      flight: 5,
+                    } as any;
+                    opts.sort((a, b) => rank[a.mode] - rank[b.mode]);
+                  }
+                  return opts;
+                })().map((o) => (
                   <button
-                    onClick={() => setOpenCalendar((v) => !v)}
-                    aria-expanded={openCalendar}
-                    className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+                    key={o.mode}
+                    onClick={() => setMode(o.mode)}
+                    className={`rounded border p-2 text-left text-xs transition hover:bg-accent/20 ${mode === o.mode ? "border-primary ring-1 ring-primary/50" : ""}`}
                   >
-                    <ChevronDown
-                      className={`h-4 w-4 transition-transform ${openCalendar ? "rotate-180" : "rotate-0"}`}
-                    />
-                  </button>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className={openCalendar ? "" : "hidden"}>
-              {calendar?.length ? (
-                <div className="grid grid-cols-1 gap-2 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                  {calendar.map((d, di) => (
-                    <div
-                      key={d.day}
-                      className="rounded-lg border p-2 min-h-[160px] overflow-auto text-xs"
-                    >
-                      <div className="mb-1 flex items-center justify-between gap-1">
-                        <div className="font-semibold text-xs">Day {d.day}</div>
-                        <div className="text-xs text-muted-foreground truncate">
-                          {itinerary?.days.find((x) => x.day === d.day)?.theme}
-                        </div>
-                      </div>
-                      <ul className="space-y-1">
-                        {d.activities.map((a, ai) => (
-                          <li
-                            key={ai}
-                            className="cursor-move rounded border bg-card p-1 text-xs hover:bg-accent/20"
-                            draggable
-                            onDragStart={(e) => {
-                              e.dataTransfer.setData(
-                                "text/plain",
-                                JSON.stringify({ di, ai }),
-                              );
-                            }}
-                          >
-                            <div className="flex items-center gap-1">
-                              <input
-                                type="time"
-                                value={a.time}
-                                onChange={(e) => {
-                                  setCalendar((prev) => {
-                                    const next = prev.map((x) => ({
-                                      day: x.day,
-                                      activities: [...x.activities],
-                                    }));
-                                    next[di].activities[ai] = {
-                                      ...next[di].activities[ai],
-                                      time: e.target.value,
-                                    };
-                                    return next;
-                                  });
-                                }}
-                                className="h-6 rounded border px-1 text-xs"
-                              />
-                              <span className="text-xs truncate">{a.text}</span>
-                            </div>
-                          </li>
-                        ))}
-                        <li
-                          className="rounded border border-dashed p-1 text-center text-xs text-muted-foreground"
-                          onDragOver={(e) => e.preventDefault()}
-                          onDrop={(e) => {
-                            e.preventDefault();
-                            const raw = e.dataTransfer.getData("text/plain");
-                            try {
-                              const data = JSON.parse(raw);
-                              if (
-                                data &&
-                                typeof data.di === "number" &&
-                                typeof data.ai === "number"
-                              ) {
-                                setCalendar((prev) => {
-                                  const next = prev.map((x) => ({
-                                    day: x.day,
-                                    activities: [...x.activities],
-                                  }));
-                                  const [moved] = next[
-                                    data.di
-                                  ].activities.splice(data.ai, 1);
-                                  next[di].activities.push(moved);
-                                  return next;
-                                });
-                                return;
-                              }
-                              if (data && data.place) {
-                                setCalendar((prev) => {
-                                  const next = prev.map((x) => ({
-                                    day: x.day,
-                                    activities: [...x.activities],
-                                  }));
-                                  const cnt = next[di].activities.length;
-                                  next[di].activities.push({
-                                    text: String(data.place),
-                                    time: defaultSlot(cnt),
-                                  });
-                                  return next;
-                                });
-                                return;
-                              }
-                            } catch {}
-                          }}
-                        >
-                          Drop here to add
-                        </li>
-                      </ul>
+                    <div className="font-medium capitalize text-xs">
+                      {o.mode}
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-muted-foreground">
-                  Generate an itinerary, then drag items between days.
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                    <div className="text-muted-foreground text-xs mt-1">
+                      {o.timeHours}h • {formatINR(o.price)}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            ) : null}
+
+            {legsTravel?.length && mode ? (
+              <div className="mt-2 rounded border p-2 text-xs">
+                {(() => {
+                  const totalKm = legsTravel.reduce(
+                    (s, l) => s + (l?.km || 0),
+                    0,
+                  );
+                  const totals = legsTravel.reduce(
+                    (acc, l) => {
+                      const opt = l.options.find((o) => o.mode === mode);
+                      return {
+                        hours: acc.hours + (opt?.timeHours || 0),
+                        price: acc.price + (opt?.price || 0),
+                      };
+                    },
+                    { hours: 0, price: 0 },
+                  );
+                  return (
+                    <div className="grid grid-cols-1 gap-1 md:grid-cols-3 text-xs">
+                      <div>
+                        <span className="text-muted-foreground">Distance:</span>{" "}
+                        <span className="font-medium">{totalKm} km</span>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Time:</span>{" "}
+                        <span className="font-medium">
+                          {totals.hours.toFixed(1)} h
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Cost:</span>{" "}
+                        <span className="font-medium">
+                          {formatINR(totals.price)}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+            ) : null}
+          </CardContent>
+        </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
             <div>
               <CardTitle className="flex items-center gap-2 text-base">
-                <Wallet className="h-5 w-5 text-primary" /> Budget Overview
-                    💰
-                  </CardTitle>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Cost breakdowns by category
-                  </p>
-                </div>
+                <PlaneTakeoff className="h-5 w-5 text-primary" /> Transport
+                Options ✈️🚆🚌🚗⛴️
+              </CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">
+                Quick links for each leg of your journey
+              </p>
+            </div>
+            <button
+              onClick={() => setOpenTransport((v) => !v)}
+              aria-expanded={openTransport}
+              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
+            >
+              <ChevronDown
+                className={`h-4 w-4 transition-transform ${openTransport ? "rotate-180" : "rotate-0"}`}
+              />
+            </button>
+          </CardHeader>
+          <CardContent className={openTransport ? "" : "hidden"}>
+            {travel?.options?.length ? (
+              <div className="mb-2 flex flex-wrap items-center gap-1 text-xs">
+                <span className="text-muted-foreground">Filter:</span>
+                {(["all", "cheapest", "fastest", "eco"] as const).map((f) => (
+                  <button
+                    key={f}
+                    onClick={() => setTransportFilter(f)}
+                    className={`rounded border px-2 py-0.5 text-xs capitalize ${transportFilter === f ? "border-primary text-primary" : ""}`}
+                  >
+                    {f}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+            <Tabs
+              value={mode ?? undefined}
+              onValueChange={(v) => setMode(v as any)}
+            >
+              <TabsList className="grid grid-cols-5 rounded-md bg-muted/20 p-0.5 overflow-x-auto h-8">
+                <TabsTrigger value="flight" className="text-sm">
+                  Flight
+                </TabsTrigger>
+                <TabsTrigger value="train" className="text-sm">
+                  Train
+                </TabsTrigger>
+                <TabsTrigger value="bus" className="text-sm">
+                  Bus
+                </TabsTrigger>
+                <TabsTrigger value="car" className="text-sm">
+                  Car
+                </TabsTrigger>
+                <TabsTrigger value="waterway" className="text-sm">
+                  Waterway
+                </TabsTrigger>
+              </TabsList>
+              {(["flight", "train", "bus", "car", "waterway"] as const).map(
+                (t) => (
+                  <TabsContent key={t} value={t} className="mt-2">
+                    <div className="grid grid-cols-1 gap-2">
+                      {getLegs(tripType, origin, form.destination, stops).map(
+                        ([lo, ld], i) => (
+                          <div key={i} className="space-y-1 rounded border p-2">
+                            <div className="text-sm text-muted-foreground">
+                              Leg {i + 1}: {lo} → {ld}
+                            </div>
+                            <div className="grid grid-cols-1 gap-1 md:grid-cols-2">
+                              {buildTransportLinks(
+                                t,
+                                lo,
+                                ld,
+                                dateRange.from,
+                              )?.map((l) => (
+                                <Button
+                                  asChild
+                                  key={l.href}
+                                  variant="outline"
+                                  size="sm"
+                                  className="h-7 text-xs"
+                                >
+                                  <a
+                                    href={l.href}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
+                                    {l.label}
+                                  </a>
+                                </Button>
+                              ))}
+                            </div>
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  </TabsContent>
+                ),
+              )}
+            </Tabs>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="space-y-3">
+            <div className="flex items-start justify-between gap-2 flex-wrap">
+              <div className="flex-1 min-w-0">
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <CalIcon className="h-5 w-5 text-primary" /> Plan & Calendar
+                  📅
+                </CardTitle>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Drag items between days, export as PDF
+                </p>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <Button
+                  onClick={saveTrip}
+                  variant="default"
+                  size="sm"
+                  disabled={!itinerary}
+                  className="text-xs"
+                >
+                  Save
+                </Button>
+                <Button
+                  onClick={exportPdf}
+                  variant="outline"
+                  size="sm"
+                  className="text-xs"
+                >
+                  <FileDown className="h-3 w-3" />
+                </Button>
                 <button
-                  onClick={() => setOpenBudget((v) => !v)}
-                  aria-expanded={openBudget}
-                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
+                  onClick={() => setOpenCalendar((v) => !v)}
+                  aria-expanded={openCalendar}
+                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
                 >
                   <ChevronDown
-                    className={`h-4 w-4 transition-transform ${openBudget ? "rotate-180" : "rotate-0"}`}
+                    className={`h-4 w-4 transition-transform ${openCalendar ? "rotate-180" : "rotate-0"}`}
                   />
                 </button>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className={openCalendar ? "" : "hidden"}>
+            {calendar?.length ? (
+              <div className="grid grid-cols-1 gap-2 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {calendar.map((d, di) => (
+                  <div
+                    key={d.day}
+                    className="rounded-lg border p-2 min-h-[160px] overflow-auto text-xs"
+                  >
+                    <div className="mb-1 flex items-center justify-between gap-1">
+                      <div className="font-semibold text-xs">Day {d.day}</div>
+                      <div className="text-xs text-muted-foreground truncate">
+                        {itinerary?.days.find((x) => x.day === d.day)?.theme}
+                      </div>
+                    </div>
+                    <ul className="space-y-1">
+                      {d.activities.map((a, ai) => (
+                        <li
+                          key={ai}
+                          className="cursor-move rounded border bg-card p-1 text-xs hover:bg-accent/20"
+                          draggable
+                          onDragStart={(e) => {
+                            e.dataTransfer.setData(
+                              "text/plain",
+                              JSON.stringify({ di, ai }),
+                            );
+                          }}
+                        >
+                          <div className="flex items-center gap-1">
+                            <input
+                              type="time"
+                              value={a.time}
+                              onChange={(e) => {
+                                setCalendar((prev) => {
+                                  const next = prev.map((x) => ({
+                                    day: x.day,
+                                    activities: [...x.activities],
+                                  }));
+                                  next[di].activities[ai] = {
+                                    ...next[di].activities[ai],
+                                    time: e.target.value,
+                                  };
+                                  return next;
+                                });
+                              }}
+                              className="h-6 rounded border px-1 text-xs"
+                            />
+                            <span className="text-xs truncate">{a.text}</span>
+                          </div>
+                        </li>
+                      ))}
+                      <li
+                        className="rounded border border-dashed p-1 text-center text-xs text-muted-foreground"
+                        onDragOver={(e) => e.preventDefault()}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          const raw = e.dataTransfer.getData("text/plain");
+                          try {
+                            const data = JSON.parse(raw);
+                            if (
+                              data &&
+                              typeof data.di === "number" &&
+                              typeof data.ai === "number"
+                            ) {
+                              setCalendar((prev) => {
+                                const next = prev.map((x) => ({
+                                  day: x.day,
+                                  activities: [...x.activities],
+                                }));
+                                const [moved] = next[data.di].activities.splice(
+                                  data.ai,
+                                  1,
+                                );
+                                next[di].activities.push(moved);
+                                return next;
+                              });
+                              return;
+                            }
+                            if (data && data.place) {
+                              setCalendar((prev) => {
+                                const next = prev.map((x) => ({
+                                  day: x.day,
+                                  activities: [...x.activities],
+                                }));
+                                const cnt = next[di].activities.length;
+                                next[di].activities.push({
+                                  text: String(data.place),
+                                  time: defaultSlot(cnt),
+                                });
+                                return next;
+                              });
+                              return;
+                            }
+                          } catch {}
+                        }}
+                      >
+                        Drop here to add
+                      </li>
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-muted-foreground">
+                Generate an itinerary, then drag items between days.
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+            <div>
+              <CardTitle className="flex items-center gap-2 text-base">
+                <Wallet className="h-5 w-5 text-primary" /> Budget Overview 💰
+              </CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">
+                Cost breakdowns by category
+              </p>
+            </div>
+            <button
+              onClick={() => setOpenBudget((v) => !v)}
+              aria-expanded={openBudget}
+              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
+            >
+              <ChevronDown
+                className={`h-4 w-4 transition-transform ${openBudget ? "rotate-180" : "rotate-0"}`}
+              />
+            </button>
           </CardHeader>
           <CardContent className={openBudget ? "" : "hidden"}>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                  <div className="rounded-lg bg-secondary p-2">
-                    <div className="text-muted-foreground">Total Budget</div>
-                    <div className="text-lg font-bold mt-1">
-                      {formatINR(form.budget)}
-                    </div>
-                  </div>
-                  <div className="rounded-lg bg-secondary p-2">
-                    <div className="text-muted-foreground">Per Day</div>
-                    <div className="text-lg font-bold mt-1">
-                      {formatINR(form.budget / Math.max(1, daysCalc))}
-                    </div>
-                  </div>
+              <div className="rounded-lg bg-secondary p-2">
+                <div className="text-muted-foreground">Total Budget</div>
+                <div className="text-lg font-bold mt-1">
+                  {formatINR(form.budget)}
+                </div>
+              </div>
+              <div className="rounded-lg bg-secondary p-2">
+                <div className="text-muted-foreground">Per Day</div>
+                <div className="text-lg font-bold mt-1">
+                  {formatINR(form.budget / Math.max(1, daysCalc))}
+                </div>
+              </div>
             </div>
             <div className="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-                  <div className="rounded-md border p-2">
-                    <div className="text-muted-foreground text-xs">
-                      Transport
-                    </div>
-                    <div className="font-semibold text-sm mt-1">
-                      {formatINR(transportTotal)}
-                    </div>
-                  </div>
-                  <div className="rounded-md border p-2">
-                    <div className="text-muted-foreground text-xs">Stay</div>
-                    <div className="font-semibold text-sm mt-1">
-                      {formatINR(stayTotal)}{" "}
-                      <span className="text-xs text-muted-foreground">
-                        ({rooms}rm)
-                      </span>
-                    </div>
-                  </div>
-                  <div className="rounded-md border p-2">
-                    <div className="text-muted-foreground text-xs">Food</div>
-                    <div className="font-semibold text-sm mt-1">
-                      {formatINR(foodTotal)}
-                    </div>
-                  </div>
-                  <div className="rounded-md border p-2">
-                    <div className="text-muted-foreground text-xs">
-                      Activities
-                    </div>
-                    <div className="font-semibold text-sm mt-1">
-                      {formatINR(actTotal)}
-                    </div>
-                  </div>
+              <div className="rounded-md border p-2">
+                <div className="text-muted-foreground text-xs">Transport</div>
+                <div className="font-semibold text-sm mt-1">
+                  {formatINR(transportTotal)}
                 </div>
-                <div className="mt-3 flex items-center gap-2 text-xs">
-                  <span className="text-muted-foreground">
-                    Display currency:
+              </div>
+              <div className="rounded-md border p-2">
+                <div className="text-muted-foreground text-xs">Stay</div>
+                <div className="font-semibold text-sm mt-1">
+                  {formatINR(stayTotal)}{" "}
+                  <span className="text-xs text-muted-foreground">
+                    ({rooms}rm)
                   </span>
-                  <Input
-                    value={budgetCurrency}
-                    onChange={(e) =>
-                      setBudgetCurrency(e.target.value.toUpperCase())
-                    }
-                    className="h-8 w-24"
-                  />
                 </div>
-                {openBudget && (
-                  <div
-                    className="mt-2 h-40 w-full"
-                    style={{ contain: "layout size" }}
-                  >
-                    <ResponsiveContainer>
-                      <PieChart>
-                        <Pie
-                          dataKey="value"
-                          data={[
-                            { name: "Transport", value: transportTotal },
-                            { name: "Stay", value: stayTotal },
-                            { name: "Food", value: foodTotal },
-                            { name: "Activities", value: actTotal },
-                          ]}
-                          innerRadius={25}
-                          outerRadius={50}
-                          paddingAngle={1}
-                        >
-                          {["#60a5fa", "#a78bfa", "#34d399", "#f59e0b"].map(
-                            (c, i) => (
-                              <Cell key={i} fill={c} />
-                            ),
-                          )}
-                        </Pie>
-                        <ReTooltip
-                          formatter={(v: any, n: any) => [
-                            formatMoney(Number(v)),
-                            n,
-                          ]}
-                        />
-                        <Legend />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </div>
-                )}
-                <div className="mt-2 rounded-md border p-2 text-xs">
-                  <div className="font-semibold text-foreground">
-                    Suggested: {formatINR(suggestedTotal)}
-                  </div>
-                  <div className="text-xs text-muted-foreground mt-1">
-                    ({members > 0 ? `${members}×, ` : ""}
-                    {daysCalc}d)
-                  </div>
-                  <div className="mt-1 text-xs">
-                    {form.budget >= suggestedTotal ? (
-                      <span className="text-green-600">
-                        +{formatINR(form.budget - suggestedTotal)}
-                      </span>
-                    ) : (
-                      <span className="text-red-600">
-                        -{formatINR(suggestedTotal - form.budget)}
-                      </span>
-                    )}
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className="ml-1 h-5 px-1 text-xs"
-                      onClick={() =>
-                        setForm((f) => ({ ...f, budget: suggestedTotal }))
-                      }
+              </div>
+              <div className="rounded-md border p-2">
+                <div className="text-muted-foreground text-xs">Food</div>
+                <div className="font-semibold text-sm mt-1">
+                  {formatINR(foodTotal)}
+                </div>
+              </div>
+              <div className="rounded-md border p-2">
+                <div className="text-muted-foreground text-xs">Activities</div>
+                <div className="font-semibold text-sm mt-1">
+                  {formatINR(actTotal)}
+                </div>
+              </div>
+            </div>
+            <div className="mt-3 flex items-center gap-2 text-xs">
+              <span className="text-muted-foreground">Display currency:</span>
+              <Input
+                value={budgetCurrency}
+                onChange={(e) =>
+                  setBudgetCurrency(e.target.value.toUpperCase())
+                }
+                className="h-8 w-24"
+              />
+            </div>
+            {openBudget && (
+              <div
+                className="mt-2 h-40 w-full"
+                style={{ contain: "layout size" }}
+              >
+                <ResponsiveContainer>
+                  <PieChart>
+                    <Pie
+                      dataKey="value"
+                      data={[
+                        { name: "Transport", value: transportTotal },
+                        { name: "Stay", value: stayTotal },
+                        { name: "Food", value: foodTotal },
+                        { name: "Activities", value: actTotal },
+                      ]}
+                      innerRadius={25}
+                      outerRadius={50}
+                      paddingAngle={1}
                     >
-                      Use
-                    </Button>
-                  </div>
+                      {["#60a5fa", "#a78bfa", "#34d399", "#f59e0b"].map(
+                        (c, i) => (
+                          <Cell key={i} fill={c} />
+                        ),
+                      )}
+                    </Pie>
+                    <ReTooltip
+                      formatter={(v: any, n: any) => [
+                        formatMoney(Number(v)),
+                        n,
+                      ]}
+                    />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            )}
+            <div className="mt-2 rounded-md border p-2 text-xs">
+              <div className="font-semibold text-foreground">
+                Suggested: {formatINR(suggestedTotal)}
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">
+                ({members > 0 ? `${members}×, ` : ""}
+                {daysCalc}d)
+              </div>
+              <div className="mt-1 text-xs">
+                {form.budget >= suggestedTotal ? (
+                  <span className="text-green-600">
+                    +{formatINR(form.budget - suggestedTotal)}
+                  </span>
+                ) : (
+                  <span className="text-red-600">
+                    -{formatINR(suggestedTotal - form.budget)}
+                  </span>
+                )}
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="ml-1 h-5 px-1 text-xs"
+                  onClick={() =>
+                    setForm((f) => ({ ...f, budget: suggestedTotal }))
+                  }
+                >
+                  Use
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -1847,41 +1830,41 @@ export default function Planner() {
                 Trip Comments
               </div>
               <div className="max-h-32 overflow-auto rounded border p-2 text-xs space-y-1">
-                    {chatMessages.length ? (
-                chatMessages.map((m) => (
-                        <div key={m.id} className="flex items-start gap-1">
-                          <div className="mt-1 h-1 w-1 rounded-full bg-primary shrink-0" />
-                          <div className="flex-1 min-w-0">
-                            <div className="text-sm break-words">{m.text}</div>
-                            <div className="text-[9px] text-muted-foreground">
-                              {new Date(m.at).toLocaleTimeString()}
-                            </div>
-                          </div>
+                {chatMessages.length ? (
+                  chatMessages.map((m) => (
+                    <div key={m.id} className="flex items-start gap-1">
+                      <div className="mt-1 h-1 w-1 rounded-full bg-primary shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm break-words">{m.text}</div>
+                        <div className="text-[9px] text-muted-foreground">
+                          {new Date(m.at).toLocaleTimeString()}
                         </div>
-                      ))
-                    ) : (
-                      <div className="text-sm text-muted-foreground text-center py-2">
-                        No comments yet
                       </div>
-                    )}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-sm text-muted-foreground text-center py-2">
+                    No comments yet
                   </div>
-                  <div className="mt-2 flex items-center gap-1">
-                    <Input
-                      placeholder="Comment"
-                      value={chatInput}
-                      onChange={(e) => setChatInput(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") sendChat();
-                      }}
-                      className="h-7 text-xs"
-                    />
-                    <Button
-                      onClick={sendChat}
-                      size="sm"
-                      className="h-7 text-xs px-2"
-                    >
-                      Send
-                    </Button>
+                )}
+              </div>
+              <div className="mt-2 flex items-center gap-1">
+                <Input
+                  placeholder="Comment"
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") sendChat();
+                  }}
+                  className="h-7 text-xs"
+                />
+                <Button
+                  onClick={sendChat}
+                  size="sm"
+                  className="h-7 text-xs px-2"
+                >
+                  Send
+                </Button>
               </div>
             </div>
           </CardContent>
@@ -1889,182 +1872,179 @@ export default function Planner() {
 
         <Card>
           <CardHeader className="space-y-2 pb-2">
-              <CardTitle className="flex items-center gap-2 text-base">
-                <Hotel className="h-5 w-5 text-primary" /> Hotel Search 🏨
-              </CardTitle>
-              <p className="text-sm text-muted-foreground">
-                Compare by rating and price
-              </p>
-              <div className="flex flex-col gap-1 xs:flex-row pt-1">
-                <Input
-                  placeholder="City or hotel name"
-                  value={hotelQuery}
-                  onChange={(e) => setHotelQuery(e.target.value)}
-                  className="h-8 text-sm"
-                />
-                <Button
-                  className="h-8 text-xs px-3 shrink-0"
-                  onClick={doHotelSearch}
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Hotel className="h-5 w-5 text-primary" /> Hotel Search 🏨
+            </CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Compare by rating and price
+            </p>
+            <div className="flex flex-col gap-1 xs:flex-row pt-1">
+              <Input
+                placeholder="City or hotel name"
+                value={hotelQuery}
+                onChange={(e) => setHotelQuery(e.target.value)}
+                className="h-8 text-sm"
+              />
+              <Button
+                className="h-8 text-xs px-3 shrink-0"
+                onClick={doHotelSearch}
+              >
+                Search
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-1 text-xs">
+            <div className="space-y-1">
+              {hotels.map((h) => (
+                <div
+                  key={h.id}
+                  className="flex items-center justify-between rounded-md border p-2"
                 >
-                  Search
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-1 text-xs">
-              <div className="space-y-1">
-                {hotels.map((h) => (
-                  <div
-                    key={h.id}
-                    className="flex items-center justify-between rounded-md border p-2"
-                  >
-                    <div className="flex flex-col gap-0.5">
-                      <span className="font-medium text-xs">{h.name}</span>
-                      <div className="flex items-center gap-1">
-                        <span className="text-muted-foreground text-xs">
-                          ⭐ {h.rating}
-                        </span>
-                        <Badge
-                          variant={
-                            h.rating >= 4.5
-                              ? "default"
-                              : h.rating >= 4.0
-                                ? "secondary"
-                                : "outline"
-                          }
-                          className="text-xs py-0"
-                        >
-                          {h.rating >= 4.5
-                            ? "Excellent"
+                  <div className="flex flex-col gap-0.5">
+                    <span className="font-medium text-xs">{h.name}</span>
+                    <div className="flex items-center gap-1">
+                      <span className="text-muted-foreground text-xs">
+                        ⭐ {h.rating}
+                      </span>
+                      <Badge
+                        variant={
+                          h.rating >= 4.5
+                            ? "default"
                             : h.rating >= 4.0
-                              ? "Very good"
-                              : "Good"}
-                        </Badge>
-                      </div>
-                      {h.reviews?.length ? (
-                        <div className="text-xs text-muted-foreground line-clamp-1">
-                          “{h.reviews[0]}”
-                        </div>
-                      ) : null}
-                    </div>
-                    <div className="text-right pl-2 shrink-0">
-                      <div className="text-sm font-bold">
-                        ₹
-                        {new Intl.NumberFormat("en-IN").format(h.pricePerNight)}
-                      </div>
-                      <div className="text-xs text-muted-foreground">
-                        /night
-                      </div>
-                      <a
-                        className="text-xs text-primary underline hover:no-underline"
-                        href={h.url}
-                        target="_blank"
-                        rel="noreferrer"
+                              ? "secondary"
+                              : "outline"
+                        }
+                        className="text-xs py-0"
                       >
-                        View
-                      </a>
+                        {h.rating >= 4.5
+                          ? "Excellent"
+                          : h.rating >= 4.0
+                            ? "Very good"
+                            : "Good"}
+                      </Badge>
                     </div>
+                    {h.reviews?.length ? (
+                      <div className="text-xs text-muted-foreground line-clamp-1">
+                        “{h.reviews[0]}”
+                      </div>
+                    ) : null}
                   </div>
-                ))}
-                {hotels.length === 0 && (
-                  <div className="text-muted-foreground text-xs text-center py-2">
-                    Search to see hotel options.
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="space-y-2 pb-2">
-              <CardTitle className="flex items-center gap-2 text-base">
-                <DollarSign className="h-5 w-5 text-primary" /> Currency
-                Converter 💱
-              </CardTitle>
-              <p className="text-sm text-muted-foreground">
-                Convert with live rates
-              </p>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                <div>
-                  <Label className="text-sm font-medium">Amount</Label>
-                  <Input
-                    type="number"
-                    value={fx.amount}
-                    onChange={(e) =>
-                      setFx({ ...fx, amount: Number(e.target.value) })
-                    }
-                    className="h-9 text-base mt-1"
-                  />
-                </div>
-                <div>
-                  <Label className="text-sm font-medium">From (Currency)</Label>
-                  <Input
-                    value={fx.from}
-                    onChange={(e) =>
-                      setFx({ ...fx, from: e.target.value.toUpperCase() })
-                    }
-                    placeholder="e.g., INR"
-                    className="h-9 text-base mt-1"
-                  />
-                </div>
-                <div>
-                  <Label className="text-sm font-medium">To (Currency)</Label>
-                  <Input
-                    value={fx.to}
-                    onChange={(e) =>
-                      setFx({ ...fx, to: e.target.value.toUpperCase() })
-                    }
-                    placeholder="e.g., USD"
-                    className="h-9 text-base mt-1"
-                  />
-                </div>
-                <div className="flex items-end">
-                  <Button
-                    onClick={convert}
-                    className="w-full h-9 text-sm font-medium"
-                  >
-                    Convert
-                  </Button>
-                </div>
-              </div>
-              {fx.result ? (
-                <div className="rounded-lg border-2 border-primary/30 bg-primary/5 p-4 space-y-2 mt-2">
-                  <div className="text-lg font-semibold text-foreground">
-                    {fx.amount}{" "}
-                    <span className="text-muted-foreground">{fx.from}</span> ={" "}
-                    <span className="text-primary">{fx.result.toFixed(2)}</span>{" "}
-                    <span className="text-muted-foreground">{fx.to}</span>
-                  </div>
-                  <div className="text-sm text-muted-foreground border-t pt-2">
-                    <span className="font-medium">Exchange Rate:</span> 1{" "}
-                    {fx.from} = {fx.rate.toFixed(4)} {fx.to}
+                  <div className="text-right pl-2 shrink-0">
+                    <div className="text-sm font-bold">
+                      ₹{new Intl.NumberFormat("en-IN").format(h.pricePerNight)}
+                    </div>
+                    <div className="text-xs text-muted-foreground">/night</div>
+                    <a
+                      className="text-xs text-primary underline hover:no-underline"
+                      href={h.url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      View
+                    </a>
                   </div>
                 </div>
-              ) : (
-                <div className="text-base text-muted-foreground text-center py-4 rounded-lg bg-muted/30">
-                  Enter values and click Convert
+              ))}
+              {hotels.length === 0 && (
+                <div className="text-muted-foreground text-xs text-center py-2">
+                  Search to see hotel options.
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </CardContent>
+        </Card>
 
-          <VisaChecker
-            destination={form.destination}
-            nationality={nationality}
-            onNationalityChange={setNationality}
-          />
+        <Card>
+          <CardHeader className="space-y-2 pb-2">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <DollarSign className="h-5 w-5 text-primary" /> Currency Converter
+              💱
+            </CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Convert with live rates
+            </p>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <div>
+                <Label className="text-sm font-medium">Amount</Label>
+                <Input
+                  type="number"
+                  value={fx.amount}
+                  onChange={(e) =>
+                    setFx({ ...fx, amount: Number(e.target.value) })
+                  }
+                  className="h-9 text-base mt-1"
+                />
+              </div>
+              <div>
+                <Label className="text-sm font-medium">From (Currency)</Label>
+                <Input
+                  value={fx.from}
+                  onChange={(e) =>
+                    setFx({ ...fx, from: e.target.value.toUpperCase() })
+                  }
+                  placeholder="e.g., INR"
+                  className="h-9 text-base mt-1"
+                />
+              </div>
+              <div>
+                <Label className="text-sm font-medium">To (Currency)</Label>
+                <Input
+                  value={fx.to}
+                  onChange={(e) =>
+                    setFx({ ...fx, to: e.target.value.toUpperCase() })
+                  }
+                  placeholder="e.g., USD"
+                  className="h-9 text-base mt-1"
+                />
+              </div>
+              <div className="flex items-end">
+                <Button
+                  onClick={convert}
+                  className="w-full h-9 text-sm font-medium"
+                >
+                  Convert
+                </Button>
+              </div>
+            </div>
+            {fx.result ? (
+              <div className="rounded-lg border-2 border-primary/30 bg-primary/5 p-4 space-y-2 mt-2">
+                <div className="text-lg font-semibold text-foreground">
+                  {fx.amount}{" "}
+                  <span className="text-muted-foreground">{fx.from}</span> ={" "}
+                  <span className="text-primary">{fx.result.toFixed(2)}</span>{" "}
+                  <span className="text-muted-foreground">{fx.to}</span>
+                </div>
+                <div className="text-sm text-muted-foreground border-t pt-2">
+                  <span className="font-medium">Exchange Rate:</span> 1{" "}
+                  {fx.from} = {fx.rate.toFixed(4)} {fx.to}
+                </div>
+              </div>
+            ) : (
+              <div className="text-base text-muted-foreground text-center py-4 rounded-lg bg-muted/30">
+                Enter values and click Convert
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
-          <PassportTracker
-            expiryDate={passportExpiry}
-            onExpiryDateChange={setPassportExpiry}
-          />
+        <VisaChecker
+          destination={form.destination}
+          nationality={nationality}
+          onNationalityChange={setNationality}
+        />
 
-          <TripTimeline
-            itinerary={itinerary}
-            startDate={dateRange.from}
-            days={form.days}
-          />
+        <PassportTracker
+          expiryDate={passportExpiry}
+          onExpiryDateChange={setPassportExpiry}
+        />
+
+        <TripTimeline
+          itinerary={itinerary}
+          startDate={dateRange.from}
+          days={form.days}
+        />
 
         <LocalGuides destination={form.destination} />
       </div>

@@ -740,11 +740,11 @@ export default function Planner() {
         </div>
       )}
       <div
-        className="grid grid-cols-1 gap-3 sm:gap-4 lg:grid-cols-2"
+        className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3"
         style={{ animation: "fadeIn 0.5s ease-out" }}
       >
         <Card
-          className="transition-all duration-500 ease-out"
+          className="lg:col-span-3 transition-all duration-500 ease-out"
           style={{ animation: "slideInUp 0.5s ease-out 0.1s backwards" }}
         >
           <CardHeader>

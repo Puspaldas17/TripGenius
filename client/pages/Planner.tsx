@@ -997,8 +997,7 @@ export default function Planner() {
           </CardContent>
         </Card>
 
-        <div className="space-y-3 flex flex-col">
-          <Card>
+        <Card>
             <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
               <div>
                 <CardTitle className="flex items-center gap-2 text-base">
@@ -2068,8 +2067,7 @@ export default function Planner() {
             days={form.days}
           />
 
-          <LocalGuides destination={form.destination} />
-        </div>
+        <LocalGuides destination={form.destination} />
       </div>
 
       <PackingList

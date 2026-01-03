@@ -1826,21 +1826,21 @@ export default function Planner() {
               <p className="text-sm text-muted-foreground mt-2">
                 Share plan with friends
               </p>
-                </div>
-                <button
-                  onClick={() => setOpenGroup((v) => !v)}
-                  aria-expanded={openGroup}
-                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
-                >
-                  <ChevronDown
-                    className={`h-4 w-4 transition-transform ${openGroup ? "rotate-180" : "rotate-0"}`}
-                  />
-                </button>
-              </CardHeader>
-              <CardContent className={openGroup ? "" : "hidden"}>
-                <p className="text-sm text-muted-foreground">
-                  Share trip code with friends to plan together
-                </p>
+            </div>
+            <button
+              onClick={() => setOpenGroup((v) => !v)}
+              aria-expanded={openGroup}
+              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground shrink-0"
+            >
+              <ChevronDown
+                className={`h-4 w-4 transition-transform ${openGroup ? "rotate-180" : "rotate-0"}`}
+              />
+            </button>
+          </CardHeader>
+          <CardContent className={openGroup ? "" : "hidden"}>
+            <p className="text-sm text-muted-foreground">
+              Share trip code with friends to plan together
+            </p>
                 <ShareTrip />
                 <div className="mt-2">
                   <div className="mb-1 text-xs text-muted-foreground">

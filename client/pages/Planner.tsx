@@ -1841,12 +1841,12 @@ export default function Planner() {
             <p className="text-sm text-muted-foreground">
               Share trip code with friends to plan together
             </p>
-                <ShareTrip />
-                <div className="mt-2">
-                  <div className="mb-1 text-xs text-muted-foreground">
-                    Trip Comments
-                  </div>
-                  <div className="max-h-32 overflow-auto rounded border p-2 text-xs space-y-1">
+            <ShareTrip />
+            <div className="mt-2">
+              <div className="mb-1 text-xs text-muted-foreground">
+                Trip Comments
+              </div>
+              <div className="max-h-32 overflow-auto rounded border p-2 text-xs space-y-1">
                     {chatMessages.length ? (
                       chatMessages.map((m) => (
                         <div key={m.id} className="flex items-start gap-1">

@@ -1668,10 +1668,10 @@ export default function Planner() {
           </Card>
 
         <Card>
-              <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-                <div>
-                  <CardTitle className="flex items-center gap-2 text-base">
-                    <Wallet className="h-5 w-5 text-primary" /> Budget Overview
+          <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+            <div>
+              <CardTitle className="flex items-center gap-2 text-base">
+                <Wallet className="h-5 w-5 text-primary" /> Budget Overview
                     💰
                   </CardTitle>
                   <p className="text-sm text-muted-foreground mt-2">
@@ -1687,8 +1687,8 @@ export default function Planner() {
                     className={`h-4 w-4 transition-transform ${openBudget ? "rotate-180" : "rotate-0"}`}
                   />
                 </button>
-              </CardHeader>
-              <CardContent className={openBudget ? "" : "hidden"}>
+          </CardHeader>
+          <CardContent className={openBudget ? "" : "hidden"}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                   <div className="rounded-lg bg-secondary p-2">
                     <div className="text-muted-foreground">Total Budget</div>

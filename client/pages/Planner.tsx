@@ -1813,18 +1813,19 @@ export default function Planner() {
                       Use
                     </Button>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-                <div>
-                  <CardTitle className="flex items-center gap-2 text-base">
-                    <Users className="h-5 w-5 text-primary" /> Group Collab 👥
-                  </CardTitle>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Share plan with friends
-                  </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+            <div>
+              <CardTitle className="flex items-center gap-2 text-base">
+                <Users className="h-5 w-5 text-primary" /> Group Collab 👥
+              </CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">
+                Share plan with friends
+              </p>
                 </div>
                 <button
                   onClick={() => setOpenGroup((v) => !v)}

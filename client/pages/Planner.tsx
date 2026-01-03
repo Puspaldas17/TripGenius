@@ -1667,8 +1667,7 @@ export default function Planner() {
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-            <Card>
+        <Card>
               <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
                 <div>
                   <CardTitle className="flex items-center gap-2 text-base">
@@ -1885,10 +1884,9 @@ export default function Planner() {
                   </div>
                 </div>
               </CardContent>
-            </Card>
-          </div>
+        </Card>
 
-          <Card>
+        <Card>
             <CardHeader className="space-y-2 pb-2">
               <CardTitle className="flex items-center gap-2 text-base">
                 <Hotel className="h-5 w-5 text-primary" /> Hotel Search 🏨

@@ -69,32 +69,32 @@ export default function PassportTracker({
   return (
     <Card className="hover:shadow-lg transition">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-base">
           <AlertTriangle className="h-5 w-5 text-primary" />
           Passport Expiry Tracking
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label>Passport Expiry Date</Label>
+      <CardContent className="space-y-2">
+        <div className="space-y-1">
+          <Label className="text-sm">Passport Expiry Date</Label>
           <Input
             type="date"
             value={expiryDate}
             onChange={(e) => onExpiryDateChange(e.target.value)}
-            className="w-full"
+            className="w-full h-8 text-xs"
           />
-          <p className="text-xs text-muted-foreground">
-            Most countries require at least 6 months validity for entry
+          <p className="text-sm text-muted-foreground">
+            Most countries require at least 6 months validity
           </p>
         </div>
 
         {expiryDate && daysRemaining !== null && (
           <div
-            className={`rounded-lg border p-4 space-y-3 ${getStatusColor()}`}
+            className={`rounded-lg border p-2 space-y-1.5 ${getStatusColor()}`}
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className={`text-sm font-medium ${getStatusTextColor()}`}>
+                <p className={`text-xs font-medium ${getStatusTextColor()}`}>
                   {status === "expired"
                     ? "Passport Expired"
                     : status === "warning"
@@ -103,52 +103,51 @@ export default function PassportTracker({
                 </p>
                 {daysRemaining >= 0 ? (
                   <p
-                    className={`text-2xl font-bold mt-1 ${getStatusTextColor()}`}
+                    className={`text-lg font-bold mt-0.5 ${getStatusTextColor()}`}
                   >
                     {daysRemaining} days
                   </p>
                 ) : (
                   <p
-                    className={`text-2xl font-bold mt-1 ${getStatusTextColor()}`}
+                    className={`text-lg font-bold mt-0.5 ${getStatusTextColor()}`}
                   >
                     Expired
                   </p>
                 )}
               </div>
               {status === "expired" ? (
-                <AlertCircle className="h-8 w-8 text-red-600 dark:text-red-400 flex-shrink-0" />
+                <AlertCircle className="h-6 w-6 text-red-600 dark:text-red-400 flex-shrink-0" />
               ) : status === "warning" ? (
-                <AlertTriangle className="h-8 w-8 text-amber-600 dark:text-amber-400 flex-shrink-0" />
+                <AlertTriangle className="h-6 w-6 text-amber-600 dark:text-amber-400 flex-shrink-0" />
               ) : (
-                <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400 flex-shrink-0" />
+                <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400 flex-shrink-0" />
               )}
             </div>
 
             <div>
               <p className={`text-xs font-medium ${getStatusTextColor()}`}>
-                Expiry Date: {new Date(expiryDate).toLocaleDateString()}
+                Expiry: {new Date(expiryDate).toLocaleDateString()}
               </p>
               {status === "warning" && daysRemaining !== null && (
-                <p className="text-xs mt-2 opacity-75">
+                <p className="text-xs mt-0.5 opacity-75">
                   {daysRemaining < 180 && daysRemaining >= 0
-                    ? `Your passport expires in ${daysRemaining} days. Consider renewing before travel.`
-                    : "Your passport is approaching expiration."}
+                    ? `Expires in ${daysRemaining} days. Renew soon.`
+                    : "Approaching expiration."}
                 </p>
               )}
               {status === "expired" && (
-                <p className="text-xs mt-2 opacity-75">
-                  Your passport has expired. You must renew it before
-                  international travel.
+                <p className="text-xs mt-0.5 opacity-75">
+                  Expired. Renew before travel.
                 </p>
               )}
             </div>
 
             {status !== "valid" && (
-              <div className="pt-2 border-t border-current border-opacity-20">
-                <p className="text-xs font-medium opacity-75">
+              <div className="pt-1 border-t border-current border-opacity-20">
+                <p className="text-sm font-medium opacity-75">
                   {status === "expired"
-                    ? "🚨 Contact your passport office immediately"
-                    : "⏱️ Plan your passport renewal soon"}
+                    ? "🚨 Contact passport office"
+                    : "⏱️ Plan renewal soon"}
                 </p>
               </div>
             )}
@@ -156,8 +155,8 @@ export default function PassportTracker({
         )}
 
         {!expiryDate && (
-          <div className="rounded-lg bg-muted/50 p-4 text-center text-sm text-muted-foreground">
-            Enter your passport expiry date to track validity
+          <div className="rounded-lg bg-muted/50 p-2 text-center text-xs text-muted-foreground">
+            Enter expiry date to track validity
           </div>
         )}
       </CardContent>

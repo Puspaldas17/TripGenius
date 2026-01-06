@@ -126,29 +126,30 @@ export default function VisaChecker({
   return (
     <Card className="hover:shadow-lg transition">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-base">
           <AlertCircle className="h-5 w-5 text-primary" />
           Visa & Documentation Checker
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label>Your Nationality</Label>
+      <CardContent className="space-y-2">
+        <div className="space-y-1">
+          <Label className="text-sm">Your Nationality</Label>
           <Input
             value={nationality}
             onChange={(e) => onNationalityChange(e.target.value)}
             placeholder="e.g., India, USA, UK"
+            className="h-8 text-xs"
           />
         </div>
 
         {visaInfo && (
-          <div className="space-y-3 rounded-lg bg-muted/50 p-4">
+          <div className="space-y-2 rounded-lg bg-muted/50 p-2">
             <div className="flex items-start justify-between">
               <div>
-                <h3 className="font-semibold">{visaInfo.country}</h3>
+                <h3 className="font-semibold text-sm">{visaInfo.country}</h3>
                 <Badge
                   variant={visaInfo.visaRequired ? "destructive" : "default"}
-                  className="mt-2"
+                  className="mt-1 text-xs py-0"
                 >
                   {visaInfo.visaRequired
                     ? "Visa Required"
@@ -156,48 +157,51 @@ export default function VisaChecker({
                 </Badge>
               </div>
               {visaInfo.visaRequired ? (
-                <AlertCircle className="h-5 w-5 text-destructive" />
+                <AlertCircle className="h-4 w-4 text-destructive" />
               ) : (
-                <CheckCircle className="h-5 w-5 text-green-600" />
+                <CheckCircle className="h-4 w-4 text-green-600" />
               )}
             </div>
 
             <div>
               <p className="text-sm text-muted-foreground">Visa Type</p>
-              <p className="font-medium">{visaInfo.visaType}</p>
+              <p className="font-medium text-sm">{visaInfo.visaType}</p>
             </div>
 
             {visaInfo.processingDays > 0 && (
-              <div className="flex items-center gap-2 rounded-md bg-amber-50 p-2 dark:bg-amber-950/30">
-                <Clock className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+              <div className="flex items-center gap-2 rounded-md bg-amber-50 p-1.5 dark:bg-amber-950/30">
+                <Clock className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400 flex-shrink-0" />
                 <div>
                   <p className="text-xs font-medium text-amber-900 dark:text-amber-200">
-                    Processing Time: {visaInfo.processingDays} days
-                  </p>
-                  <p className="text-xs text-amber-700 dark:text-amber-300">
-                    Cost: {visaInfo.currency} {visaInfo.cost}
+                    Processing: {visaInfo.processingDays} days •{" "}
+                    {visaInfo.currency} {visaInfo.cost}
                   </p>
                 </div>
               </div>
             )}
 
             <div>
-              <p className="text-sm font-medium mb-2">Required Documents</p>
-              <ul className="space-y-1">
+              <p className="text-xs font-medium mb-1">Required Documents</p>
+              <ul className="space-y-0.5">
                 {visaInfo.documents.map((doc, i) => (
                   <li
                     key={i}
-                    className="flex items-center gap-2 text-sm text-muted-foreground"
+                    className="flex items-center gap-1.5 text-xs text-muted-foreground"
                   >
-                    <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                    {doc}
+                    <span className="h-1 w-1 rounded-full bg-primary flex-shrink-0" />
+                    <span className="line-clamp-1">{doc}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
             {visaInfo.visaRequired && (
-              <Button className="w-full" size="sm" variant="outline">
+              <Button
+                className="w-full h-7"
+                size="sm"
+                variant="outline"
+                className="text-sm"
+              >
                 Apply for Visa
               </Button>
             )}
@@ -205,7 +209,7 @@ export default function VisaChecker({
         )}
 
         {!visaInfo && destination && (
-          <div className="rounded-lg bg-muted/50 p-4 text-center text-sm text-muted-foreground">
+          <div className="rounded-lg bg-muted/50 p-2 text-center text-xs text-muted-foreground">
             Visa information for {destination} not available. Please check with
             your embassy.
           </div>

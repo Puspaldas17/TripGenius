@@ -179,22 +179,22 @@ export default function PackingList({
     <Card className="hover:shadow-lg transition">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-base">
             <Backpack className="h-5 w-5 text-primary" />
             Smart Packing List
           </CardTitle>
           <div className="text-right">
-            <p className="text-2xl font-bold">{completionPercentage}%</p>
-            <p className="text-xs text-muted-foreground">packed</p>
+            <p className="text-xl font-bold">{completionPercentage}%</p>
+            <p className="text-sm text-muted-foreground">packed</p>
           </div>
         </div>
-        <p className="text-sm text-muted-foreground mt-2">
-          For {days} day trip to {destination}
+        <p className="text-sm text-muted-foreground mt-1">
+          {days}d trip to {destination}
         </p>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-2">
         {/* Progress bar */}
-        <div className="h-2 bg-muted rounded-full overflow-hidden">
+        <div className="h-1.5 bg-muted rounded-full overflow-hidden">
           <div
             className="h-full bg-primary transition-all"
             style={{ width: `${completionPercentage}%` }}
@@ -202,16 +202,16 @@ export default function PackingList({
         </div>
 
         {/* Packing categories */}
-        <div className="space-y-4">
+        <div className="space-y-2">
           {getRecommendedItems.map((category) => (
-            <div key={category.category} className="space-y-2">
-              <h4 className="font-semibold text-sm flex items-center gap-2">
+            <div key={category.category} className="space-y-1">
+              <h4 className="font-semibold text-sm flex items-center gap-1.5">
                 {category.category}
-                <Badge variant="secondary" className="text-xs">
+                <Badge variant="secondary" className="text-xs py-0">
                   {category.items.length}
                 </Badge>
               </h4>
-              <div className="space-y-2">
+              <div className="space-y-1">
                 {category.items.map((item, idx) => {
                   const itemId = `${category.category}-${idx}`;
                   const isChecked = checkedItems.has(itemId);
@@ -219,12 +219,12 @@ export default function PackingList({
                   return (
                     <div
                       key={itemId}
-                      className="flex items-center gap-2 p-2 rounded-md hover:bg-muted/50 transition"
+                      className="flex items-center gap-1.5 p-1 rounded-md hover:bg-muted/50 transition"
                     >
                       <Checkbox
                         checked={isChecked}
                         onCheckedChange={() => toggleItem(itemId)}
-                        className="h-4 w-4"
+                        className="h-3.5 w-3.5 flex-shrink-0"
                       />
                       <label
                         className={`flex-1 text-sm cursor-pointer transition ${
@@ -242,30 +242,33 @@ export default function PackingList({
         </div>
 
         {/* Actions */}
-        <div className="flex gap-2 pt-4 border-t">
+        <div className="flex gap-1 pt-2 border-t">
           <Button
             onClick={downloadChecklist}
             variant="outline"
             size="sm"
-            className="flex-1 gap-2"
+            className="flex-1 h-6 text-sm gap-1"
           >
-            <Download className="h-4 w-4" />
+            <Download className="h-3 w-3" />
             Download
           </Button>
-          <Button size="sm" variant="outline" className="flex-1 gap-2">
-            <Plus className="h-4 w-4" />
-            Add Item
+          <Button
+            size="sm"
+            variant="outline"
+            className="flex-1 h-6 text-sm gap-1"
+          >
+            <Plus className="h-3 w-3" />
+            Add
           </Button>
         </div>
 
         {/* Tips */}
-        <div className="rounded-lg bg-blue-50 dark:bg-blue-950/30 p-3 text-xs text-blue-900 dark:text-blue-200">
-          <p className="font-medium mb-1">💡 Packing Tips</p>
-          <ul className="space-y-1 list-disc list-inside">
-            <li>Roll clothes instead of folding to save space</li>
-            <li>Check airline baggage restrictions</li>
-            <li>Keep medications in original containers</li>
-            <li>Pack heavy items at the bottom</li>
+        <div className="rounded-lg bg-blue-50 dark:bg-blue-950/30 p-2 text-sm text-blue-900 dark:text-blue-200">
+          <p className="font-medium mb-0.5">💡 Tips</p>
+          <ul className="space-y-0.5 list-disc list-inside">
+            <li>Roll clothes to save space</li>
+            <li>Check baggage limits</li>
+            <li>Keep meds in containers</li>
           </ul>
         </div>
       </CardContent>

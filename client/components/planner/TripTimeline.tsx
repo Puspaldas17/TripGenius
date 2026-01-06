@@ -43,13 +43,13 @@ export default function TripTimeline({
     return (
       <Card className="hover:shadow-lg transition">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-base">
             <Calendar className="h-5 w-5 text-primary" />
             Trip Timeline
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="rounded-lg bg-muted/50 p-6 text-center text-sm text-muted-foreground">
+          <div className="rounded-lg bg-muted/50 p-2 text-center text-xs text-muted-foreground">
             Generate an itinerary to see your trip timeline
           </div>
         </CardContent>
@@ -60,13 +60,13 @@ export default function TripTimeline({
   return (
     <Card className="hover:shadow-lg transition">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-base">
           <Calendar className="h-5 w-5 text-primary" />
           Trip Timeline
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-3">
+        <div className="space-y-2">
           {itinerary.days.map((day, idx) => {
             const dayDate = dates[idx];
             const isExpanded = expandedDay === day.day;
@@ -86,10 +86,12 @@ export default function TripTimeline({
                     onClick={() => setExpandedDay(isExpanded ? null : day.day)}
                     className="w-full text-left"
                   >
-                    <div className="flex items-center justify-between rounded-lg border p-3 hover:bg-muted/50 transition">
+                    <div className="flex items-center justify-between rounded-lg border p-2 hover:bg-muted/50 transition">
                       <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          <Badge variant="outline">Day {day.day}</Badge>
+                        <div className="flex items-center gap-1.5">
+                          <Badge variant="outline" className="text-xs py-0">
+                            Day {day.day}
+                          </Badge>
                           {dayDate && (
                             <span className="text-xs text-muted-foreground">
                               {dayDate.toLocaleDateString("en-US", {
@@ -100,13 +102,13 @@ export default function TripTimeline({
                           )}
                         </div>
                         {!isExpanded && (
-                          <p className="text-sm text-muted-foreground mt-1 line-clamp-1">
+                          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
                             {day.activities[0] || "No activities"}
                           </p>
                         )}
                       </div>
                       <ChevronDown
-                        className={`h-4 w-4 text-muted-foreground transition-transform ${
+                        className={`h-3.5 w-3.5 text-muted-foreground transition-transform flex-shrink-0 ${
                           isExpanded ? "rotate-180" : ""
                         }`}
                       />
@@ -114,15 +116,15 @@ export default function TripTimeline({
                   </button>
 
                   {isExpanded && (
-                    <div className="mt-2 ml-0 space-y-2 animate-in fade-in slide-in-from-top-2">
+                    <div className="mt-1 ml-0 space-y-1 animate-in fade-in slide-in-from-top-2">
                       {day.activities.map((activity, actIdx) => (
                         <div
                           key={actIdx}
-                          className="rounded-md border-l-2 border-primary/50 bg-muted/30 p-3 text-sm"
+                          className="rounded-md border-l-2 border-primary/50 bg-muted/30 p-1.5 text-xs"
                         >
-                          <div className="flex gap-2">
-                            <MapIcon className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
-                            <span className="text-muted-foreground">
+                          <div className="flex gap-1.5">
+                            <MapIcon className="h-3 w-3 text-primary flex-shrink-0 mt-0.5" />
+                            <span className="text-muted-foreground line-clamp-2">
                               {activity}
                             </span>
                           </div>
@@ -137,21 +139,21 @@ export default function TripTimeline({
         </div>
 
         {/* Summary */}
-        <div className="mt-6 rounded-lg bg-primary/5 p-4 space-y-2">
-          <div className="flex items-center gap-2 text-sm">
-            <Plane className="h-4 w-4 text-primary" />
+        <div className="mt-2 rounded-lg bg-primary/5 p-2 space-y-1">
+          <div className="flex items-center gap-1.5 text-xs">
+            <Plane className="h-3.5 w-3.5 text-primary flex-shrink-0" />
             <span className="font-medium">
               {itinerary.days.length} day trip
             </span>
           </div>
-          <div className="flex items-center gap-2 text-sm">
-            <MapIcon className="h-4 w-4 text-primary" />
+          <div className="flex items-center gap-1.5 text-xs">
+            <MapIcon className="h-3.5 w-3.5 text-primary flex-shrink-0" />
             <span className="text-muted-foreground">
               {itinerary.days.reduce(
                 (sum, day) => sum + day.activities.length,
                 0,
               )}{" "}
-              activities planned
+              activities
             </span>
           </div>
         </div>

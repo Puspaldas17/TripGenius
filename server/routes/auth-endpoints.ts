@@ -1,28 +1,11 @@
 import { RequestHandler } from "express";
 import { z } from "zod";
+import { User } from "../models/User";
 
-// Simple in-memory user store (in production, use a real database)
-interface StoredUser {
-  id: string;
-  email: string;
-  name: string;
-  passwordHash: string;
-  createdAt: string;
-  emailVerified: boolean;
-  verificationToken?: string;
+// Simple JWT-like token generator (in production, use real JWT)
+function generateToken(userId: string): string {
+  return `token_${userId}_${Date.now()}`;
 }
-
-const users: Map<string, StoredUser> = new Map();
-
-// Demo user for testing
-users.set("demo@tripgenius.com", {
-  id: "demo-user-1",
-  email: "demo@tripgenius.com",
-  name: "Demo User",
-  passwordHash: "hashed_password_demo123", // In production, hash with bcrypt
-  createdAt: new Date().toISOString(),
-  emailVerified: true,
-});
 
 const signupSchema = z.object({
   email: z.string().email(),
@@ -35,33 +18,29 @@ const loginSchema = z.object({
   password: z.string(),
 });
 
-// Simple JWT-like token generator (in production, use real JWT)
-function generateToken(userId: string): string {
-  return `token_${userId}_${Date.now()}`;
-}
-
 export const handleSignup: RequestHandler = async (req, res) => {
   try {
     const { email, name, password } = signupSchema.parse(req.body);
 
     // Check if user exists
-    if (users.has(email)) {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
       return res.status(400).json({ message: "Email already registered" });
     }
 
     // Create new user
     const userId = `user_${Date.now()}`;
-    const user: StoredUser = {
+    // In production: bcrypt.hash(password, 10)
+
+    const user = await User.create({
       id: userId,
       email,
       name,
-      passwordHash: password, // In production: bcrypt.hash(password, 10)
+      passwordHash: password,
       createdAt: new Date().toISOString(),
       emailVerified: false,
       verificationToken: `verify_${userId}_${Math.random().toString(36)}`,
-    };
-
-    users.set(email, user);
+    });
 
     const token = generateToken(userId);
 
@@ -83,6 +62,7 @@ export const handleSignup: RequestHandler = async (req, res) => {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ message: error.errors[0].message });
     }
+    console.error("Signup error:", error);
     res.status(500).json({ message: "Signup failed" });
   }
 };
@@ -91,7 +71,7 @@ export const handleLogin: RequestHandler = async (req, res) => {
   try {
     const { email, password } = loginSchema.parse(req.body);
 
-    const user = users.get(email);
+    const user = await User.findOne({ email });
 
     if (!user || user.passwordHash !== password) {
       return res.status(401).json({ message: "Invalid email or password" });
@@ -112,6 +92,7 @@ export const handleLogin: RequestHandler = async (req, res) => {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ message: error.errors[0].message });
     }
+    console.error("Login error:", error);
     res.status(500).json({ message: "Login failed" });
   }
 };
@@ -120,23 +101,19 @@ export const handleVerifyEmail: RequestHandler = async (req, res) => {
   try {
     const { token } = req.body;
 
-    let foundUser: StoredUser | null = null;
-    for (const user of users.values()) {
-      if (user.verificationToken === token) {
-        foundUser = user;
-        break;
-      }
-    }
+    const user = await User.findOne({ verificationToken: token });
 
-    if (!foundUser) {
+    if (!user) {
       return res.status(400).json({ message: "Invalid verification token" });
     }
 
-    foundUser.emailVerified = true;
-    foundUser.verificationToken = undefined;
+    user.emailVerified = true;
+    user.verificationToken = undefined;
+    await user.save();
 
     res.json({ message: "Email verified successfully" });
   } catch (error) {
+    console.error("Verify email error:", error);
     res.status(500).json({ message: "Verification failed" });
   }
 };
@@ -148,34 +125,33 @@ export const handleGetMe: RequestHandler = async (req, res) => {
       return res.status(401).json({ message: "No token provided" });
     }
 
-    // In production, verify JWT properly
     const token = authHeader.replace("Bearer ", "");
 
-    let foundUser: StoredUser | null = null;
-    for (const user of users.values()) {
-      if (generateToken(user.id) === token) {
-        foundUser = user;
-        break;
-      }
+    // Logic to parse token: token_USERID_TIMESTAMP
+    // This assumes the token format created by generateToken
+    const parts = token.split("_");
+    // basic validation of format
+    if (parts.length < 3 || parts[0] !== "token") {
+      return res.status(401).json({ message: "Invalid token format" });
     }
 
-    // For demo user, accept the token format
-    if (!foundUser && token.includes("demo")) {
-      const demoUser = users.get("demo@tripgenius.com");
-      if (demoUser) foundUser = demoUser;
-    }
+    const userId = parts[1]; // extract user ID
 
-    if (!foundUser) {
+    // Find user by ID
+    const user = await User.findOne({ id: userId });
+
+    if (!user) {
       return res.status(401).json({ message: "Invalid token" });
     }
 
     res.json({
-      id: foundUser.id,
-      email: foundUser.email,
-      name: foundUser.name,
-      createdAt: foundUser.createdAt,
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      createdAt: user.createdAt,
     });
   } catch (error) {
+    console.error("GetMe error:", error);
     res.status(500).json({ message: "Auth check failed" });
   }
 };

@@ -197,10 +197,9 @@ export default function VisaChecker({
 
             {visaInfo.visaRequired && (
               <Button
-                className="w-full h-7"
+                className="w-full h-7 text-sm"
                 size="sm"
                 variant="outline"
-                className="text-sm"
               >
                 Apply for Visa
               </Button>

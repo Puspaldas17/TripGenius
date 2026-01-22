@@ -2,8 +2,13 @@ import path from "path";
 import { createServer } from "./index";
 import * as express from "express";
 
+import { connectDB } from "./db";
+
 const app = createServer();
 const port = process.env.PORT || 3000;
+
+// Connect to MongoDB
+connectDB();
 
 // In production, serve the built SPA files
 const __dirname = import.meta.dirname;

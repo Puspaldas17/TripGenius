@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   LogOut,
-  MapPin,
   Calendar,
   DollarSign,
   Users,

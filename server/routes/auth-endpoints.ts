@@ -1,10 +1,32 @@
 import { RequestHandler } from "express";
 import { z } from "zod";
 import { User } from "../models/User";
+import crypto from "crypto";
 
 // Simple JWT-like token generator (in production, use real JWT)
 function generateToken(userId: string): string {
   return `token_${userId}_${Date.now()}`;
+}
+
+// Hash password using scrypt (built-in, no extra dependency)
+function hashPassword(password: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const salt = crypto.randomBytes(16).toString("hex");
+    crypto.scrypt(password, salt, 64, (err, derivedKey) => {
+      if (err) reject(err);
+      resolve(`${salt}:${derivedKey.toString("hex")}`);
+    });
+  });
+}
+
+function verifyPassword(password: string, hash: string): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    const [salt, key] = hash.split(":");
+    crypto.scrypt(password, salt, 64, (err, derivedKey) => {
+      if (err) reject(err);
+      resolve(derivedKey.toString("hex") === key);
+    });
+  });
 }
 
 const signupSchema = z.object({
@@ -36,7 +58,7 @@ export const handleSignup: RequestHandler = async (req, res) => {
       id: userId,
       email,
       name,
-      passwordHash: password,
+      passwordHash: await hashPassword(password),
       createdAt: new Date().toISOString(),
       emailVerified: false,
       verificationToken: `verify_${userId}_${Math.random().toString(36)}`,
@@ -73,7 +95,7 @@ export const handleLogin: RequestHandler = async (req, res) => {
 
     const user = await User.findOne({ email });
 
-    if (!user || user.passwordHash !== password) {
+    if (!user || !(await verifyPassword(password, user.passwordHash))) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
@@ -131,11 +153,12 @@ export const handleGetMe: RequestHandler = async (req, res) => {
     // This assumes the token format created by generateToken
     const parts = token.split("_");
     // basic validation of format
-    if (parts.length < 3 || parts[0] !== "token") {
+    if (parts.length < 4 || parts[0] !== "token") {
       return res.status(401).json({ message: "Invalid token format" });
     }
 
-    const userId = parts[1]; // extract user ID
+    // userId is everything between leading "token" and trailing timestamp
+    const userId = parts.slice(1, -1).join("_"); // extract user ID
 
     // Find user by ID
     const user = await User.findOne({ id: userId });

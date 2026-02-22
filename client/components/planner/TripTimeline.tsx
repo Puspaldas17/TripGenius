@@ -4,7 +4,6 @@ import {
   Calendar,
   MapPin,
   Plane,
-  Hotel,
   MapIcon,
   ChevronDown,
 } from "lucide-react";

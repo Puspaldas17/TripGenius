@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, Star, MapPin, MessageCircle } from "lucide-react";
+import { Users, Star, MessageCircle } from "lucide-react";
 import { useState } from "react";
 
 interface LocalGuide {

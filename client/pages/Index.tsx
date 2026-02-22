@@ -11,7 +11,6 @@ import {
   Brain,
   CreditCard,
   FileDown,
-  Globe2,
   Bell,
 } from "lucide-react";
 

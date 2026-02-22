@@ -93,5 +93,5 @@ function suggestActivities(
     ],
   } as const;
   const plan = base[mood];
-  return plan.map((p) => `${p}${day % 2 === 0 ? "" : ""}`);
+  return [...plan];
 }

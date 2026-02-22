@@ -32,7 +32,7 @@ export function verifyJwt(token: string, secret: string) {
     crypto.createHmac("sha256", secret).update(unsigned).digest(),
   );
   if (expected !== s) return null;
-  const payload = JSON.parse(Buffer.from(p, "base64").toString());
+  const payload = JSON.parse(Buffer.from(p, "base64url").toString());
   const now = Math.floor(Date.now() / 1000);
   if (typeof payload.exp === "number" && payload.exp < now) return null;
   return payload;

@@ -68,7 +68,9 @@ export const getWeather: RequestHandler = async (req, res) => {
         cache.set(location, { ts: nowTs, data: out });
         return res.json(out);
       }
-    } catch {}
+    } catch (e) {
+      console.error("Weather API error:", e);
+    }
   }
   const now = new Date();
   const daily = Array.from({ length: 5 }, (_, i) => {

@@ -53,7 +53,8 @@ export default function Signup() {
       toast.success("Account created successfully!");
       navigate("/dashboard");
     } catch (err) {
-      toast.error(authError || "Signup failed. Please try again.");
+      const msg = err instanceof Error ? err.message : "Signup failed. Please try again.";
+      toast.error(msg);
     }
   };
 
@@ -166,7 +167,7 @@ export default function Signup() {
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="•���••••••"
+                  placeholder="••••••••"
                   value={formData.password}
                   onChange={handleInputChange}
                   onBlur={() => handleBlur("password")}

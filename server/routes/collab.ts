@@ -23,7 +23,10 @@ export const collabSubscribe: RequestHandler = (req, res) => {
     const s = rooms.get(room);
     if (s) {
       for (const c of s) if (c.id === id) s.delete(c);
-      if (!s.size) rooms.delete(room);
+      if (!s.size) {
+        rooms.delete(room);
+        history.delete(room); // clean up history when room is empty
+      }
     }
   });
 };

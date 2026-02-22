@@ -688,7 +688,7 @@ export default function Planner() {
       localStorage.setItem("tg_trip_" + entry.id, JSON.stringify(payload));
     } catch {}
     try {
-      const token = localStorage.getItem("tg_token");
+      const token = localStorage.getItem("auth_token");
       if (token && (await ensureServer())) {
         await safeFetch(`${apiBase}/trips`, {
           method: "POST",

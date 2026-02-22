@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import { z } from "zod";
+import crypto from "crypto";
 
 interface Trip {
   id: string;
@@ -40,7 +41,7 @@ export const handleCreateTrip: RequestHandler = (req, res) => {
     }
 
     const data = tripSchema.parse(req.body);
-    const tripId = `trip_${Date.now()}`;
+    const tripId = `trip_${crypto.randomUUID()}`;
 
     const trip: Trip = {
       id: tripId,

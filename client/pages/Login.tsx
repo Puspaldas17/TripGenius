@@ -41,7 +41,8 @@ export default function Login() {
       toast.success("Login successful!");
       navigate("/dashboard");
     } catch (err) {
-      toast.error(authError || "Login failed. Please try again.");
+      const msg = err instanceof Error ? err.message : "Login failed. Please try again.";
+      toast.error(msg);
     }
   };
 

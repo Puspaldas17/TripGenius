@@ -82,7 +82,7 @@ export default function Dashboard() {
       const ok = await ensureServer();
       if (!ok) return;
       // Try enrich from backend if logged in
-      const token = localStorage.getItem("tg_token");
+      const token = localStorage.getItem("auth_token");
       if (!token) return;
       try {
         setLoadingTrips(true);
@@ -90,8 +90,8 @@ export default function Dashboard() {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (r.ok) {
-          const j = (await r.json()) as { trips: any[] };
-          const mapped: SavedTrip[] = (j.trips || []).map((t: any) => ({
+          const j = (await r.json()) as any[];
+          const mapped: SavedTrip[] = (j || []).map((t: any) => ({
             id: String(t.id),
             name: String(t.name || t.itinerary?.destination || "Trip"),
             destination: String(t.itinerary?.destination || ""),
@@ -405,7 +405,7 @@ export default function Dashboard() {
                             href="#"
                             onClick={(e) => {
                               e.preventDefault();
-                              setPage((p) => p + 1);
+                              setPage((p) => Math.min(totalPages, p + 1));
                             }}
                           />
                         </PaginationItem>

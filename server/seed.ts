@@ -1,19 +1,31 @@
 import { User } from "./models/User";
 import { connectDB } from "./db";
+import crypto from "crypto";
 import "dotenv/config";
+
+function hashPassword(password: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const salt = crypto.randomBytes(16).toString("hex");
+    crypto.scrypt(password, salt, 64, (err, derivedKey) => {
+      if (err) reject(err);
+      resolve(`${salt}:${derivedKey.toString("hex")}`);
+    });
+  });
+}
 
 async function seed() {
     await connectDB();
 
     const demoEmail = "demo@tripgenius.com";
     console.log("🌱 Seeding demo user...");
+    const hashedPassword = await hashPassword("Demo@123");
     await User.findOneAndUpdate(
         { email: demoEmail },
         {
             id: "demo-user-1",
             email: demoEmail,
             name: "Demo User",
-            passwordHash: "Demo@123", // Matches UI hint and satisfies complexity requirements
+            passwordHash: hashedPassword,
             createdAt: new Date().toISOString(),
             emailVerified: true,
         },

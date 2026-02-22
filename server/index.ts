@@ -6,7 +6,6 @@ import { logger } from "./utils/logger";
 import { requestLogger } from "./middleware/request-logger";
 import { securityHeaders } from "./middleware/security-headers";
 import { rateLimit } from "./middleware/rate-limit";
-import { handleDemo } from "./routes/demo";
 import {
   handleSignup,
   handleLogin,
@@ -68,8 +67,6 @@ export function createServer() {
   app.get("/api/ping", (_req, res) => {
     res.json({ message: config.PING_MESSAGE });
   });
-
-  app.get("/api/demo", handleDemo);
 
   // ─── Auth (rate-limited to prevent brute force) ─────────────────────────────
   const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, maxRequests: 20 });

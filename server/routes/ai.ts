@@ -1,11 +1,30 @@
 import { RequestHandler } from "express";
+import { z } from "zod";
 import type { ItineraryRequest, ItineraryResponse } from "@shared/api";
 
+const itinerarySchema = z.object({
+  destination: z.string().min(1, "Destination is required"),
+  days: z.coerce.number().int().min(1).max(14).default(3),
+  mood: z
+    .enum([
+      "foodie", "adventure", "relax", "culture", "romantic",
+      "family", "nightlife", "spiritual", "shopping", "nature", "photography",
+    ])
+    .default("adventure"),
+  budget: z.number().optional(),
+  members: z.number().optional(),
+  origin: z.string().optional(),
+});
+
 export const generateItinerary: RequestHandler = async (req, res) => {
-  const body = req.body as ItineraryRequest;
-  const days = Math.max(1, Math.min(14, Number(body.days || 3)));
-  const mood = (body.mood || "adventure") as ItineraryRequest["mood"];
-  const destination = body.destination || "Your Destination";
+  const parsed = itinerarySchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ message: parsed.error.errors[0].message });
+  }
+  const body = parsed.data;
+  const days = body.days;
+  const mood = body.mood as ItineraryRequest["mood"];
+  const destination = body.destination;
 
   const response: ItineraryResponse = {
     destination,

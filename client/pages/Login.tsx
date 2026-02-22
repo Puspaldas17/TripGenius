@@ -41,33 +41,44 @@ export default function Login() {
       toast.success("Login successful!");
       navigate("/dashboard");
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Login failed. Please try again.";
+      const msg =
+        err instanceof Error ? err.message : "Login failed. Please try again.";
       toast.error(msg);
     }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 py-8">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-2">
-          <CardTitle className="text-2xl">Welcome Back</CardTitle>
+    <div className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
+      {/* Background decoration */}
+      <div className="absolute inset-0 -z-10 gradient-hero" />
+      <div className="absolute inset-0 -z-10 dot-pattern opacity-30" />
+      <div className="absolute top-20 right-20 -z-10 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
+      <div className="absolute bottom-20 left-20 -z-10 h-56 w-56 rounded-full bg-accent/10 blur-3xl" />
+
+      <Card className="w-full max-w-md animate-slide-in-up glass-card shadow-xl">
+        <CardHeader className="space-y-2 pb-4">
+          <CardTitle className="text-2xl font-extrabold tracking-tight">
+            Welcome Back
+          </CardTitle>
           <p className="text-sm text-muted-foreground">
             Sign in to your TripGenius account
           </p>
         </CardHeader>
         <CardContent>
-          <div className="mb-6 rounded-lg bg-blue-50 dark:bg-blue-950/30 p-4 border border-blue-200 dark:border-blue-800">
-            <div className="flex gap-2 items-start">
-              <Zap className="h-5 w-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">
+          <div className="mb-6 rounded-xl bg-primary/5 p-4 border border-primary/10">
+            <div className="flex gap-3 items-start">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                <Zap className="h-4 w-4 text-primary" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium mb-2">
                   Want to explore first?
                 </p>
                 <Button
                   type="button"
-                  variant="outline"
+                  variant="default"
                   size="sm"
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white border-blue-600 hover:border-blue-700"
+                  className="w-full shadow-sm"
                   onClick={() => {
                     loginAsGuest();
                     navigate("/planner");
@@ -153,7 +164,7 @@ export default function Login() {
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-all"
               disabled={isLoading}
               size="lg"
             >
@@ -169,14 +180,19 @@ export default function Login() {
           </form>
 
           <div className="mt-4 text-center text-sm">
-            <span className="text-muted-foreground">Don't have an account? </span>
-            <Link to="/signup" className="font-semibold text-primary hover:underline">
+            <span className="text-muted-foreground">
+              Don't have an account?{" "}
+            </span>
+            <Link
+              to="/signup"
+              className="font-semibold text-primary hover:underline"
+            >
               Create one
             </Link>
           </div>
 
-          <div className="mt-6 space-y-2 rounded-lg bg-muted/50 p-4 text-xs text-muted-foreground">
-            <p className="font-medium">Demo credentials:</p>
+          <div className="mt-6 space-y-2 rounded-xl border border-dashed p-4 text-xs text-muted-foreground">
+            <p className="font-semibold text-foreground">Demo credentials:</p>
             <p>Email: demo@tripgenius.com</p>
             <p>Password: Demo@123</p>
           </div>

@@ -1,13 +1,53 @@
 <!doctype html>
-<html lang="en-IN">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TripGenius – AI Travel Planner</title>
+
+    <!-- Primary Meta Tags -->
+    <title>TripGenius — AI-Powered Travel Planner</title>
+    <meta name="title" content="TripGenius — AI-Powered Travel Planner" />
+    <meta name="description" content="Plan smarter, travel better. TripGenius uses AI to create personalized itineraries with real-time weather, flight & hotel search, budget tracking, and group collaboration." />
+    <meta name="keywords" content="travel planner, AI itinerary, trip planning, travel app, budget travel, group travel, weather forecast" />
+    <meta name="author" content="Puspal Das" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Theme / PWA -->
+    <meta name="theme-color" content="#2563eb" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://tripgenius.app/" />
+    <meta property="og:title" content="TripGenius — AI-Powered Travel Planner" />
+    <meta property="og:description" content="Plan smarter, travel better. AI-powered itineraries with real-time weather, budget tracking, and group collaboration." />
+    <meta property="og:image" content="https://tripgenius.app/og-image.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://tripgenius.app/" />
+    <meta property="twitter:title" content="TripGenius — AI-Powered Travel Planner" />
+    <meta property="twitter:description" content="Plan smarter, travel better. AI-powered itineraries with real-time weather, budget tracking, and group collaboration." />
+    <meta property="twitter:image" content="https://tripgenius.app/og-image.png" />
+
+    <!-- Preconnect to key origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://api.openweathermap.org" />
   </head>
 
   <body>
-    <div id="root"></div>
+    <!-- Inline critical loading state to prevent white flash -->
+    <div id="root">
+      <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:Inter,system-ui,sans-serif">
+        <div style="text-align:center">
+          <div style="font-size:1.5rem;font-weight:700;color:#2563eb">TripGenius</div>
+          <div style="margin-top:0.5rem;color:#64748b;font-size:0.875rem">Loading...</div>
+        </div>
+      </div>
+    </div>
 
     <script type="module" src="/client/App.tsx"></script>
   </body>

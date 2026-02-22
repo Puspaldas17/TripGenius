@@ -2,10 +2,16 @@ import { RequestHandler } from "express";
 import { z } from "zod";
 import { User } from "../models/User";
 import crypto from "crypto";
+import { signJwt, verifyJwt } from "../utils/jwt";
+import { env } from "../utils/env";
 
-// Simple JWT-like token generator (in production, use real JWT)
-function generateToken(userId: string): string {
-  return `token_${userId}_${Date.now()}`;
+function getSecret(): string {
+  return env().JWT_SECRET || "dev_secret_change_me";
+}
+
+/** Issue a proper HS256 JWT with userId, email, and name in the payload. */
+function generateToken(userId: string, email: string, name: string): string {
+  return signJwt({ sub: userId, email, name }, getSecret());
 }
 
 // Hash password using scrypt (built-in, no extra dependency)
@@ -64,9 +70,10 @@ export const handleSignup: RequestHandler = async (req, res) => {
       verificationToken: `verify_${userId}_${Math.random().toString(36)}`,
     });
 
-    const token = generateToken(userId);
+    const token = generateToken(userId, email, name);
 
     // In production: send verification email with user.verificationToken
+
     console.log(
       `[Email Verification] Send email to ${email} with token: ${user.verificationToken}`,
     );
@@ -99,7 +106,7 @@ export const handleLogin: RequestHandler = async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const token = generateToken(user.id);
+    const token = generateToken(user.id, user.email, user.name);
 
     res.json({
       user: {
@@ -143,28 +150,20 @@ export const handleVerifyEmail: RequestHandler = async (req, res) => {
 export const handleGetMe: RequestHandler = async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
-    if (!authHeader) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ message: "No token provided" });
     }
 
-    const token = authHeader.replace("Bearer ", "");
+    const token = authHeader.slice(7);
+    const payload = verifyJwt(token, getSecret());
 
-    // Logic to parse token: token_USERID_TIMESTAMP
-    // This assumes the token format created by generateToken
-    const parts = token.split("_");
-    // basic validation of format
-    if (parts.length < 4 || parts[0] !== "token") {
-      return res.status(401).json({ message: "Invalid token format" });
+    if (!payload || !payload.sub) {
+      return res.status(401).json({ message: "Invalid or expired token" });
     }
 
-    // userId is everything between leading "token" and trailing timestamp
-    const userId = parts.slice(1, -1).join("_"); // extract user ID
-
-    // Find user by ID
-    const user = await User.findOne({ id: userId });
-
+    const user = await User.findOne({ id: payload.sub });
     if (!user) {
-      return res.status(401).json({ message: "Invalid token" });
+      return res.status(401).json({ message: "User not found" });
     }
 
     res.json({

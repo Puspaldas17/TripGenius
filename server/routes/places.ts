@@ -35,7 +35,7 @@ export const getPlaces: RequestHandler = async (req, res) => {
       summary: `${p.title} near ${location}`,
     }));
     res.json({ places });
-  } catch (e) {
+  } catch (_e) {
     res.json({ places: [] });
   }
 };

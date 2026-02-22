@@ -19,7 +19,7 @@ export const reverseGeocode: RequestHandler = async (req, res) => {
     const country = a.country || "";
     const label = [city, state, country].filter(Boolean).join(", ");
     res.json({ label, address: a });
-  } catch (e) {
+  } catch (_e) {
     res.status(500).json({ error: "Reverse geocoding failed" });
   }
 };

@@ -15,7 +15,7 @@ export const geocodeSearch: RequestHandler = async (req, res) => {
       lon: Number(i.lon),
     }));
     res.json({ results });
-  } catch (e) {
+  } catch (_e) {
     res.status(500).json({ error: "Geocoding failed" });
   }
 };
@@ -100,7 +100,7 @@ export const travelOptions: RequestHandler = async (req, res) => {
       },
       options,
     });
-  } catch (e) {
+  } catch (_e) {
     res.status(500).json({ error: "Failed to compute travel options" });
   }
 };

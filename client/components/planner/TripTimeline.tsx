@@ -1,12 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Calendar,
-  MapPin,
-  Plane,
-  MapIcon,
-  ChevronDown,
-} from "lucide-react";
+import { Calendar, Plane, MapIcon, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import type { ItineraryResponse } from "@shared/api";
 

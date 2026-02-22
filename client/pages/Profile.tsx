@@ -1,17 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
-import {
-  LogOut,
-  Calendar,
-  DollarSign,
-  Users,
-  Plus,
-  Edit2,
-} from "lucide-react";
+import { LogOut, Calendar, DollarSign, Users, Plus, Edit2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface Trip {
@@ -57,7 +50,7 @@ export default function Profile() {
           "https://images.pexels.com/photos/2738126/pexels-photo-2738126.jpeg",
       },
     ];
-    
+
     setTrips(mockTrips);
     setLoading(false);
   }, []);
@@ -75,7 +68,10 @@ export default function Profile() {
     totalDays: trips.reduce((sum, t) => {
       const start = new Date(t.startDate);
       const end = new Date(t.endDate);
-      return sum + Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+      return (
+        sum +
+        Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24))
+      );
     }, 0),
   };
 
@@ -206,7 +202,7 @@ export default function Profile() {
                 const endDate = new Date(trip.endDate);
                 const days = Math.ceil(
                   (endDate.getTime() - startDate.getTime()) /
-                    (1000 * 60 * 60 * 24)
+                    (1000 * 60 * 60 * 24),
                 );
 
                 return (
@@ -256,7 +252,8 @@ export default function Profile() {
                         </div>
                         <div className="flex items-center gap-2 text-muted-foreground">
                           <Users className="h-4 w-4" />
-                          {trip.members} {trip.members === 1 ? "person" : "people"}
+                          {trip.members}{" "}
+                          {trip.members === 1 ? "person" : "people"}
                         </div>
                       </div>
 
@@ -278,7 +275,7 @@ export default function Profile() {
                           className="flex-1"
                           onClick={() =>
                             toast.success(
-                              `Duplicating trip to ${trip.destination}`
+                              `Duplicating trip to ${trip.destination}`,
                             )
                           }
                         >

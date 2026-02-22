@@ -1,4 +1,6 @@
 import { RequestHandler } from "express";
+import { verifyJwt } from "../utils/jwt";
+import { env } from "../utils/env";
 
 declare global {
   namespace Express {
@@ -8,28 +10,27 @@ declare global {
   }
 }
 
+/**
+ * Verifies the Bearer JWT and sets `req.userId` from the `sub` claim.
+ */
 export const authMiddleware: RequestHandler = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-
-    if (!authHeader) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ message: "No token provided" });
     }
 
-    const token = authHeader.replace("Bearer ", "");
+    const token = authHeader.slice(7);
+    const secret = env().JWT_SECRET || "dev_secret_change_me";
+    const payload = verifyJwt(token, secret);
 
-    // In production, verify JWT properly with a secret key
-    // For now, just extract userId from token format: token_userId_timestamp
-    const parts = token.split("_");
-
-    if (parts[0] !== "token" || parts.length < 4) {
-      return res.status(401).json({ message: "Invalid token" });
+    if (!payload || !payload.sub) {
+      return res.status(401).json({ message: "Invalid or expired token" });
     }
 
-    // userId is everything between the leading "token" and the trailing timestamp
-    req.userId = parts.slice(1, -1).join("_");
+    req.userId = payload.sub as string;
     next();
-  } catch (error) {
+  } catch (_error) {
     res.status(401).json({ message: "Authentication failed" });
   }
 };

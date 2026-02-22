@@ -1,6 +1,11 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import { validateEnv } from "./utils/env";
+import { logger } from "./utils/logger";
+import { requestLogger } from "./middleware/request-logger";
+import { securityHeaders } from "./middleware/security-headers";
+import { rateLimit } from "./middleware/rate-limit";
 import { handleDemo } from "./routes/demo";
 import {
   handleSignup,
@@ -30,32 +35,53 @@ import { getEvents } from "./routes/events";
 import { collabPublish, collabSubscribe } from "./routes/collab";
 
 export function createServer() {
+  // Validate environment variables on startup
+  const config = validateEnv();
+
   const app = express();
 
-  // Middleware
-  app.use(cors());
-  app.use(express.json());
+  // ─── Global Middleware ──────────────────────────────────────────────────────
+  app.use(securityHeaders);
+  app.use(
+    cors({
+      origin:
+        config.NODE_ENV === "production"
+          ? [/\.tripgenius\.com$/, /\.netlify\.app$/, /\.vercel\.app$/]
+          : true,
+      credentials: true,
+    }),
+  );
+  app.use(express.json({ limit: "1mb" }));
   app.use(express.urlencoded({ extended: true }));
+  app.use(requestLogger);
 
-  // Health
-  app.get("/health", (_req, res) => res.json({ ok: true }));
-  // Example API routes
+  // ─── Health & Status ────────────────────────────────────────────────────────
+  app.get("/health", (_req, res) =>
+    res.json({
+      status: "ok",
+      env: config.NODE_ENV,
+      uptime: Math.floor(process.uptime()),
+      timestamp: new Date().toISOString(),
+    }),
+  );
+
   app.get("/api/ping", (_req, res) => {
-    const ping = process.env.PING_MESSAGE ?? "ping";
-    res.json({ message: ping });
+    res.json({ message: config.PING_MESSAGE });
   });
 
   app.get("/api/demo", handleDemo);
 
-  // Auth
-  app.post("/api/auth/signup", handleSignup);
-  app.post("/api/auth/login", handleLogin);
+  // ─── Auth (rate-limited to prevent brute force) ─────────────────────────────
+  const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, maxRequests: 20 });
+  app.post("/api/auth/signup", authLimiter, handleSignup);
+  app.post("/api/auth/login", authLimiter, handleLogin);
   app.post("/api/auth/verify-email", handleVerifyEmail);
   app.get("/api/auth/me", handleGetMe);
 
-  // AI + data
-  app.post("/api/ai/itinerary", generateItinerary);
-  app.post("/api/ai/chat", aiChat);
+  // ─── AI + Data (rate-limited) ────────────────────────────────────────────────
+  const aiLimiter = rateLimit({ windowMs: 60 * 1000, maxRequests: 10 });
+  app.post("/api/ai/itinerary", aiLimiter, generateItinerary);
+  app.post("/api/ai/chat", aiLimiter, aiChat);
   app.get("/api/weather", getWeather);
 
   // Search
@@ -95,15 +121,24 @@ export function createServer() {
   app.get("/api/collab/subscribe", collabSubscribe);
   app.post("/api/collab/publish", collabPublish);
 
-  // Global error handler
+  // ─── 404 handler ─────────────────────────────────────────────────────────────
+  app.use((_req, res) => {
+    res.status(404).json({ message: "Not found" });
+  });
+
+  // ─── Global error handler ───────────────────────────────────────────────────
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  app.use((err: any, _req: any, res: any, _next: any) => {
-    const ts = new Date().toISOString();
-    console.error(
-      `[${ts}] [express]`,
-      err?.stack || err?.message || String(err),
-    );
-    res.status(500).json({ error: "Internal Server Error" });
+  app.use((err: any, req: any, res: any, _next: any) => {
+    const requestId = req.requestId || "unknown";
+    logger.error("express", "Unhandled error", err, { requestId });
+
+    const status = err.status || err.statusCode || 500;
+    const message =
+      config.NODE_ENV === "production"
+        ? "Internal Server Error"
+        : err.message || "Internal Server Error";
+
+    res.status(status).json({ error: message, requestId });
   });
 
   return app;

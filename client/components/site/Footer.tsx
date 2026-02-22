@@ -42,8 +42,9 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-      <div className="mx-auto mt-10 max-w-7xl px-4 text-xs text-muted-foreground md:px-6">
-        Built with ❤️ by Puspal Das with his HackStreet Boys Team
+      <div className="mx-auto mt-10 flex max-w-7xl items-center justify-between border-t pt-6 px-4 text-xs text-muted-foreground md:px-6">
+        <span>&copy; {new Date().getFullYear()} TripGenius. All rights reserved.</span>
+        <span>Built with ❤️ by Puspal Das &amp; HackStreet Boys</span>
       </div>
     </footer>
   );

@@ -33,10 +33,7 @@ export default class ErrorBoundary extends React.Component<Props, State> {
           </p>
           <div className="mt-4 flex justify-center gap-2">
             <Button onClick={this.reset}>Try again</Button>
-            <Button
-              variant="outline"
-              onClick={() => (window.location.href = window.location.href)}
-            >
+            <Button variant="outline" onClick={() => window.location.reload()}>
               Reload page
             </Button>
           </div>

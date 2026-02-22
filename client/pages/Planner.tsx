@@ -31,8 +31,7 @@ import PassportTracker from "@/components/planner/PassportTracker";
 import TripTimeline from "@/components/planner/TripTimeline";
 import LocalGuides from "@/components/planner/LocalGuides";
 import PackingList from "@/components/planner/PackingList";
-import { PlannerLayout } from "@/components/planner/PlannerLayout";
-import { CardSkeleton } from "@/components/common/LoadingSkeleton";
+
 import { useAuth } from "@/contexts/AuthContext";
 import {
   ResponsiveContainer,
@@ -82,9 +81,9 @@ export default function Planner() {
   const [weather, setWeather] = useState<WeatherResponse | null>(null);
   const [origin, setOrigin] = useState<string>("New Delhi, India");
   const [dateRange, setDateRange] = useState<{ from?: Date; to?: Date }>({});
-  const [flightQuery, setFlightQuery] = useState("");
+  const [flightQuery, _setFlightQuery] = useState("");
   const [hotelQuery, setHotelQuery] = useState("");
-  const [flights, setFlights] = useState<any[]>([]);
+  const [_flights, setFlights] = useState<any[]>([]);
   const [hotels, setHotels] = useState<any[]>([]);
   const [fx, setFx] = useState<{
     amount: number;
@@ -105,7 +104,7 @@ export default function Planner() {
   const [serverOk, setServerOk] = useState<boolean>(false);
   const [apiBase, setApiBase] = useState<string>("/api");
 
-  const perDay = useMemo(
+  const _perDay = useMemo(
     () => (form.budget || 0) / (form.days || 1),
     [form.budget, form.days],
   );
@@ -119,8 +118,8 @@ export default function Planner() {
   const [openCalendar, setOpenCalendar] = useState(true);
   const [openBudget, setOpenBudget] = useState(true);
   const [openGroup, setOpenGroup] = useState(true);
-  const [openHotels, setOpenHotels] = useState(true);
-  const [openCurrency, setOpenCurrency] = useState(true);
+  const [_openHotels, _setOpenHotels] = useState(true);
+  const [_openCurrency, _setOpenCurrency] = useState(true);
   const [showHourly, setShowHourly] = useState(false);
   const [transportFilter, setTransportFilter] = useState<
     "all" | "cheapest" | "fastest" | "eco"
@@ -304,14 +303,14 @@ export default function Planner() {
       );
       setWeather(w);
       // Places and weather are already fetched via auto-fetch effect
-    } catch (e) {
+    } catch (_e) {
       // swallow
     } finally {
       setLoading(false);
     }
   };
 
-  const doFlightSearch = async () => {
+  const _doFlightSearch = async () => {
     if (!(await ensureServer())) return;
     try {
       const res = await safeFetch(
@@ -457,7 +456,6 @@ export default function Planner() {
       if (!(await ensureServer())) return;
       await fetchTravel();
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [origin, form.destination, itinerary, serverOk]);
 
   // Fetch per-leg travel depending on trip type
@@ -632,7 +630,7 @@ export default function Planner() {
       );
       const data = await resp.json();
       if (data?.label) setOrigin(data.label);
-    } catch (e) {
+    } catch (_e) {
       // swallow
     }
   };
@@ -656,7 +654,7 @@ export default function Planner() {
       );
       const data = await resp.json();
       if (data?.label) setForm((f) => ({ ...f, destination: data.label }));
-    } catch (e) {
+    } catch (_e) {
       // swallow
     }
   };
@@ -2059,7 +2057,7 @@ export default function Planner() {
 }
 
 function ShareTrip() {
-  const [code, setCode] = useState<string>(() => {
+  const [code, _setCode] = useState<string>(() => {
     const existing = localStorage.getItem("tg_trip_code");
     if (existing) return existing;
     const c = cryptoRandom(8);
@@ -2120,7 +2118,7 @@ function buildTransportLinks(
   const o = encodeURIComponent(origin.trim());
   const d = encodeURIComponent(destination.trim());
   const dateISO = from ? from.toISOString().slice(0, 10) : "";
-  const dateCompact = from
+  const _dateCompact = from
     ? `${from.getFullYear()}${String(from.getMonth() + 1).padStart(2, "0")}${String(from.getDate()).padStart(2, "0")}`
     : "";
   switch (mode) {

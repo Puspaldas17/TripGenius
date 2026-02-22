@@ -7,8 +7,17 @@ const itinerarySchema = z.object({
   days: z.coerce.number().int().min(1).max(14).default(3),
   mood: z
     .enum([
-      "foodie", "adventure", "relax", "culture", "romantic",
-      "family", "nightlife", "spiritual", "shopping", "nature", "photography",
+      "foodie",
+      "adventure",
+      "relax",
+      "culture",
+      "romantic",
+      "family",
+      "nightlife",
+      "spiritual",
+      "shopping",
+      "nature",
+      "photography",
     ])
     .default("adventure"),
   budget: z.number().optional(),
@@ -41,7 +50,7 @@ export const generateItinerary: RequestHandler = async (req, res) => {
 function suggestActivities(
   dest: string,
   mood: ItineraryRequest["mood"],
-  day: number,
+  _day: number,
 ) {
   const base = {
     foodie: [

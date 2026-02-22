@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { createRoot } from "react-dom/client";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, lazy, Suspense } from "react";
@@ -38,7 +39,7 @@ function GlobalErrorTrap() {
     const onError = (e: ErrorEvent) => {
       toast.error(e.message || "Runtime error");
       // console.error is fine for dev; could POST to server here
-      // eslint-disable-next-line no-console
+
       console.error("[window.error]", e.error || e.message);
     };
     const onRejection = (e: PromiseRejectionEvent) => {
@@ -46,7 +47,7 @@ function GlobalErrorTrap() {
         (e.reason && (e.reason.message || String(e.reason))) ||
         "Unhandled promise rejection";
       toast.error(msg);
-      // eslint-disable-next-line no-console
+
       console.error("[unhandledrejection]", e.reason);
     };
     window.addEventListener("error", onError);
@@ -61,62 +62,64 @@ function GlobalErrorTrap() {
 
 const AppRoutes = () => (
   <Suspense fallback={<PageLoader />}>
-  <Routes>
-    <Route path="/" element={<Index />} />
-    <Route path="/login" element={<Login />} />
-    <Route path="/signup" element={<Signup />} />
-    <Route
-      path="/planner"
-      element={
-        <ProtectedRoute>
-          <Planner />
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/dashboard"
-      element={
-        <ProtectedRoute>
-          <Dashboard />
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/profile"
-      element={
-        <ProtectedRoute>
-          <Profile />
-        </ProtectedRoute>
-      }
-    />
-    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-    <Route path="*" element={<NotFound />} />
-  </Routes>
+    <Routes>
+      <Route path="/" element={<Index />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route
+        path="/planner"
+        element={
+          <ProtectedRoute>
+            <Planner />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        }
+      />
+      {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   </Suspense>
 );
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <AuthProvider>
-        <BrowserRouter>
-          <div className="flex min-h-screen flex-col">
-            <Navbar />
-            <ErrorBoundary>
-              <main className="flex-1">
-                <PageTransition>
-                  <AppRoutes />
-                </PageTransition>
-                <GlobalErrorTrap />
-              </main>
-            </ErrorBoundary>
-            <Footer />
-          </div>
-        </BrowserRouter>
-      </AuthProvider>
-    </TooltipProvider>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <AuthProvider>
+          <BrowserRouter>
+            <div className="flex min-h-screen flex-col">
+              <Navbar />
+              <ErrorBoundary>
+                <main className="flex-1">
+                  <PageTransition>
+                    <AppRoutes />
+                  </PageTransition>
+                  <GlobalErrorTrap />
+                </main>
+              </ErrorBoundary>
+              <Footer />
+            </div>
+          </BrowserRouter>
+        </AuthProvider>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

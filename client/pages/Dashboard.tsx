@@ -210,15 +210,26 @@ export default function Dashboard() {
 
   return (
     <div className="mx-auto w-full max-w-7xl px-3 py-8 sm:px-4 md:px-6 md:py-10">
+      {/* Page Header */}
+      <div className="mb-8 animate-fade-in">
+        <h1 className="text-3xl font-extrabold tracking-tight">Dashboard</h1>
+        <p className="mt-1 text-muted-foreground">
+          Overview of your travel plans and activity
+        </p>
+      </div>
+
       <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FolderKanban className="h-5 w-5 text-primary" /> Quick Actions
+        <Card className="hover-lift group">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-sm font-semibold">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <FolderKanban className="h-4 w-4" />
+              </div>
+              Quick Actions
             </CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 gap-2">
-            <Button asChild>
+            <Button asChild className="shadow-sm">
               <Link to="/planner" className="w-full">
                 <Plus className="mr-2 h-4 w-4" />
                 New Trip
@@ -234,27 +245,37 @@ export default function Dashboard() {
             </Button>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CalendarDays className="h-5 w-5 text-primary" /> Insights
+        <Card className="hover-lift group">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-sm font-semibold">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <CalendarDays className="h-4 w-4" />
+              </div>
+              Insights
             </CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-            <div className="rounded-md border p-3">
-              Trips
-              <div className="text-2xl font-bold">{stats.trips}</div>
+          <CardContent className="grid grid-cols-2 gap-3">
+            <div className="rounded-xl border bg-muted/30 p-3 text-center">
+              <div className="text-2xl font-bold text-primary">
+                {stats.trips}
+              </div>
+              <div className="text-xs text-muted-foreground">Trips</div>
             </div>
-            <div className="rounded-md border p-3">
-              Days
-              <div className="text-2xl font-bold">{stats.days}</div>
+            <div className="rounded-xl border bg-muted/30 p-3 text-center">
+              <div className="text-2xl font-bold text-primary">
+                {stats.days}
+              </div>
+              <div className="text-xs text-muted-foreground">Days</div>
             </div>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CloudSun className="h-5 w-5 text-primary" /> Upcoming Weather
+        <Card className="hover-lift group">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-sm font-semibold">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <CloudSun className="h-4 w-4" />
+              </div>
+              Upcoming Weather
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -291,22 +312,28 @@ export default function Dashboard() {
             )}
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Bell className="h-5 w-5 text-primary" /> Notifications
+        <Card className="hover-lift group">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-sm font-semibold">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <Bell className="h-4 w-4" />
+              </div>
+              Notifications
             </CardTitle>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground">
-            No notifications yet.
+            <div className="flex flex-col items-center justify-center py-4 text-center">
+              <Bell className="h-8 w-8 text-muted-foreground/30 mb-2" />
+              <p>No notifications yet.</p>
+            </div>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Saved Plans</CardTitle>
+        <Card className="overflow-hidden">
+          <CardHeader className="border-b bg-muted/20">
+            <CardTitle className="text-base">Saved Plans</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="mb-3 flex items-center gap-2">
@@ -353,7 +380,7 @@ export default function Dashboard() {
                       {pageItems.map((t) => (
                         <div
                           key={t.id}
-                          className="flex items-center justify-between rounded-md border p-3 text-sm"
+                          className="flex items-center justify-between rounded-xl border p-3 text-sm hover:bg-muted/30 transition-colors"
                         >
                           <div>
                             <div className="font-medium">
@@ -421,9 +448,9 @@ export default function Dashboard() {
             )}
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
+        <Card className="overflow-hidden">
+          <CardHeader className="border-b bg-muted/20">
+            <CardTitle className="text-base">Recent Activity</CardTitle>
           </CardHeader>
           <CardContent>
             {activity.length ? (
@@ -431,11 +458,11 @@ export default function Dashboard() {
                 {activity.slice(0, 10).map((a) => (
                   <div
                     key={a.id}
-                    className="flex items-center justify-between rounded-md border p-2"
+                    className="flex items-center justify-between rounded-xl border p-3 hover:bg-muted/30 transition-colors"
                   >
                     <div>
                       <div>{a.message}</div>
-                      <div className="text-[10px] text-muted-foreground">
+                      <div className="text-xs text-muted-foreground">
                         {new Date(a.at).toLocaleString()}
                       </div>
                     </div>

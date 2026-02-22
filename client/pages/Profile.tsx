@@ -79,104 +79,96 @@ export default function Profile() {
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-6xl px-4 py-8">
         {/* User Header */}
-        <div className="mb-8 flex items-start justify-between rounded-lg border p-6">
-          <div className="flex items-center gap-4">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white text-2xl">
-              {user?.name?.[0]?.toUpperCase()}
+        <div className="mb-8 animate-fade-in relative overflow-hidden rounded-2xl border bg-card p-6 shadow-sm">
+          {/* Decorative gradient bar */}
+          <div className="absolute top-0 left-0 right-0 h-1 gradient-cta" />
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex items-center gap-4">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground text-2xl font-bold shadow-lg shadow-primary/20">
+                {user?.name?.[0]?.toUpperCase()}
+              </div>
+              <div>
+                <h1 className="text-2xl font-extrabold tracking-tight">
+                  {user?.name}
+                </h1>
+                <p className="text-muted-foreground">{user?.email}</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Member since{" "}
+                  {user?.createdAt
+                    ? new Date(user.createdAt).toLocaleDateString()
+                    : "N/A"}
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold">{user?.name}</h1>
-              <p className="text-muted-foreground">{user?.email}</p>
-              <p className="text-xs text-muted-foreground mt-1">
-                Member since{" "}
-                {user?.createdAt
-                  ? new Date(user.createdAt).toLocaleDateString()
-                  : "N/A"}
-              </p>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" className="gap-2 hover-lift">
+                <Edit2 className="h-4 w-4" />
+                Edit Profile
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/30"
+                onClick={handleLogout}
+              >
+                <LogOut className="h-4 w-4" />
+                Logout
+              </Button>
             </div>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="gap-2">
-              <Edit2 className="h-4 w-4" />
-              Edit Profile
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-2 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/30"
-              onClick={handleLogout}
-            >
-              <LogOut className="h-4 w-4" />
-              Logout
-            </Button>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardContent className="pt-6">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-primary">
-                  {stats.totalTrips}
+        <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {[
+            { label: "Total Trips", value: stats.totalTrips, icon: "🗺️" },
+            {
+              label: "Destinations",
+              value: stats.destinationsVisited,
+              icon: "📍",
+            },
+            {
+              label: "Total Budget",
+              value: `$${stats.totalBudget.toLocaleString()}`,
+              icon: "💰",
+            },
+            { label: "Days Traveled", value: stats.totalDays, icon: "📅" },
+          ].map((s, i) => (
+            <Card
+              key={s.label}
+              className="hover-lift animate-slide-in-up"
+              style={{ animationDelay: `${i * 0.08}s` }}
+            >
+              <CardContent className="pt-6">
+                <div className="text-center">
+                  <div className="text-2xl mb-1">{s.icon}</div>
+                  <div className="text-3xl font-extrabold text-primary tracking-tight">
+                    {s.value}
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {s.label}
+                  </p>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Total Trips
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="pt-6">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-primary">
-                  {stats.destinationsVisited}
-                </div>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Destinations Visited
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="pt-6">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-primary">
-                  ${stats.totalBudget.toLocaleString()}
-                </div>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Total Budget
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="pt-6">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-primary">
-                  {stats.totalDays}
-                </div>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Days Traveled
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          ))}
         </div>
 
         {/* Trips Section */}
         <div>
           <div className="mb-6 flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold">My Trips</h2>
-              <p className="text-muted-foreground">
+              <h2 className="text-2xl font-extrabold tracking-tight">
+                My Trips
+              </h2>
+              <p className="text-sm text-muted-foreground">
                 Manage and view all your travel plans
               </p>
             </div>
-            <Button className="gap-2" onClick={() => navigate("/planner")}>
+            <Button
+              className="gap-2 shadow-sm"
+              onClick={() => navigate("/planner")}
+            >
               <Plus className="h-4 w-4" />
               New Trip
             </Button>
@@ -208,14 +200,14 @@ export default function Profile() {
                 return (
                   <Card
                     key={trip.id}
-                    className="overflow-hidden hover:shadow-lg transition cursor-pointer"
+                    className="overflow-hidden hover-lift hover-glow cursor-pointer"
                   >
                     {trip.thumbnail && (
                       <div className="h-40 overflow-hidden bg-muted">
                         <img
                           src={trip.thumbnail}
                           alt={trip.destination}
-                          className="h-full w-full object-cover hover:scale-105 transition"
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                       </div>
                     )}

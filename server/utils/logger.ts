@@ -31,20 +31,33 @@ function formatMessage(
 
 export const logger = {
   debug(scope: string, message: string, meta?: Record<string, unknown>) {
-    if (shouldLog("debug")) console.debug(formatMessage("debug", scope, message, meta));
+    if (shouldLog("debug"))
+      console.debug(formatMessage("debug", scope, message, meta));
   },
   info(scope: string, message: string, meta?: Record<string, unknown>) {
-    if (shouldLog("info")) console.info(formatMessage("info", scope, message, meta));
+    if (shouldLog("info"))
+      console.info(formatMessage("info", scope, message, meta));
   },
   warn(scope: string, message: string, meta?: Record<string, unknown>) {
-    if (shouldLog("warn")) console.warn(formatMessage("warn", scope, message, meta));
+    if (shouldLog("warn"))
+      console.warn(formatMessage("warn", scope, message, meta));
   },
-  error(scope: string, message: string, err?: unknown, meta?: Record<string, unknown>) {
+  error(
+    scope: string,
+    message: string,
+    err?: unknown,
+    meta?: Record<string, unknown>,
+  ) {
     if (!shouldLog("error")) return;
     const errMsg =
       err instanceof Error ? err.stack || err.message : err ? String(err) : "";
     console.error(
-      formatMessage("error", scope, `${message}${errMsg ? " — " + errMsg : ""}`, meta),
+      formatMessage(
+        "error",
+        scope,
+        `${message}${errMsg ? " — " + errMsg : ""}`,
+        meta,
+      ),
     );
   },
 };

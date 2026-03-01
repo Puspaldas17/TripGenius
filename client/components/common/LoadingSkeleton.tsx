@@ -5,7 +5,10 @@ interface LoadingSkeletonProps {
   count?: number;
 }
 
-export function LoadingSkeleton({ className, count = 1 }: LoadingSkeletonProps) {
+export function LoadingSkeleton({
+  className,
+  count = 1,
+}: LoadingSkeletonProps) {
   return (
     <>
       {Array.from({ length: count }).map((_, i) => (
@@ -13,7 +16,7 @@ export function LoadingSkeleton({ className, count = 1 }: LoadingSkeletonProps) 
           key={i}
           className={cn(
             "bg-gradient-to-r from-muted via-muted-foreground/10 to-muted animate-pulse rounded-md",
-            className || "h-12 w-full"
+            className || "h-12 w-full",
           )}
           style={{
             animation: "shimmer 2s infinite",

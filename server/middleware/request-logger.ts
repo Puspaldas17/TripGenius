@@ -22,7 +22,8 @@ export const requestLogger: RequestHandler = (req, res, next) => {
 
   res.on("finish", () => {
     const duration = (performance.now() - start).toFixed(1);
-    const level = res.statusCode >= 500 ? "error" : res.statusCode >= 400 ? "warn" : "info";
+    const level =
+      res.statusCode >= 500 ? "error" : res.statusCode >= 400 ? "warn" : "info";
 
     logger[level === "error" ? "error" : level === "warn" ? "warn" : "info"](
       "http",

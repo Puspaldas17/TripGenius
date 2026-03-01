@@ -117,6 +117,36 @@ export default {
           "0%": { backgroundPosition: "200% 0" },
           "100%": { backgroundPosition: "-200% 0" },
         },
+        "gradient-y": {
+          "0%, 100%": {
+            "background-size": "400% 400%",
+            "background-position": "center top",
+          },
+          "50%": {
+            "background-size": "200% 200%",
+            "background-position": "center center",
+          },
+        },
+        "gradient-x": {
+          "0%, 100%": {
+            "background-size": "200% 200%",
+            "background-position": "left center",
+          },
+          "50%": {
+            "background-size": "200% 200%",
+            "background-position": "right center",
+          },
+        },
+        "gradient-xy": {
+          "0%, 100%": {
+            "background-size": "400% 400%",
+            "background-position": "left center",
+          },
+          "50%": {
+            "background-size": "200% 200%",
+            "background-position": "right bottom",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -127,6 +157,9 @@ export default {
         float: "float 6s ease-in-out infinite",
         "bounce-subtle": "bounce-subtle 2s ease-in-out infinite",
         shimmer: "shimmer 2s infinite",
+        "gradient-x": "gradient-x 15s ease infinite",
+        "gradient-y": "gradient-y 15s ease infinite",
+        "gradient-xy": "gradient-xy 15s ease infinite",
       },
     },
   },

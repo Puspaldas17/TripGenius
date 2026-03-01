@@ -1,5 +1,32 @@
 import { RequestHandler } from "express";
 
+/**
+ * @swagger
+ * /api/geocode/reverse:
+ *   get:
+ *     summary: Reverse geocode coordinates into an address
+ *     tags: [Travel & Maps]
+ *     parameters:
+ *       - in: query
+ *         name: lat
+ *         required: true
+ *         schema:
+ *           type: number
+ *         description: Latitude
+ *       - in: query
+ *         name: lon
+ *         required: true
+ *         schema:
+ *           type: number
+ *         description: Longitude
+ *     responses:
+ *       200:
+ *         description: Location address label and details
+ *       400:
+ *         description: Invalid coordinates
+ *       500:
+ *         description: Server error
+ */
 export const reverseGeocode: RequestHandler = async (req, res) => {
   const lat = Number(req.query.lat);
   const lon = Number(req.query.lon);

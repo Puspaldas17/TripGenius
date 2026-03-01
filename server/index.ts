@@ -32,12 +32,20 @@ import { aiChat } from "./routes/chat";
 import { visaCheck } from "./routes/visa";
 import { getEvents } from "./routes/events";
 import { collabPublish, collabSubscribe } from "./routes/collab";
+import { setupSwagger } from "./utils/swagger";
+import { initRedis } from "./utils/cache";
 
 export function createServer() {
   // Validate environment variables on startup
   const config = validateEnv();
 
+  // Initialize caching strategy (Redis or in-memory fallback)
+  initRedis();
+
   const app = express();
+
+  // Set up Swagger API Documentation
+  setupSwagger(app);
 
   // ─── Global Middleware ──────────────────────────────────────────────────────
   app.use(securityHeaders);
@@ -119,7 +127,7 @@ export function createServer() {
   app.post("/api/collab/publish", collabPublish);
 
   // ─── 404 handler ─────────────────────────────────────────────────────────────
-  app.use((_req, res) => {
+  app.use("/api", (_req, res) => {
     res.status(404).json({ message: "Not found" });
   });
 

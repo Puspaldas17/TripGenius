@@ -1,5 +1,37 @@
 import { RequestHandler } from "express";
 
+/**
+ * @swagger
+ * /api/currency/convert:
+ *   get:
+ *     summary: Convert currency rates
+ *     tags: [Currency]
+ *     parameters:
+ *       - in: query
+ *         name: amount
+ *         required: false
+ *         schema:
+ *           type: number
+ *           default: 1
+ *         description: Amount to convert
+ *       - in: query
+ *         name: from
+ *         required: false
+ *         schema:
+ *           type: string
+ *           default: INR
+ *         description: Source currency code
+ *       - in: query
+ *         name: to
+ *         required: false
+ *         schema:
+ *           type: string
+ *           default: USD
+ *         description: Target currency code
+ *     responses:
+ *       200:
+ *         description: Conversion result
+ */
 export const convertCurrency: RequestHandler = async (req, res) => {
   const amount = Number(req.query.amount || 1);
   const from = String(req.query.from || "INR").toUpperCase();

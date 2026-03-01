@@ -1,5 +1,34 @@
 import { RequestHandler } from "express";
 
+/**
+ * @swagger
+ * /api/ai/chat:
+ *   post:
+ *     summary: Chat with the AI travel assistant
+ *     tags: [AI Generation]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - prompt
+ *             properties:
+ *               prompt:
+ *                 type: string
+ *               destination:
+ *                 type: string
+ *               context:
+ *                 type: object
+ *     responses:
+ *       200:
+ *         description: AI response
+ *       400:
+ *         description: Missing prompt
+ *       500:
+ *         description: Chat failed
+ */
 export const aiChat: RequestHandler = async (req, res) => {
   try {
     const { prompt, destination, context } = (req.body ?? {}) as {

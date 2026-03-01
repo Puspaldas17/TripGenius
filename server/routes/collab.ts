@@ -4,6 +4,29 @@ type Client = { id: string; res: any };
 const rooms = new Map<string, Set<Client>>();
 const history = new Map<string, any[]>();
 
+/**
+ * @swagger
+ * /api/collab/subscribe:
+ *   get:
+ *     summary: Subscribe to collaboration events (SSE)
+ *     tags: [Collaboration]
+ *     parameters:
+ *       - in: query
+ *         name: room
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Room ID to subscribe to
+ *     responses:
+ *       200:
+ *         description: Server-sent events stream
+ *         content:
+ *           text/event-stream:
+ *             schema:
+ *               type: string
+ *       400:
+ *         description: Missing room parameter
+ */
 export const collabSubscribe: RequestHandler = (req, res) => {
   const room = String(req.query.room || "").trim();
   if (!room) return res.status(400).end();
@@ -16,7 +39,10 @@ export const collabSubscribe: RequestHandler = (req, res) => {
   set.add({ id, res });
   rooms.set(room, set);
   const hist = history.get(room) || [];
-  if (hist.length) res.write(`data: ${JSON.stringify({ type: "history", payload: hist })}\n\n`);
+  if (hist.length)
+    res.write(
+      `data: ${JSON.stringify({ type: "history", payload: hist })}\n\n`,
+    );
   const keep = setInterval(() => res.write(`: keepalive\n\n`), 15000);
   req.on("close", () => {
     clearInterval(keep);
@@ -31,10 +57,37 @@ export const collabSubscribe: RequestHandler = (req, res) => {
   });
 };
 
+/**
+ * @swagger
+ * /api/collab/publish:
+ *   post:
+ *     summary: Publish an event to a collaboration room
+ *     tags: [Collaboration]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - room
+ *               - message
+ *             properties:
+ *               room:
+ *                 type: string
+ *               message:
+ *                 type: object
+ *     responses:
+ *       200:
+ *         description: Event published successfully
+ *       400:
+ *         description: Missing room or message
+ */
 export const collabPublish: RequestHandler = (req, res) => {
   const { room, message } = req.body ?? {};
   const r = String(room || "").trim();
-  if (!r || !message) return res.status(400).json({ error: "Missing room/message" });
+  if (!r || !message)
+    return res.status(400).json({ error: "Missing room/message" });
   const evt = { id: Date.now(), type: "message", payload: message };
   const s = rooms.get(r);
   const hist = history.get(r) || [];

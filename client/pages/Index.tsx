@@ -236,9 +236,9 @@ function FeaturesSection() {
               className="group relative overflow-hidden border-transparent bg-card shadow-sm hover-lift hover-glow cursor-default"
               style={{ animationDelay: `${idx * 0.08}s` }}
             >
-              {/* Subtle gradient bg on hover */}
+              {/* Subtle animated gradient bg on hover */}
               <div
-                className={`absolute inset-0 bg-gradient-to-br ${f.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                className={`absolute inset-0 bg-gradient-to-br ${f.gradient} opacity-0 group-hover:opacity-100 group-hover:animate-gradient-xy transition-opacity duration-500`}
               />
               <CardContent className="relative p-6">
                 <div

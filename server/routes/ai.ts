@@ -25,6 +25,40 @@ const itinerarySchema = z.object({
   origin: z.string().optional(),
 });
 
+/**
+ * @swagger
+ * /api/ai/itinerary:
+ *   post:
+ *     summary: Generate an AI itinerary
+ *     tags: [AI Generation]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - destination
+ *             properties:
+ *               destination:
+ *                 type: string
+ *               days:
+ *                 type: integer
+ *               mood:
+ *                 type: string
+ *                 enum: [foodie, adventure, relax, culture, romantic, family, nightlife, spiritual, shopping, nature, photography]
+ *               budget:
+ *                 type: number
+ *               members:
+ *                 type: integer
+ *               origin:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Generated itinerary plan
+ *       400:
+ *         description: Validation error
+ */
 export const generateItinerary: RequestHandler = async (req, res) => {
   const parsed = itinerarySchema.safeParse(req.body);
   if (!parsed.success) {

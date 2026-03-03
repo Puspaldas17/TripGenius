@@ -1,5 +1,22 @@
 import { RequestHandler } from "express";
 
+/**
+ * @swagger
+ * /api/search/flights:
+ *   get:
+ *     summary: Search for sample flights
+ *     tags: [Search]
+ *     parameters:
+ *       - in: query
+ *         name: q
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Destination query
+ *     responses:
+ *       200:
+ *         description: List of sample flight options
+ */
 export const searchFlights: RequestHandler = (req, res) => {
   const q = String(req.query.q || "");
   const out = [
@@ -23,6 +40,23 @@ export const searchFlights: RequestHandler = (req, res) => {
   res.json({ results: out });
 };
 
+/**
+ * @swagger
+ * /api/search/hotels:
+ *   get:
+ *     summary: Search for sample hotels
+ *     tags: [Search]
+ *     parameters:
+ *       - in: query
+ *         name: q
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Location query
+ *     responses:
+ *       200:
+ *         description: List of sample hotel options
+ */
 export const searchHotels: RequestHandler = (req, res) => {
   const q = String(req.query.q || "");
   const out = [

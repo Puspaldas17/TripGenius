@@ -1,2 +1,7 @@
 export PATH="$PATH:/c/Program Files/nodejs"
-npx lint-staged
+
+echo "🧪 Running lint-staged (ESLint & Prettier)..."
+pnpm lint-staged
+
+echo "🧩 Running robust project-wide TypeScript typecheck..."
+pnpm typecheck

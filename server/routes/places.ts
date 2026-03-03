@@ -13,6 +13,25 @@ async function geocode(q: string) {
   return { lat: Number(top.lat), lon: Number(top.lon) };
 }
 
+/**
+ * @swagger
+ * /api/places:
+ *   get:
+ *     summary: Get nearby places of interest
+ *     tags: [Travel & Maps]
+ *     parameters:
+ *       - in: query
+ *         name: location
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The center location to search around
+ *     responses:
+ *       200:
+ *         description: List of Wikipedia places nearby
+ *       400:
+ *         description: Missing location parameter
+ */
 export const getPlaces: RequestHandler = async (req, res) => {
   const location = String(req.query.location || "");
   if (!location) return res.status(400).json({ error: "Missing location" });

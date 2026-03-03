@@ -16,6 +16,57 @@ const tripSchema = z.object({
   itinerary: z.any().optional(),
 });
 
+/**
+ * @swagger
+ * /api/trips:
+ *   post:
+ *     summary: Create a new trip
+ *     tags: [Trips]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - destination
+ *               - origin
+ *               - startDate
+ *               - endDate
+ *               - days
+ *               - budget
+ *               - members
+ *             properties:
+ *               destination:
+ *                 type: string
+ *               origin:
+ *                 type: string
+ *               startDate:
+ *                 type: string
+ *                 format: date-time
+ *               endDate:
+ *                 type: string
+ *                 format: date-time
+ *               days:
+ *                 type: integer
+ *               budget:
+ *                 type: number
+ *               members:
+ *                 type: integer
+ *               mood:
+ *                 type: string
+ *               itinerary:
+ *                 type: object
+ *     responses:
+ *       201:
+ *         description: Trip created successfully
+ *       400:
+ *         description: Invalid input
+ *       401:
+ *         description: Unauthorized
+ */
 export const handleCreateTrip: RequestHandler = async (req, res) => {
   try {
     const userId = (req as any).userId;
@@ -66,6 +117,20 @@ export const handleCreateTrip: RequestHandler = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ * /api/trips:
+ *   get:
+ *     summary: Get all trips for the authenticated user
+ *     tags: [Trips]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of user trips
+ *       401:
+ *         description: Unauthorized
+ */
 export const handleGetUserTrips: RequestHandler = async (req, res) => {
   try {
     const userId = (req as any).userId;
@@ -89,7 +154,10 @@ export const handleGetUserTrips: RequestHandler = async (req, res) => {
       mood: t.mood,
       itinerary: t.itinerary,
       isFavorite: t.isFavorite,
-      createdAt: t.createdAt instanceof Date ? t.createdAt.toISOString() : String(t.createdAt),
+      createdAt:
+        t.createdAt instanceof Date
+          ? t.createdAt.toISOString()
+          : String(t.createdAt),
     }));
 
     res.json(userTrips);
@@ -99,6 +167,31 @@ export const handleGetUserTrips: RequestHandler = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ * /api/trips/{tripId}:
+ *   get:
+ *     summary: Get a specific trip by its ID
+ *     tags: [Trips]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: tripId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The trip ID
+ *     responses:
+ *       200:
+ *         description: Trip details
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (not owner)
+ *       404:
+ *         description: Trip not found
+ */
 export const handleGetTrip: RequestHandler = async (req, res) => {
   try {
     const { tripId } = req.params;
@@ -126,7 +219,10 @@ export const handleGetTrip: RequestHandler = async (req, res) => {
       mood: trip.mood,
       itinerary: trip.itinerary,
       isFavorite: trip.isFavorite,
-      createdAt: trip.createdAt instanceof Date ? trip.createdAt.toISOString() : String(trip.createdAt),
+      createdAt:
+        trip.createdAt instanceof Date
+          ? trip.createdAt.toISOString()
+          : String(trip.createdAt),
     });
   } catch (error) {
     logger.error("trips", "Failed to fetch trip", error);
@@ -134,6 +230,37 @@ export const handleGetTrip: RequestHandler = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ * /api/trips/{tripId}:
+ *   put:
+ *     summary: Update an existing trip
+ *     tags: [Trips]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: tripId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The trip ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     responses:
+ *       200:
+ *         description: Trip updated successfully
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (not owner)
+ *       404:
+ *         description: Trip not found
+ */
 export const handleUpdateTrip: RequestHandler = async (req, res) => {
   try {
     const { tripId } = req.params;
@@ -165,7 +292,10 @@ export const handleUpdateTrip: RequestHandler = async (req, res) => {
       mood: existing.mood,
       itinerary: existing.itinerary,
       isFavorite: existing.isFavorite,
-      createdAt: existing.createdAt instanceof Date ? existing.createdAt.toISOString() : String(existing.createdAt),
+      createdAt:
+        existing.createdAt instanceof Date
+          ? existing.createdAt.toISOString()
+          : String(existing.createdAt),
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -176,6 +306,31 @@ export const handleUpdateTrip: RequestHandler = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ * /api/trips/{tripId}/favorite:
+ *   patch:
+ *     summary: Toggle favorite status of a trip
+ *     tags: [Trips]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: tripId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The trip ID
+ *     responses:
+ *       200:
+ *         description: Fetched updated favorite status
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (not owner)
+ *       404:
+ *         description: Trip not found
+ */
 export const handleToggleFavorite: RequestHandler = async (req, res) => {
   try {
     const { tripId } = req.params;
@@ -206,7 +361,10 @@ export const handleToggleFavorite: RequestHandler = async (req, res) => {
       mood: trip.mood,
       itinerary: trip.itinerary,
       isFavorite: trip.isFavorite,
-      createdAt: trip.createdAt instanceof Date ? trip.createdAt.toISOString() : String(trip.createdAt),
+      createdAt:
+        trip.createdAt instanceof Date
+          ? trip.createdAt.toISOString()
+          : String(trip.createdAt),
     });
   } catch (error) {
     logger.error("trips", "Failed to toggle favorite", error);
@@ -214,6 +372,31 @@ export const handleToggleFavorite: RequestHandler = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ * /api/trips/{tripId}:
+ *   delete:
+ *     summary: Delete a trip
+ *     tags: [Trips]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: tripId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The trip ID
+ *     responses:
+ *       204:
+ *         description: Trip deleted
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (not owner)
+ *       404:
+ *         description: Trip not found
+ */
 export const handleDeleteTrip: RequestHandler = async (req, res) => {
   try {
     const { tripId } = req.params;

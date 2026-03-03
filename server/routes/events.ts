@@ -1,5 +1,24 @@
 import { RequestHandler } from "express";
 
+/**
+ * @swagger
+ * /api/events:
+ *   get:
+ *     summary: Get local events for a location
+ *     tags: [Events]
+ *     parameters:
+ *       - in: query
+ *         name: location
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Destination location
+ *     responses:
+ *       200:
+ *         description: List of upcoming sample events
+ *       400:
+ *         description: Missing location query parameter
+ */
 export const getEvents: RequestHandler = (req, res) => {
   const location = String(req.query.location || "").trim();
   if (!location) return res.status(400).json({ error: "Missing location" });

@@ -9,19 +9,26 @@ interface RateLimitOptions {
 const hits = new Map<string, { count: number; resetAt: number }>();
 
 // Cleanup stale entries every 5 minutes
-setInterval(() => {
-  const now = Date.now();
-  for (const [key, entry] of hits) {
-    if (now > entry.resetAt) hits.delete(key);
-  }
-}, 5 * 60 * 1000).unref();
+setInterval(
+  () => {
+    const now = Date.now();
+    for (const [key, entry] of hits) {
+      if (now > entry.resetAt) hits.delete(key);
+    }
+  },
+  5 * 60 * 1000,
+).unref();
 
 /**
  * Simple in-memory rate limiter.
  * For production with multiple instances, swap for Redis-backed limiter.
  */
 export function rateLimit(options: RateLimitOptions): RequestHandler {
-  const { windowMs, maxRequests, message = "Too many requests, please try again later." } = options;
+  const {
+    windowMs,
+    maxRequests,
+    message = "Too many requests, please try again later.",
+  } = options;
 
   return (req, res, next) => {
     const key = `${req.ip}:${req.path}`;
@@ -37,7 +44,10 @@ export function rateLimit(options: RateLimitOptions): RequestHandler {
 
     // Set rate limit headers
     res.setHeader("X-RateLimit-Limit", maxRequests);
-    res.setHeader("X-RateLimit-Remaining", Math.max(0, maxRequests - entry.count));
+    res.setHeader(
+      "X-RateLimit-Remaining",
+      Math.max(0, maxRequests - entry.count),
+    );
     res.setHeader("X-RateLimit-Reset", Math.ceil(entry.resetAt / 1000));
 
     if (entry.count > maxRequests) {

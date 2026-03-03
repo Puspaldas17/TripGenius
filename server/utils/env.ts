@@ -14,6 +14,9 @@ const envSchema = z.object({
   OPENWEATHER_API_KEY: z.string().optional(),
   OPENAI_API_KEY: z.string().optional(),
   GOOGLE_MAPS_API_KEY: z.string().optional(),
+  RESEND_API_KEY: z.string().optional(),
+  NEXT_PUBLIC_APP_URL: z.string().optional(),
+  REDIS_URL: z.string().optional(),
   PING_MESSAGE: z.string().default("ping"),
 });
 
@@ -41,9 +44,13 @@ export function validateEnv(): Env {
     if (!_env.JWT_SECRET)
       console.warn("⚠️  JWT_SECRET not set — using insecure default");
     if (!_env.OPENWEATHER_API_KEY)
-      console.warn("⚠️  OPENWEATHER_API_KEY not set — weather uses fallback data");
+      console.warn(
+        "⚠️  OPENWEATHER_API_KEY not set — weather uses fallback data",
+      );
     if (!_env.OPENAI_API_KEY)
-      console.warn("⚠️  OPENAI_API_KEY not set — AI features use built-in templates");
+      console.warn(
+        "⚠️  OPENAI_API_KEY not set — AI features use built-in templates",
+      );
   }
 
   // In production, enforce critical secrets

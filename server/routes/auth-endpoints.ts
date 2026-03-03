@@ -46,6 +46,38 @@ const loginSchema = z.object({
   password: z.string(),
 });
 
+/**
+ * @swagger
+ * /api/auth/signup:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - name
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               name:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 minLength: 8
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *       400:
+ *         description: Invalid input or email already exists
+ */
 export const handleSignup: RequestHandler = async (req, res) => {
   try {
     const { email, name, password } = signupSchema.parse(req.body);
@@ -72,11 +104,11 @@ export const handleSignup: RequestHandler = async (req, res) => {
 
     const token = generateToken(userId, email, name);
 
-    // In production: send verification email with user.verificationToken
-
-    console.log(
-      `[Email Verification] Send email to ${email} with token: ${user.verificationToken}`,
-    );
+    // Send the real verification email via Resend asynchronously
+    // We don't await this so the response isn't blocked by external API latency
+    import("../utils/email").then(({ sendVerificationEmail }) => {
+      sendVerificationEmail(email, user.verificationToken as string);
+    });
 
     res.status(201).json({
       user: {
@@ -96,6 +128,34 @@ export const handleSignup: RequestHandler = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: Log in an existing user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Successfully logged in
+ *       400:
+ *         description: Invalid input
+ *       401:
+ *         description: Invalid email or password
+ */
 export const handleLogin: RequestHandler = async (req, res) => {
   try {
     const { email, password } = loginSchema.parse(req.body);
@@ -147,6 +207,20 @@ export const handleVerifyEmail: RequestHandler = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ * /api/auth/me:
+ *   get:
+ *     summary: Get current authenticated user details
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User profile
+ *       401:
+ *         description: No token provided, or token invalid/expired
+ */
 export const handleGetMe: RequestHandler = async (req, res) => {
   try {
     const authHeader = req.headers.authorization;

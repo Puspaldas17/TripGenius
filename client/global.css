@@ -175,21 +175,23 @@
   /* Gradient text */
   .gradient-text {
     @apply bg-clip-text text-transparent
-      bg-gradient-to-r from-primary via-primary to-accent;
+      bg-gradient-to-r from-primary via-blue-500 to-accent animate-gradient-x;
   }
 
   /* Gradient backgrounds */
   .gradient-hero {
     background: linear-gradient(
-      to bottom right,
-      hsl(var(--primary) / 0.06),
-      hsl(var(--accent) / 0.04),
+      -45deg,
+      hsl(var(--primary) / 0.1),
+      hsl(var(--accent) / 0.1),
+      hsl(var(--primary) / 0.05),
       transparent
     );
+    @apply animate-gradient-xy;
   }
 
   .gradient-cta {
-    @apply bg-gradient-to-r from-primary to-accent;
+    @apply bg-gradient-to-r from-primary via-indigo-500 to-accent animate-gradient-x;
   }
 
   /* Dot pattern background */

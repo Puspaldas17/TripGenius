@@ -8,6 +8,9 @@ import {
   Sun,
   Moon,
   LogOut,
+  BookOpen,
+  Star,
+  ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -49,6 +52,12 @@ export default function Navbar() {
     { to: "/dashboard", label: "Dashboard" },
   ];
 
+  const moreLinks = [
+    { to: "/journal", label: "Journal", icon: BookOpen },
+    { to: "/reviews", label: "Reviews", icon: Star },
+    { to: "/profile", label: "Profile", icon: Users },
+  ];
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 glass transition-all duration-300">
       <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-3 py-2.5 xs:px-4 md:px-6 transition-all duration-300">
@@ -79,6 +88,35 @@ export default function Navbar() {
               {l.label}
             </NavLink>
           ))}
+
+          {/* More dropdown for Journal, Reviews, Profile */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className={cn(
+                  "relative flex items-center gap-1 rounded-lg px-3.5 py-2 text-sm font-medium transition-all duration-300 hover:bg-primary/5 hover:text-primary",
+                  moreLinks.some((l) => location.pathname === l.to)
+                    ? "text-primary bg-primary/5"
+                    : "text-muted-foreground",
+                )}
+              >
+                More <ChevronDown className="h-3.5 w-3.5" />
+                {moreLinks.some((l) => location.pathname === l.to) && (
+                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-primary rounded-full" />
+                )}
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-44 mt-1">
+              {moreLinks.map((ml) => (
+                <DropdownMenuItem key={ml.to} asChild>
+                  <Link to={ml.to} className="flex items-center gap-2">
+                    <ml.icon className="h-4 w-4 text-muted-foreground" />{" "}
+                    {ml.label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
         <div className="flex items-center gap-1.5">
           <Button
@@ -109,7 +147,7 @@ export default function Navbar() {
                   {user.name}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuContent align="end" className="w-52">
                 <div className="px-2 py-1.5">
                   <p className="text-xs font-medium text-muted-foreground">
                     {user.email}
@@ -117,10 +155,24 @@ export default function Navbar() {
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link to="/profile">Profile</Link>
+                  <Link to="/profile" className="flex items-center gap-2">
+                    <Users className="h-4 w-4" /> Profile
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/dashboard">Dashboard</Link>
+                  <Link to="/dashboard" className="flex items-center gap-2">
+                    <Calendar className="h-4 w-4" /> Dashboard
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/journal" className="flex items-center gap-2">
+                    <BookOpen className="h-4 w-4" /> Travel Journal
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/reviews" className="flex items-center gap-2">
+                    <Star className="h-4 w-4" /> Trip Reviews
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
@@ -225,6 +277,32 @@ export default function Navbar() {
             }
           >
             <Calendar className="h-5 w-5" />
+          </NavLink>
+          <NavLink
+            to="/journal"
+            className={({ isActive }) =>
+              cn(
+                "rounded-lg p-1.5 transition-colors",
+                isActive
+                  ? "text-primary bg-primary/10"
+                  : "text-muted-foreground hover:text-primary",
+              )
+            }
+          >
+            <BookOpen className="h-5 w-5" />
+          </NavLink>
+          <NavLink
+            to="/reviews"
+            className={({ isActive }) =>
+              cn(
+                "rounded-lg p-1.5 transition-colors",
+                isActive
+                  ? "text-primary bg-primary/10"
+                  : "text-muted-foreground hover:text-primary",
+              )
+            }
+          >
+            <Star className="h-5 w-5" />
           </NavLink>
           <NavLink
             to="/profile"

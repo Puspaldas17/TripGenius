@@ -1,0 +1,41 @@
+{
+  "name": "TripGenius",
+  "short_name": "TripGenius",
+  "description": "AI-powered travel planner for unforgettable trips",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0014",
+  "theme_color": "#bfffff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://images.pexels.com/photos/5953197/pexels-photo-5953197.jpeg?auto=compress&cs=tinysrgb&w=192",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://images.pexels.com/photos/5953197/pexels-photo-5953197.jpeg?auto=compress&cs=tinysrgb&w=512",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ],
+  "categories": ["travel", "productivity"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Start Planning",
+      "short_name": "Plan",
+      "description": "Open the Trip Planner",
+      "url": "/planner",
+      "icons": []
+    },
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View your trips",
+      "url": "/dashboard",
+      "icons": []
+    }
+  ]
+}

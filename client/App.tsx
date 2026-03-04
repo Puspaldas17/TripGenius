@@ -21,6 +21,9 @@ const SharedTrip = lazy(() => import("./pages/SharedTrip"));
 const TravelJournal = lazy(() => import("./pages/TravelJournal"));
 const TripReviews = lazy(() => import("./pages/TripReviews"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const GroupTrips = lazy(() => import("./pages/GroupTrips"));
+const EmergencyContacts = lazy(() => import("./pages/EmergencyContacts"));
+const TripComparison = lazy(() => import("./pages/TripComparison"));
 
 const PageLoader = () => (
   <div className="flex min-h-[50vh] items-center justify-center">
@@ -112,6 +115,23 @@ const AppRoutes = () => (
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/group-trips"
+        element={
+          <ProtectedRoute>
+            <GroupTrips />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/emergency"
+        element={
+          <ProtectedRoute>
+            <EmergencyContacts />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/compare" element={<TripComparison />} />
       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
       <Route path="*" element={<NotFound />} />
     </Routes>

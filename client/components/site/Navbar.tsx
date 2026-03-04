@@ -11,6 +11,8 @@ import {
   BookOpen,
   Star,
   ChevronDown,
+  Scale,
+  ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -55,7 +57,10 @@ export default function Navbar() {
   const moreLinks = [
     { to: "/journal", label: "Journal", icon: BookOpen },
     { to: "/reviews", label: "Reviews", icon: Star },
-    { to: "/profile", label: "Profile", icon: Users },
+    { to: "/group-trips", label: "Group Trips", icon: Users },
+    { to: "/compare", label: "Compare Destinations", icon: Scale },
+    { to: "/emergency", label: "Safety Hub", icon: ShieldCheck },
+    { to: "/profile", label: "Profile", icon: Map },
   ];
 
   return (

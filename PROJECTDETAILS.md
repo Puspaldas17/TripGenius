@@ -2,7 +2,9 @@
 
 # 📋 TripGenius — Project Details
 
-**A complete breakdown of every feature, component, and page in TripGenius.**
+**A complete breakdown of every feature, page, component, and route in TripGenius.**
+
+_30+ features across 13 pages._
 
 </div>
 
@@ -10,17 +12,21 @@
 
 ## 🗺️ Pages & Routes
 
-| Route                | Page             | Access    | Description                           |
-| -------------------- | ---------------- | --------- | ------------------------------------- |
-| `/`                  | Home / Landing   | Public    | Hero section, feature highlights, CTA |
-| `/planner`           | Trip Planner     | Protected | Full AI trip planning workspace       |
-| `/dashboard`         | Dashboard        | Protected | Trip overview, stats, and widgets     |
-| `/profile`           | Profile          | Protected | User stats, badges, spending charts   |
-| `/journal`           | Travel Journal   | Protected | Personal day-by-day travel diary      |
-| `/reviews`           | Trip Reviews     | Protected | Write and browse destination reviews  |
-| `/trip/share/:token` | Shared Trip View | Public    | Read-only sharable itinerary link     |
-| `/login`             | Login            | Public    | Email/password authentication         |
-| `/signup`            | Sign Up          | Public    | New account registration              |
+| Route                | Page                   | Access    | Description                                   |
+| -------------------- | ---------------------- | --------- | --------------------------------------------- |
+| `/`                  | Home / Landing         | Public    | Hero section, feature highlights, stats, CTA  |
+| `/planner`           | Trip Planner           | Protected | Full AI trip planning workspace (tabbed)      |
+| `/dashboard`         | Dashboard              | Protected | Trip overview, stats, weather, widgets        |
+| `/profile`           | Profile                | Protected | User stats, badges, spending charts           |
+| `/journal`           | Travel Journal         | Protected | Personal day-by-day travel diary with mood    |
+| `/reviews`           | Trip Reviews           | Protected | Write and browse destination reviews          |
+| `/group-trips`       | Group Trip Planner     | Protected | Collaborative planning with friends ★ NEW     |
+| `/compare`           | Destination Comparison | Public    | Side-by-side comparison of destinations ★ NEW |
+| `/emergency`         | Travel Safety Hub      | Protected | Emergency numbers, contacts, checklist ★ NEW  |
+| `/trip/share/:token` | Shared Trip View       | Public    | Read-only shareable itinerary link            |
+| `/login`             | Login                  | Public    | Email/password authentication                 |
+| `/signup`            | Sign Up                | Public    | New account registration                      |
+| `*`                  | 404 Not Found          | Public    | Animated not-found page                       |
 
 ---
 
@@ -31,40 +37,28 @@
 - **Route:** `POST /api/ai/itinerary`
 - **File:** `server/routes/ai.ts`, `client/pages/Planner.tsx`
 - Accepts: destination, origin, days, budget, members, travel style/mood
-- Returns a structured day-by-day itinerary with activities, meals, and notes
-- Results are displayed in a tabbed Planner UI with calendar integration
+- Returns structured day-by-day itinerary with activities, meals, and notes
+- Results displayed in tabbed Planner UI with calendar integration
 
 ### 2. AI Chat Widget
 
-- **File:** `client/components/AIChatWidget.tsx`
+- **File:** `client/components/AIChatWidget.tsx` — mounted globally in `App.tsx`
 - Floating chat bubble available on **every page**
-- Connected to `POST /api/ai/chat` backend endpoint
-- Features: message history, typing indicator, quick-suggestion chips
+- Connected to `POST /api/ai/chat` with smart offline fallbacks
+- Features: message history, typing indicator, quick-suggestion chips, minimize button
 - Keyboard shortcut: `Ctrl + K` to open/close
 
 ### 3. AI Trip Score
 
 - **File:** `client/components/TripScore.tsx`
-- Analyzes any saved trip across **5 dimensions**:
-  - ⏱️ Day Balance — optimal trip length scoring
-  - 💰 Budget Score — per-day spend efficiency
-  - 👥 Group Fit — member count suitability
-  - 🎢 Adventure Mix — activity variety
-  - 🏛️ Culture Depth — cultural immersion rating
-- Awards a **grade: S / A / B / C / D** with animated reveal
-- Each dimension includes an AI improvement tip
+- Analyzes any saved trip across **5 dimensions**: Day Balance, Budget, Group Fit, Adventure Mix, Culture Depth
+- Awards a **grade: S / A / B / C / D** with animated reveal and improvement tips per dimension
 
 ### 4. Destination Discovery Quiz
 
-- **File:** `client/components/DestinationDiscovery.tsx`
-- **Location:** Dashboard
-- 4-step interactive quiz:
-  1. 🌡️ Climate preference (Tropical / Temperate / Cold / Desert)
-  2. 🏃 Activity type (Adventure / Cultural / Relaxation / Foodie)
-  3. ✨ Vibe (Romantic / Solo / Family / Party)
-  4. 💸 Budget tier (Budget / Mid-range / Luxury)
-- AI matches answers to curated destination list
-- Result card includes description + **"Plan →"** deep link to Planner
+- **File:** `client/components/DestinationDiscovery.tsx` — Dashboard
+- 4-step quiz: Climate → Activity Type → Vibe → Budget Tier
+- Matches answers to curated destination list; result card has a **"Plan →"** deep link to Planner
 
 ---
 
@@ -74,40 +68,32 @@
 
 - **Route:** `GET /api/weather?location=<city>`
 - **File:** `server/routes/weather.ts`, displayed in `Planner.tsx`
-- Uses OpenWeatherMap API (geocoding + 5-day forecast)
-- Shows: temperature, description, humidity, wind, min/max per day
-- Smart fallback data if API key is missing
+- OpenWeatherMap API: temperature, humidity, wind, 5-day forecast
+- Smart fallback data if API key is absent
 
 ### 6. Nearby Places of Interest
 
 - **Route:** `GET /api/places?lat=<lat>&lon=<lon>`
 - **File:** `server/routes/places.ts`
-- Powered by Wikipedia Geosearch API
-- Returns: name, description, distance, thumbnail, Wikipedia link
-- Displayed as cards in the Planner's "Explore" tab
+- Powered by Wikipedia Geosearch API — returns name, description, distance, thumbnail, Wikipedia link
 
 ### 7. Transport Options
 
 - **Route:** `GET /api/travel/options`
 - **File:** `server/routes/travel.ts`
-- Calculates route options: ✈️ Flight / 🚆 Train / 🚗 Car / 🚢 Ferry
-- Haversine distance calculation + realistic price/time estimates
-- Toggleable in Planner's transport tab
+- Calculates ✈️ Flight / 🚆 Train / 🚗 Car / 🚢 Ferry options with Haversine distance + pricing
 
 ### 8. Visa Requirements Lookup
 
 - **Route:** `GET /api/visa`
 - **File:** `server/routes/visa.ts`, `client/components/planner/VisaChecker.tsx`
-- Displays visa requirements based on origin country
-- Shown in Planner's "Trip Prep" tab
+- Displays visa requirements based on origin country in Planner's "Trip Prep" tab
 
 ### 9. Carbon Footprint Tracker
 
 - **File:** `client/components/CarbonTracker.tsx`
-- Calculates estimated CO₂ emissions based on:
-  - Transport mode (flight / train / car)
-  - Distance (km)
-- Shows emission value in kg CO₂ and suggests offset actions
+- Calculates CO₂ emissions by transport mode (flight / train / bus / car) × distance
+- Shows kg CO₂, impact level (🟢/🟡/🔴), savings vs. flying, and carbon offset options
 
 ---
 
@@ -116,28 +102,19 @@
 ### 10. Budget Overview
 
 - **File:** `client/pages/Planner.tsx` — Budget tab
-- Per-day and per-person spending breakdown
-- Auto-adjusts based on group size and trip duration
-- Visual bar chart breakdown by category
+- Per-day and per-person spending breakdown; auto-adjusts by group size and duration
 
 ### 11. Budget Forecast Chart
 
-- **File:** `client/components/BudgetForecast.tsx`
-- **Location:** Dashboard, bottom section
-- Recharts **area chart** showing:
-  - Projected cumulative spend (solid line)
-  - Planned cumulative spend (dashed line)
-- Realistic spending simulation (high on arrival day, dip mid-trip, spike at end)
-- Status badge: ✅ Under Budget / ⚠️ On Track / 🔴 Over Budget
-- 3 personalized money-saving tips
+- **File:** `client/components/BudgetForecast.tsx` — Dashboard
+- Recharts **area chart**: projected vs. planned cumulative spend
+- Status badge: ✅ Under Budget / ⚠️ On Track / 🔴 Over Budget + 3 money-saving tips
 
 ### 12. Currency Converter
 
 - **Route:** `GET /api/currency/convert`
 - **File:** `server/routes/currency.ts`
-- Uses Frankfurter API (free, no API key needed)
-- Supports 30+ world currencies
-- Live exchange rates with smart fallback
+- Frankfurter API (free, no key needed): 30+ currencies, live rates with smart fallback
 
 ---
 
@@ -146,32 +123,24 @@
 ### 13. Drag-and-Drop Trip Calendar
 
 - **File:** `client/pages/Planner.tsx` — Plan & Calendar tab
-- Visual day-by-day calendar grid
-- Drag activities between days
-- Set start/end times per activity
-- Add custom notes
+- Visual day-by-day grid; drag activities between days, set times, add notes
 
 ### 14. Trip Timeline (Gantt View)
 
-- **File:** `client/components/TripTimeline.tsx`
-- Vertical connected timeline showing all activities across days
-- Color-coded by activity type (meal, sightseeing, transport, etc.)
-- Available in Planner as a visual overview tab
+- **File:** `client/components/planner/TripTimeline.tsx`
+- Vertical connected timeline with color-coded activity types (meal, sightseeing, transport, hotel, activity)
 
 ### 15. Google Calendar Export
 
-- **File:** `client/components/CalendarExport.tsx`, `client/lib/icalExport.ts`
-- **"Add to Google Calendar"** — opens Google Calendar with trip pre-filled
-- **Download .ics** — RFC-5545 compliant file for Apple Calendar, Outlook, etc.
-- All activities exported as individual calendar events with times and locations
+- **Files:** `client/components/CalendarExport.tsx`, `client/lib/icalExport.ts`
+- **"Add to Google Calendar"** — pre-fills all events
+- **Download .ics** — RFC-5545 compliant for Apple Calendar, Outlook, etc.
 
 ### 16. Trip Countdown Timer
 
-- **File:** `client/components/CountdownWidget.tsx`
-- **Location:** Dashboard
-- Live real-time ticker: Days / Hours / Minutes / Seconds
-- Auto-detects the next upcoming trip from saved data
-- Shimmer gradient progress bar effect
+- **File:** `client/components/CountdownWidget.tsx` — Dashboard
+- Live real-time: Days / Hours / Minutes / Seconds to next trip
+- Shimmer gradient progress bar; auto-picks next upcoming trip from saved data
 
 ---
 
@@ -179,114 +148,126 @@
 
 ### 17. Trip Sharing (Public Links)
 
-- **File:** `client/pages/SharedTrip.tsx`, Route: `/trip/share/:token`
-- Generates a **public, shareable URL** for any trip itinerary
-- Read-only beautifully styled view visible without login
-- **Download PDF** button using browser's native print API
-- **Copy Link** button with toast confirmation
+- **File:** `client/pages/SharedTrip.tsx` — Route: `/trip/share/:token`
+- Generates a public URL; read-only beautifully styled view, no login required
+- Download PDF (browser print) + Copy Link confirmation toast
 
 ### 18. Travel Journal
 
-- **File:** `client/pages/TravelJournal.tsx`, Route: `/journal`
-- Write personal travel memories with:
-  - 📅 Date picker
-  - 📍 Location name
-  - 😄 Mood picker (5 emoji options: Amazing / Good / Okay / Tired / Stressful)
-  - 🌤️ Weather notes
-  - ✍️ Free-form journal text
-- All entries stored in `localStorage` — no account required
-- Entries are expandable/collapsible with smooth animations
+- **File:** `client/pages/TravelJournal.tsx` — Route: `/journal`
+- Fields: date, location, mood (5 emoji), weather notes, free-form text
+- Entries expandable/collapsible; persisted in `localStorage`
 
 ### 19. Trip Reviews
 
-- **File:** `client/pages/TripReviews.tsx`, Route: `/reviews`
-- Write star-rated reviews for any destination
-- Features:
-  - ⭐ 1–5 star interactive rating
-  - 📝 Title + full review text
-  - 🏷️ 10 curated tag options (Hidden gem, Budget-friendly, Foodie paradise, etc.)
-  - 👍 "Helpful" vote button per review
-- Expandable review cards sorted by newest
-- All data stored in `localStorage`
+- **File:** `client/pages/TripReviews.tsx` — Route: `/reviews`
+- ⭐ 1–5 star rating + title + review text + 10 curated tags + 👍 "Helpful" votes
+- Cards sorted by newest; all data in `localStorage`
+
+---
+
+## 👥 Collaboration Features ★ NEW
+
+### 20. Group Trip Planner
+
+- **File:** `client/pages/GroupTrips.tsx` — Route: `/group-trips`
+- **Member Management** — invite by name & email, view members, remove members, organizer badge (👑)
+- **Proposal Voting** — submit trip proposals with title & description; thumbs up/down voting per member
+- **Expense Splitting** — log expenses with payer, auto-split among all members, per-person totals, transaction history
+- **Group Chat** — real-time message thread with timestamps
+- All data persisted in `localStorage` with demo data pre-loaded
+
+---
+
+## ⚖️ Discovery & Research Features ★ NEW
+
+### 21. Destination Comparison
+
+- **File:** `client/pages/TripComparison.tsx` — Route: `/compare`
+- Select up to **3 destinations** to compare side-by-side from 8 pre-loaded options: Paris, Tokyo, Bali, New York, Rome, Bangkok, Dubai, Sydney
+- **Metrics per destination:** avg daily cost, temperature, flight time, visa, internet speed, language/cuisine
+- **Score bars:** Safety, Food & Nightlife, Attractions (each /10)
+- **Winner badges:** 💰 Best Budget, 🛡️ Safest, 🍜 Best Food, 📸 Top Sights
+- **Winners summary panel** at the bottom + direct "Plan Trip →" button to Planner
+
+---
+
+## 🛡️ Safety Features ★ NEW
+
+### 22. Travel Safety Hub
+
+- **File:** `client/pages/EmergencyContacts.tsx` — Route: `/emergency`
+- **Emergency Numbers** for **15 countries**: India, USA, UK, France, Japan, Australia, Germany, Thailand, Italy, Spain, Singapore, Canada, UAE, Brazil, New Zealand — police, ambulance, fire, tourist hotline
+- **Country Search** — live filter by country name; click any country to see detail panel
+- **Clickable `tel:` links** for all emergency numbers; direct dial on mobile
+- **US State Dept advisory link** for each selected country
+- **Personal Emergency Contacts** — save name, relation, phone, email; click-to-call button
+- **Safety Score** — circular progress widget showing % of pre-trip checklist completed
+- **Pre-Trip Safety Checklist** — 10 essential safety items (travel insurance, cloud copies, hospital, embassy, etc.); toggleable with live score update
 
 ---
 
 ## 👤 Profile & Gamification
 
-### 20. User Profile Page
+### 23. User Profile Page
 
-- **File:** `client/pages/Profile.tsx`, Route: `/profile`
-- Tabbed interface:
-  - **My Trips** — list of saved trips with stats
-  - **Badges** — earned achievement badges
-  - **Analytics** — spending charts
+- **File:** `client/pages/Profile.tsx` — Route: `/profile`
+- Tabbed: **My Trips** → **Badges** → **Analytics**
+- Hero section with stats (trips, countries, days, avg budget)
 
-### 21. Gamification Badges
+### 24. Gamification Badges
 
-- **File:** `client/pages/Profile.tsx`
-- 6 achievement badges with unlock conditions:
-  - 🌍 **World Explorer** — 5+ trips planned
-  - 💰 **Budget Master** — under-budget trip
-  - 🗺️ **Adventurer** — adventure-type trip
-  - ✈️ **Frequent Flyer** — 10+ trips
-  - 🌍 **Globe Trotter** — 20+ trips
-  - 🔰 **First Steps** — first trip planned
-- Progress bars show progress toward locked badges
+- 6 achievement badges with conditions: 🔰 First Steps, 🌍 World Explorer, 💰 Budget Master, 🗺️ Adventurer, ✈️ Frequent Flyer, 🌍 Globe Trotter
+- Progress bars for locked badges
 
-### 22. Spending Analytics Charts
+### 25. Spending Analytics Charts
 
 - **File:** `client/pages/Profile.tsx` — Analytics tab
-- **Recharts** Pie chart: spending by category (Accommodation, Food, Transport, Activities)
-- **Recharts** Bar chart: per-trip budget vs. estimated spend comparison
-- Data sourced from real saved trip data
+- Recharts **Pie chart**: spending by category (Accommodation, Food, Transport, Activities)
+- Recharts **Bar chart**: per-trip budget vs. actual spend
 
 ---
 
 ## 🔔 UX & Onboarding
 
-### 23. Onboarding Wizard
+### 26. Onboarding Wizard
 
 - **File:** `client/components/OnboardingModal.tsx`
-- 3-step animated welcome modal shown on first login
-- Steps: Welcome → Preferences → Quick Start
-- Framer Motion slide transitions between steps
-- Stored in `localStorage` so it only shows once (`tg_onboarded`)
+- 3-step animated modal on first login: Meet AI Planner → Features → Quick Start
+- Framer Motion slide transitions; stored in `localStorage` (`tg_onboarded`)
 
-### 24. Keyboard Shortcuts
+### 27. Keyboard Shortcuts
 
 - **File:** `client/hooks/useKeyboardShortcuts.ts`
-- Global shortcuts (safely disabled when typing in inputs):
-  - `Ctrl + K` — Open AI Chat
-  - `Ctrl + N` — New Trip (navigate to Planner)
-  - `Ctrl + D` — Go to Dashboard
+- `Ctrl + K` — Open AI Chat &nbsp;|&nbsp; `Ctrl + N` — New Trip &nbsp;|&nbsp; `Ctrl + D` — Dashboard
+- Safely disabled when typing in input fields
 
-### 25. PWA (Progressive Web App)
+### 28. PWA (Progressive Web App)
 
 - **Files:** `public/manifest.json`, `index.html`
-- App can be **installed to homescreen** on mobile/desktop
-- App shortcuts defined in manifest (Plan Trip, Dashboard)
-- Theme color matches the Aurora Glass palette (`#bfffff`)
-- Works offline after install (cached assets)
+- Installable to homescreen (mobile & desktop); app shortcuts in manifest
+- Theme color matches Aurora Glass palette (`#bfffff`)
 
-### 26. Dark / Light Mode Toggle
+### 29. Dark / Light Mode
 
 - **File:** `client/components/site/Navbar.tsx`
-- Animated Sun/Moon toggle in Navbar
-- Preference saved to `localStorage` (`tg_theme`)
-- Respects system preference on first load
+- Animated Sun/Moon toggle; saved to `localStorage`; respects system preference on first load
+
+### 30. Internationalization (i18n)
+
+- **File:** `client/lib/i18n.ts`
+- `react-i18next` with English and Spanish translations for core UI elements
 
 ---
 
 ## 🔐 Authentication
 
-### 27. JWT Authentication
+### 31. JWT Authentication
 
 - **Files:** `server/routes/auth.ts`, `server/middleware/auth.ts`, `client/contexts/AuthContext.tsx`
-- `POST /api/auth/signup` — creates a user account
-- `POST /api/auth/login` — validates credentials and returns JWT
-- Protected routes use `<ProtectedRoute>` wrapper in React Router
-- JWT stored in `localStorage` (`auth_token`)
-- Guest Mode available for exploring without registration
+- `POST /api/auth/signup` + `POST /api/auth/login` → JWT returned
+- `<ProtectedRoute>` wrapper in React Router; JWT in `localStorage` (`auth_token`)
+- **Guest Mode** available to explore without registration
 
 ---
 
@@ -294,11 +275,10 @@
 
 ### Frontend Architecture
 
-- **State**: Zustand for global state, React Query for server data
-- **Routing**: React Router v6 with lazy-loaded pages
-- **Animation**: Framer Motion for page transitions and micro-interactions
-- **Forms**: Native React controlled forms with Zod-like client-side validation
-- **Theming**: CSS variables + Tailwind + custom Aurora Glass design system
+- **State**: Zustand (`tripStore.ts`) for global trip state; React Query for server data
+- **Routing**: React Router v6 with lazy-loaded pages (`React.lazy` + `Suspense`)
+- **Animation**: Framer Motion for page transitions, modals, and micro-interactions
+- **Theming**: CSS variables + Tailwind custom config — Aurora Glass design system
 
 ### Backend Architecture
 
@@ -310,12 +290,19 @@
 
 ### Design System — Aurora Glass
 
-- Background: deep dark tones (`#0a0a0f`)
-- Primary: luminous cyan/teal (`hsl(180, 100%, 50%)`)
-- Glassmorphism: `backdrop-blur-xl` + `bg-background/60` + border glow
-- All cards: `glass-card` class with gradient borders
-- Typography: Inter (Google Fonts)
-- Gradients: `gradient-text` utility across headings
+| Token      | Value                                      |
+| ---------- | ------------------------------------------ |
+| Background | `#0a0a0f` — deep dark                      |
+| Primary    | `hsl(180, 100%, 50%)` — cyan/teal          |
+| Card style | `glass-card` — backdrop-blur + border glow |
+| Typography | Inter (Google Fonts)                       |
+| Gradients  | `gradient-text` utility on headings        |
+
+### CI/CD & Quality
+
+- **GitHub Actions** (`.github/workflows/ci.yml`): typecheck + lint + test on every PR
+- **Playwright** E2E tests in `e2e/` directory
+- **Sentry** error monitoring (frontend runtime tracking)
 
 ---
 
@@ -324,23 +311,29 @@
 ```
 client/components/
 ├── site/
-│   ├── Navbar.tsx           — Top navigation, mobile bar, theme toggle
-│   └── Footer.tsx           — Site footer
-├── ui/                      — Shadcn-style primitives (30+ components)
-├── AIChatWidget.tsx          — Floating AI chat bubble (global)
-├── OnboardingModal.tsx       — First-login wizard
-├── TripScore.tsx             — AI trip grade (S/A/B/C/D)
-├── BudgetForecast.tsx        — Recharts budget projection
-├── CalendarExport.tsx        — Google Cal + .ics download
-├── CountdownWidget.tsx       — Live trip countdown
-├── DestinationDiscovery.tsx  — "Where should I go?" quiz
-├── CarbonTracker.tsx         — CO₂ footprint calculator
-├── TripTimeline.tsx          — Day-by-day activity timeline
-└── planner/
-    ├── VisaChecker.tsx       — Visa requirements display
-    ├── PassportTracker.tsx   — Passport validity tracker
-    ├── LocalGuides.tsx       — Local guides listing
-    └── PackingList.tsx       — Smart packing checklist
+│   ├── Navbar.tsx              — Nav, More dropdown (6 links), theme toggle, auth
+│   ├── Footer.tsx              — Site footer
+│   └── ErrorBoundary.tsx       — React error boundary wrapper
+├── common/
+│   ├── ProtectedRoute.tsx      — Auth guard HOC
+│   └── PageTransition.tsx      — Framer Motion page wrapper
+├── ui/                         — Shadcn-style primitives (button, card, input, badge,
+│                                  select, tabs, tooltip, dropdown, textarea, etc.)
+├── planner/
+│   ├── VisaChecker.tsx         — Visa requirements display
+│   ├── PassportTracker.tsx     — Passport expiry checker
+│   ├── TripTimeline.tsx        — Activity timeline for Planner tab
+│   ├── LocalGuides.tsx         — Local guides listing
+│   └── PackingList.tsx         — Smart packing checklist generator
+├── AIChatWidget.tsx            — Floating AI chat bubble (global, every page)
+├── OnboardingModal.tsx         — 3-step first-login wizard
+├── TripScore.tsx               — AI trip grade (S/A/B/C/D) with 5 dimensions
+├── BudgetForecast.tsx          — Recharts area chart budget projection
+├── CalendarExport.tsx          — Google Calendar + .ics download
+├── CountdownWidget.tsx         — Live countdown to next trip
+├── DestinationDiscovery.tsx    — 4-step "Where should I go?" quiz
+├── CarbonTracker.tsx           — CO₂ footprint calculator with offsets
+└── TripTimeline.tsx            — Standalone timeline component
 ```
 
 ---

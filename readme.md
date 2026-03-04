@@ -16,6 +16,8 @@
   <a href="#-installation"><img src="https://img.shields.io/badge/Package_Manager-pnpm-f59e0b?style=flat-square&logo=pnpm" alt="pnpm" /></a>
   <a href="#-license"><img src="https://img.shields.io/badge/License-MIT-22c55e?style=flat-square" alt="MIT" /></a>
   <a href="https://github.com/Puspaldas17/TripGenius"><img src="https://img.shields.io/badge/Author-Puspal%20Das-8b5cf6?style=flat-square&logo=github" alt="Author" /></a>
+  <img src="https://img.shields.io/badge/Pages-13-0ea5e9?style=flat-square" alt="Pages" />
+  <img src="https://img.shields.io/badge/Features-30%2B-22c55e?style=flat-square" alt="Features" />
 </p>
 
 <br />
@@ -26,23 +28,26 @@
 
 ## 📌 Overview
 
-**TripGenius** is a full-stack, production-ready travel planning application powered by AI. Enter your origin, destination, dates, budget, and travel style — and get a complete day-by-day itinerary in seconds. Packed with 20+ professional features including live weather, budget forecasting, trip sharing, a travel journal, calendar export, and more.
+**TripGenius** is a full-stack, production-ready travel planning application powered by AI. Enter your origin, destination, dates, budget, and travel style — and get a complete day-by-day itinerary in seconds. Packed with 30+ professional features including live weather, budget forecasting, group trip collaboration, destination comparison, a travel safety hub, trip sharing, a travel journal, calendar export, and more.
 
-> See [`PROJECTDETAILS.md`](./PROJECTDETAILS.md) for a full breakdown of every feature.
+> See [`PROJECTDETAILS.md`](./PROJECTDETAILS.md) for a full breakdown of every feature, route, and component.
 
 ---
 
 ## ✨ Key Features at a Glance
 
-| Category        | Features                                                            |
-| --------------- | ------------------------------------------------------------------- |
-| 🤖 AI Planning  | Itinerary generation, AI Chat Widget, Trip Score Analysis           |
-| 🗺️ Travel Tools | Weather, Maps, Transport Options, Nearby Places, Visa Info          |
-| 💰 Budget       | Budget Overview, Forecast Chart, Currency Converter, Carbon Tracker |
-| 📅 Scheduling   | Drag-and-Drop Calendar, Trip Timeline, Google Calendar Export       |
-| 🔗 Social       | Trip Sharing (public links), Travel Journal, Trip Reviews           |
-| 📊 Analytics    | Profile Badges, Spending Charts, Destination Quiz                   |
-| 🔔 UX           | Onboarding Wizard, Keyboard Shortcuts, PWA Installable, Dark Mode   |
+| Category         | Features                                                                         |
+| ---------------- | -------------------------------------------------------------------------------- |
+| 🤖 AI Planning   | Itinerary generation, AI Chat Widget, Trip Score Analysis, Destination Quiz      |
+| 🗺️ Travel Tools  | Weather, Maps, Transport Options, Nearby Places, Visa Info, Passport Tracker     |
+| 💰 Budget        | Budget Overview, Forecast Chart, Currency Converter, Carbon Footprint Tracker    |
+| 📅 Scheduling    | Drag-and-Drop Calendar, Trip Timeline, Google Calendar Export, Countdown Widget  |
+| 🔗 Social        | Trip Sharing (public links), Travel Journal, Trip Reviews                        |
+| 👥 Collaboration | Group Trip Planner (invite, vote, split expenses, group chat)                    |
+| ⚖️ Discovery     | Side-by-side Destination Comparison (8 destinations, 6 metrics)                  |
+| 🛡️ Safety        | Emergency Numbers for 15 countries, Personal Contacts, Pre-trip Safety Checklist |
+| 📊 Analytics     | Profile Badges, Spending Charts, Budget Forecasting                              |
+| 🔔 UX            | Onboarding Wizard, Keyboard Shortcuts, PWA Installable, Dark/Light Mode, i18n    |
 
 ---
 
@@ -62,6 +67,7 @@
 | [React Query](https://tanstack.com/query)       | Data fetching & caching  |
 | [Recharts](https://recharts.org)                | Analytics charts         |
 | [Lucide Icons](https://lucide.dev)              | Icon set                 |
+| [react-i18next](https://react.i18next.com)      | Internationalization     |
 
 ### Backend
 
@@ -82,6 +88,15 @@
 | [Wikipedia Geosearch](https://www.mediawiki.org/wiki/API:Geosearch) | Nearby places           |
 | [Frankfurter API](https://www.frankfurter.app)                      | Currency exchange rates |
 
+### DevOps & Quality
+
+| Tool                                                  | Purpose          |
+| ----------------------------------------------------- | ---------------- |
+| [Playwright](https://playwright.dev)                  | E2E testing      |
+| [GitHub Actions](https://github.com/features/actions) | CI/CD pipeline   |
+| [Sentry](https://sentry.io)                           | Error monitoring |
+| ESLint + TypeScript                                   | Code quality     |
+
 ---
 
 ## 📁 Project Structure
@@ -91,29 +106,35 @@ TripGenius/
 ├── client/                        # React frontend (Vite)
 │   ├── App.tsx                    # App shell, routes, providers
 │   ├── pages/                     # Route-level pages
-│   │   ├── Index.tsx              # Landing / Home
-│   │   ├── Planner.tsx            # Main trip planning page
+│   │   ├── Index.tsx              # Landing / Home (premium SaaS layout)
+│   │   ├── Planner.tsx            # Main AI trip planning workspace
 │   │   ├── Dashboard.tsx          # User dashboard & analytics
 │   │   ├── Profile.tsx            # User profile, badges, charts
 │   │   ├── SharedTrip.tsx         # Public shared itinerary view
 │   │   ├── TravelJournal.tsx      # Travel journal with mood tracking
-│   │   ├── TripReviews.tsx        # Destination reviews
+│   │   ├── TripReviews.tsx        # Destination reviews & ratings
+│   │   ├── GroupTrips.tsx         # Collaborative group trip planner ★ NEW
+│   │   ├── EmergencyContacts.tsx  # Travel safety hub ★ NEW
+│   │   ├── TripComparison.tsx     # Side-by-side destination compare ★ NEW
 │   │   ├── Login.tsx / Signup.tsx # Auth pages
 │   │   └── NotFound.tsx           # 404 page
 │   ├── components/
-│   │   ├── site/                  # Navbar, Footer
-│   │   ├── ui/                    # Reusable UI primitives
-│   │   ├── AIChatWidget.tsx       # Floating AI chat assistant
-│   │   ├── OnboardingModal.tsx    # First-login wizard
-│   │   ├── TripScore.tsx          # AI trip grader (S/A/B/C/D)
+│   │   ├── site/                  # Navbar, Footer, ErrorBoundary
+│   │   ├── ui/                    # Reusable UI primitives (shadcn-style)
+│   │   ├── common/                # ProtectedRoute, PageTransition
+│   │   ├── planner/               # VisaChecker, PassportTracker, LocalGuides, PackingList, TripTimeline
+│   │   ├── AIChatWidget.tsx       # Floating AI chat assistant (global)
+│   │   ├── OnboardingModal.tsx    # First-login 3-step wizard
+│   │   ├── TripScore.tsx          # AI trip grade (S/A/B/C/D)
 │   │   ├── BudgetForecast.tsx     # Budget projection chart
 │   │   ├── CalendarExport.tsx     # Google Cal + .ics export
 │   │   ├── CountdownWidget.tsx    # Live trip countdown timer
 │   │   ├── DestinationDiscovery.tsx # "Where should I go?" quiz
 │   │   ├── CarbonTracker.tsx      # CO₂ footprint calculator
 │   │   └── TripTimeline.tsx       # Day-by-day visual timeline
-│   ├── hooks/                     # Custom hooks (keyboard shortcuts, mobile)
-│   ├── lib/                       # Utilities, icalExport.ts
+│   ├── hooks/                     # useKeyboardShortcuts, useTripQueries, useMobile
+│   ├── lib/                       # api.ts, icalExport.ts, i18n.ts, utils.ts
+│   ├── store/                     # tripStore.ts (Zustand)
 │   └── contexts/                  # AuthContext
 │
 ├── server/                        # Express backend
@@ -134,8 +155,10 @@ TripGenius/
 ├── shared/
 │   └── api.ts                     # Types shared by client & server
 │
-├── public/                        # Static assets, manifest.json
+├── public/                        # Static assets, manifest.json (PWA)
 ├── netlify/functions/api.ts       # Serverless adapter
+├── e2e/                           # Playwright E2E tests
+├── .github/workflows/ci.yml       # GitHub Actions CI/CD
 ├── PROJECTDETAILS.md              # Full feature documentation
 └── README.md                      # This file
 ```
@@ -200,9 +223,10 @@ pnpm start
 ### Useful Scripts
 
 ```bash
-pnpm typecheck   # TypeScript type checking
-pnpm lint        # ESLint
-pnpm test        # Unit tests (Vitest)
+pnpm typecheck       # TypeScript type checking
+pnpm lint            # ESLint
+pnpm test            # Unit tests (Vitest)
+npx playwright test  # E2E tests (Playwright)
 ```
 
 ---
@@ -214,8 +238,8 @@ pnpm test        # Unit tests (Vitest)
 The project includes a ready-to-use `netlify.toml` and serverless adapter:
 
 ```
-Build command: pnpm build
-Publish directory: dist
+Build command:      pnpm build
+Publish directory:  dist
 Functions directory: netlify/functions
 ```
 

@@ -17,6 +17,9 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Login = lazy(() => import("./pages/Login"));
 const Signup = lazy(() => import("./pages/Signup"));
 const Profile = lazy(() => import("./pages/Profile"));
+const SharedTrip = lazy(() => import("./pages/SharedTrip"));
+const TravelJournal = lazy(() => import("./pages/TravelJournal"));
+const TripReviews = lazy(() => import("./pages/TripReviews"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const PageLoader = () => (
@@ -30,6 +33,8 @@ import ErrorBoundary from "./components/site/ErrorBoundary";
 import { ProtectedRoute } from "./components/common/ProtectedRoute";
 import { PageTransition } from "./components/common/PageTransition";
 import { AuthProvider } from "./contexts/AuthContext";
+import AIChatWidget from "./components/AIChatWidget";
+import OnboardingModal from "./components/OnboardingModal";
 import { toast } from "sonner";
 
 const queryClient = new QueryClient();
@@ -66,6 +71,7 @@ const AppRoutes = () => (
       <Route path="/" element={<Index />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/trip/share/:token" element={<SharedTrip />} />
       <Route
         path="/planner"
         element={
@@ -87,6 +93,22 @@ const AppRoutes = () => (
         element={
           <ProtectedRoute>
             <Profile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/journal"
+        element={
+          <ProtectedRoute>
+            <TravelJournal />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/reviews"
+        element={
+          <ProtectedRoute>
+            <TripReviews />
           </ProtectedRoute>
         }
       />
@@ -115,6 +137,8 @@ const App = () => (
                 </main>
               </ErrorBoundary>
               <Footer />
+              <AIChatWidget />
+              <OnboardingModal />
             </div>
           </BrowserRouter>
         </AuthProvider>

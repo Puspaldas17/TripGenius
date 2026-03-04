@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
 import {
   Plane,
   CloudSun,
@@ -14,7 +15,6 @@ import {
   ArrowRight,
   Sparkles,
   Globe,
-  Shield,
   Zap,
   Star,
   CheckCircle2,
@@ -68,10 +68,10 @@ function HeroSection() {
             <Button
               asChild
               size="lg"
-              className="h-12 gap-2 px-6 text-base shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all"
+              className="h-12 gap-2 px-6 text-base shadow-lg shadow-primary/25 hover:shadow-[0_0_30px_rgba(191,255,255,0.4)] hover:scale-[1.02] bg-gradient-to-r from-primary to-accent border-0 text-white transition-all cursor-pointer"
             >
               <Link to="/planner">
-                <Brain className="h-5 w-5" /> Start Planning
+                <Brain className="h-5 w-5 animate-pulse" /> Start Planning
                 <ArrowRight className="h-4 w-4 ml-1" />
               </Link>
             </Button>
@@ -79,7 +79,7 @@ function HeroSection() {
               asChild
               size="lg"
               variant="outline"
-              className="h-12 gap-2 px-6 text-base hover-lift"
+              className="h-12 gap-2 px-6 text-base glass-card hover-glow border-primary/30 hover:bg-primary/10 transition-all cursor-pointer"
             >
               <a href="#features">
                 <Map className="h-5 w-5" /> Explore Features
@@ -87,7 +87,7 @@ function HeroSection() {
             </Button>
           </div>
 
-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-foreground/80 font-medium">
             {[
               { icon: CloudSun, label: "Live Weather" },
               { icon: Plane, label: "Flight Search" },
@@ -95,8 +95,8 @@ function HeroSection() {
               { icon: Users, label: "Collaboration" },
             ].map(({ icon: Icon, label }) => (
               <div key={label} className="flex items-center gap-2">
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10">
-                  <Icon className="h-3.5 w-3.5 text-primary" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-full glass-card border border-primary/30 shadow-[0_0_15px_rgba(191,255,255,0.15)]">
+                  <Icon className="h-4 w-4 text-primary" />
                 </div>
                 {label}
               </div>
@@ -104,28 +104,126 @@ function HeroSection() {
           </div>
         </div>
 
-        {/* Right — Hero image */}
-        <div className="relative animate-slide-in-right">
-          <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-primary/20 to-accent/20 blur-2xl opacity-60" />
-          <div className="relative rounded-2xl border bg-card/80 p-2 shadow-2xl backdrop-blur-sm hover-lift">
-            <img
-              src="https://images.pexels.com/photos/5953197/pexels-photo-5953197.jpeg"
-              alt="Travel planning with TripGenius"
-              className="h-auto w-full rounded-xl object-cover"
-              loading="eager"
-            />
-            {/* Floating badge */}
-            <div className="absolute -bottom-4 -left-4 animate-float glass-card rounded-xl px-4 py-2.5 shadow-lg">
-              <div className="flex items-center gap-2 text-sm font-semibold">
-                <Sparkles className="h-4 w-4 text-accent" />
-                <span>AI-Generated Itinerary</span>
+        {/* Right — Hero Floating App Mockup */}
+        <div className="relative animate-slide-in-right mt-10 md:mt-0 flex justify-center lg:justify-end xl:w-full perspective-[1000px]">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-primary/30 to-accent/30 blur-[100px] animate-pulse-glow" />
+
+          {/* Main App Window */}
+          <div
+            className="relative z-10 w-full max-w-sm rounded-[2rem] border border-primary/30 bg-background/60 p-2 shadow-[0_0_40px_-10px_rgba(191,255,255,0.2)] backdrop-blur-xl transition-transform duration-700 hover:rotate-0 hover:scale-[1.02]"
+            style={{ transform: "rotateY(-15deg) rotateX(5deg)" }}
+          >
+            <div className="flex flex-col gap-3 rounded-[1.5rem] bg-card/80 p-4 w-full shadow-inner border border-primary/10 overflow-hidden relative">
+              <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-transparent opacity-50 pointer-events-none" />
+
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-full bg-red-500/80 shadow-[0_0_5px_rgba(239,68,68,0.5)]" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/80 shadow-[0_0_5px_rgba(234,179,8,0.5)]" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-green-500/80 shadow-[0_0_5px_rgba(34,197,94,0.5)]" />
+                </div>
+                <div className="text-[10px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent uppercase tracking-widest">
+                  TripGenius AI
+                </div>
+              </div>
+
+              <div
+                className="h-32 w-full rounded-xl object-cover bg-cover bg-center overflow-hidden border border-primary/20 relative shadow-sm"
+                style={{
+                  backgroundImage:
+                    "url('https://images.pexels.com/photos/5953197/pexels-photo-5953197.jpeg')",
+                }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute bottom-3 left-3 flex items-center gap-1.5 text-white">
+                  <Map className="h-4 w-4 drop-shadow-md text-primary" />
+                  <span className="text-sm font-bold tracking-wide drop-shadow-md">
+                    Kyoto, Japan
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-2 mt-1">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-bold text-foreground">
+                    Day 1 Overview
+                  </span>
+                  <Badge
+                    variant="secondary"
+                    className="text-[10px] h-5 px-1.5 bg-accent/20 text-accent border border-accent/30 shadow-[0_0_10px_rgba(255,100,200,0.2)]"
+                  >
+                    AI Generated
+                  </Badge>
+                </div>
+                <div className="space-y-2 relative z-10">
+                  {[
+                    { time: "09:00", act: "Fushimi Inari Taisha", icon: "⛩️" },
+                    { time: "12:30", act: "Nishiki Market Lunch", icon: "🍜" },
+                    { time: "15:00", act: "Kiyomizu-dera Temple", icon: "🏯" },
+                  ].map((x) => (
+                    <div
+                      key={x.time}
+                      className="flex items-center gap-3 rounded-xl border border-primary/20 bg-background/60 p-2.5 shadow-sm text-xs backdrop-blur-md transition-all hover:bg-primary/10 cursor-default"
+                    >
+                      <div className="h-7 w-7 rounded-lg flex items-center justify-center bg-primary/20 shadow-inner">
+                        <span className="text-sm">{x.icon}</span>
+                      </div>
+                      <div className="flex-1 font-semibold text-foreground">
+                        {x.act}
+                      </div>
+                      <div className="text-primary font-medium tracking-tight bg-primary/10 px-1.5 py-0.5 rounded">
+                        {x.time}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <Button
+                size="sm"
+                className="w-full h-8 mt-1 text-xs font-bold bg-gradient-to-r from-primary to-accent border-0 text-white shadow-md shadow-primary/20"
+              >
+                View Full Itinerary <ArrowRight className="h-3 w-3 ml-1" />
+              </Button>
+            </div>
+
+            {/* Floating widget 1: Weather */}
+            <div
+              className="absolute -left-6 sm:-left-12 top-24 animate-float glass-card border flex flex-col items-center justify-center border-primary/40 rounded-[1.5rem] h-20 w-20 shadow-[0_10px_30px_-5px_rgba(191,255,255,0.3)] backdrop-blur-xl bg-background/80"
+              style={{ animationDelay: "0.5s" }}
+            >
+              <CloudSun className="h-6 w-6 text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.6)]" />
+              <div className="text-sm font-extrabold mt-1 text-foreground">
+                24°
               </div>
             </div>
-            <div className="absolute -top-3 -right-3 animate-bounce-subtle glass-card rounded-xl px-3 py-2 shadow-lg">
-              <div className="flex items-center gap-1.5 text-xs font-semibold">
-                <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-                4.9 Rating
+
+            {/* Floating widget 2: Rating */}
+            <div
+              className="absolute -right-4 sm:-right-8 bottom-32 animate-bounce-subtle glass-card border flex items-center gap-2 border-accent/40 rounded-full px-4 py-2.5 shadow-[0_10px_30px_-5px_rgba(255,100,200,0.3)] backdrop-blur-xl bg-background/80"
+              style={{ animationDelay: "1.2s" }}
+            >
+              <Star className="h-4 w-4 fill-accent text-accent animate-pulse" />
+              <span className="text-sm font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-accent to-pink-500">
+                4.9 / 5
+              </span>
+            </div>
+
+            {/* Floating widget 3: Collab */}
+            <div
+              className="absolute -left-4 sm:-left-8 bottom-12 animate-float glass-card border border-primary/30 rounded-full px-3 py-1.5 shadow-xl backdrop-blur-xl bg-background/80 flex items-center gap-2"
+              style={{ animationDelay: "2.5s" }}
+            >
+              <div className="flex -space-x-2">
+                <div className="h-6 w-6 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-white border-2 border-background z-20 shadow-sm">
+                  JS
+                </div>
+                <div className="h-6 w-6 rounded-full bg-accent flex items-center justify-center text-[10px] font-bold text-white border-2 border-background z-10 shadow-sm">
+                  MK
+                </div>
               </div>
+              <span className="text-[10px] font-bold text-foreground pr-1">
+                + Joined
+              </span>
             </div>
           </div>
         </div>
@@ -229,31 +327,99 @@ function FeaturesSection() {
           </p>
         </div>
 
-        <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.15 },
+            },
+          }}
+          className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
           {features.map((f, idx) => (
-            <Card
+            <motion.div
               key={f.title}
-              className="group relative overflow-hidden border-transparent bg-card shadow-sm hover-lift hover-glow cursor-default"
-              style={{ animationDelay: `${idx * 0.08}s` }}
+              variants={{
+                hidden: { opacity: 0, scale: 0.95, y: 30 },
+                visible: {
+                  opacity: 1,
+                  scale: 1,
+                  y: 0,
+                  transition: { type: "spring", stiffness: 100, damping: 15 },
+                },
+              }}
+              className={`flex
+                ${idx === 0 ? "md:col-span-2 lg:col-span-2" : ""}
+                ${idx === 4 ? "md:col-span-2 lg:col-span-2 lg:col-start-2 lg:row-start-3" : ""}
+                ${idx === 5 ? "lg:col-start-1 lg:row-start-3" : ""}
+              `}
             >
-              {/* Subtle animated gradient bg on hover */}
-              <div
-                className={`absolute inset-0 bg-gradient-to-br ${f.gradient} opacity-0 group-hover:opacity-100 group-hover:animate-gradient-xy transition-opacity duration-500`}
-              />
-              <CardContent className="relative p-6">
+              <Card
+                className={`w-full group relative overflow-hidden glass-card border border-primary/20 bg-background/50 shadow-lg hover-glow hover:scale-[1.01] cursor-default transition-all duration-500`}
+              >
                 <div
-                  className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${f.gradient}`}
-                >
-                  <f.icon className={`h-6 w-6 ${f.iconColor}`} />
-                </div>
-                <h3 className="text-lg font-semibold">{f.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {f.desc}
-                </p>
-              </CardContent>
-            </Card>
+                  className={`absolute inset-0 bg-gradient-to-br ${f.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none`}
+                />
+                <div className="absolute -inset-10 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 group-hover:translate-x-full transition-all duration-1000 ease-in-out pointer-events-none" />
+
+                <CardContent className="relative p-6 sm:p-8 flex flex-col items-start h-full">
+                  <div
+                    className={`mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${f.gradient} shadow-inner border border-white/10`}
+                  >
+                    <f.icon
+                      className={`h-7 w-7 ${f.iconColor} drop-shadow-md`}
+                    />
+                  </div>
+                  <h3 className="text-xl font-bold tracking-tight text-foreground">
+                    {f.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground lg:max-w-[90%]">
+                    {f.desc}
+                  </p>
+
+                  {/* Visual Flair Banners */}
+                  {idx === 0 && (
+                    <div className="mt-auto pt-6 w-full opacity-80 group-hover:opacity-100 transition-opacity">
+                      <div className="w-full rounded-2xl border border-primary/20 bg-background/80 p-4 shadow-sm backdrop-blur-md">
+                        <div className="flex items-center gap-3 mb-3">
+                          <Brain className="h-5 w-5 text-accent animate-pulse" />
+                          <div className="h-2.5 w-full bg-primary/10 rounded-full overflow-hidden">
+                            <div className="h-full bg-gradient-to-r from-primary to-accent w-2/3 animate-pulse" />
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <div className="h-1.5 w-1/3 bg-muted rounded-full" />
+                          <div className="h-1.5 w-1/4 bg-muted/50 rounded-full" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {idx === 4 && (
+                    <div className="mt-auto pt-6 flex -space-x-3 opacity-90 group-hover:opacity-100 transition-opacity">
+                      {[1, 2, 3, 4].map((i) => (
+                        <div
+                          key={i}
+                          className={`h-11 w-11 rounded-full border-[3px] border-background bg-gradient-to-br ${f.gradient} flex items-center justify-center shadow-md animate-float`}
+                          style={{ animationDelay: `${i * 0.2}s` }}
+                        >
+                          <Users className="h-4 w-4 text-white drop-shadow-sm" />
+                        </div>
+                      ))}
+                      <div className="h-11 w-11 rounded-full border-[3px] border-background bg-muted flex items-center justify-center shadow-md z-10 text-xs font-bold text-foreground">
+                        +5
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -284,12 +450,17 @@ const steps = [
 
 function HowItWorks() {
   return (
-    <section className="section-padding bg-muted/30">
+    <section className="section-padding relative overflow-hidden">
+      {/* Background blobs for "How It Works" */}
+      <div className="absolute inset-0 -z-10 bg-muted/20" />
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 -z-10 h-96 w-96 rounded-full bg-accent/5 blur-3xl saturate-150" />
+      <div className="absolute top-1/2 right-0 -translate-y-1/2 -z-10 h-96 w-96 rounded-full bg-primary/5 blur-3xl saturate-150" />
+
       <div className="mx-auto max-w-7xl px-4 md:px-6">
         <div className="mx-auto max-w-2xl text-center animate-fade-in">
           <Badge
             variant="outline"
-            className="mb-4 gap-1.5 rounded-full px-4 py-1.5"
+            className="mb-4 gap-1.5 rounded-full px-4 py-1.5 border-primary/20 bg-primary/5 text-primary shadow-sm"
           >
             <CheckCircle2 className="h-3.5 w-3.5" /> How It Works
           </Badge>
@@ -299,24 +470,33 @@ function HowItWorks() {
           </h2>
         </div>
 
-        <div className="relative mt-14 grid grid-cols-1 gap-8 md:grid-cols-3">
-          {/* Connector line (desktop) */}
-          <div className="absolute top-16 left-[16.66%] right-[16.66%] hidden h-0.5 bg-gradient-to-r from-primary/30 via-primary/60 to-primary/30 md:block" />
+        <div className="relative mt-20 grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
+          {/* Animated glowing connector line (desktop) */}
+          <div className="absolute top-10 left-[16.66%] right-[16.66%] hidden h-[2px] bg-muted md:block overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/80 to-transparent w-full animate-shimmer" />
+          </div>
 
           {steps.map((s, idx) => (
             <div
               key={s.step}
-              className="relative flex flex-col items-center text-center animate-slide-in-up"
+              className="relative flex flex-col items-center text-center animate-slide-in-up group"
               style={{ animationDelay: `${idx * 0.15}s` }}
             >
-              <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/25">
-                <s.icon className="h-7 w-7" />
+              <div className="relative z-10 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent p-[2px] shadow-[0_0_20px_rgba(191,255,255,0.2)] transition-transform duration-500 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(191,255,255,0.4)]">
+                <div className="flex h-full w-full items-center justify-center rounded-[14px] bg-background/90 backdrop-blur-sm relative overflow-hidden">
+                  <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <s.icon className="h-8 w-8 text-primary group-hover:text-accent transition-colors duration-500 relative z-10" />
+                </div>
               </div>
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-3 text-[10px] font-bold text-primary bg-primary/10 rounded-full px-2 py-0.5">
-                {s.step}
+
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-[10px] font-extrabold text-white bg-gradient-to-r from-primary to-accent rounded-full px-3 py-1 shadow-md z-20">
+                STEP {s.step}
               </div>
-              <h3 className="mt-6 text-lg font-semibold">{s.title}</h3>
-              <p className="mt-2 max-w-xs text-sm text-muted-foreground leading-relaxed">
+
+              <h3 className="mt-8 text-xl font-bold tracking-tight text-foreground">
+                {s.title}
+              </h3>
+              <p className="mt-3 max-w-[260px] text-sm text-muted-foreground leading-relaxed">
                 {s.desc}
               </p>
             </div>
@@ -447,40 +627,32 @@ function TestimonialsSection() {
 
 function CTASection() {
   return (
-    <section className="section-padding">
+    <section className="section-padding relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 md:px-6">
-        <div className="relative overflow-hidden rounded-3xl gradient-cta px-8 py-14 text-center text-white shadow-2xl shadow-primary/20 md:px-16 md:py-20">
-          {/* Decorative blobs */}
-          <div className="absolute -top-12 -right-12 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
-          <div className="absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
+        <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-primary/90 via-accent/80 to-primary/90 px-8 py-16 text-center text-white shadow-[0_0_50px_rgba(191,255,255,0.2)] md:px-16 md:py-24 group">
+          {/* Animated meshes */}
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none" />
+          <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-white/20 blur-3xl transition-transform duration-1000 group-hover:scale-150 group-hover:translate-x-10" />
+          <div className="absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-white/20 blur-3xl transition-transform duration-1000 group-hover:scale-150 group-hover:-translate-x-10" />
 
-          <div className="relative">
-            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
+          <div className="relative z-10">
+            <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl drop-shadow-md">
               Start planning your next adventure
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-lg opacity-90">
+            <p className="mx-auto mt-6 max-w-2xl text-lg opacity-90 font-medium">
               Generate a complete itinerary in seconds. Invite your friends.
-              Track your budget. All free with TripGenius.
+              Track your budget. All completely free with TripGenius.
             </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
               <Button
                 asChild
                 size="lg"
                 variant="secondary"
-                className="h-12 gap-2 px-8 text-base font-semibold shadow-lg"
+                className="h-14 gap-2 px-8 text-base font-bold shadow-xl hover:scale-105 transition-transform text-primary bg-white hover:bg-white/90"
               >
                 <Link to="/planner">
-                  <Sparkles className="h-5 w-5" /> Launch Planner
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="h-12 gap-2 px-8 text-base font-semibold border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white"
-              >
-                <Link to="/signup">
-                  <Shield className="h-5 w-5" /> Create Free Account
+                  <Sparkles className="h-5 w-5 animate-pulse text-accent" />{" "}
+                  Launch App Now
                 </Link>
               </Button>
             </div>

@@ -77,16 +77,17 @@ export default function Signup() {
       <div className="absolute top-20 left-20 -z-10 h-72 w-72 rounded-full bg-accent/10 blur-3xl" />
       <div className="absolute bottom-20 right-20 -z-10 h-56 w-56 rounded-full bg-primary/10 blur-3xl" />
 
-      <Card className="w-full max-w-md animate-slide-in-up glass-card shadow-xl">
-        <CardHeader className="space-y-2 pb-4">
-          <CardTitle className="text-2xl font-extrabold tracking-tight">
+      <Card className="w-full max-w-md animate-slide-in-up glass-card shadow-xl border border-primary/20 backdrop-blur-2xl bg-background/60">
+        <CardHeader className="space-y-2 pb-4 relative overflow-hidden rounded-t-xl bg-gradient-to-r from-primary/10 via-accent/5 to-transparent">
+          <div className="absolute inset-0 bg-gradient-x opacity-20 animate-gradient-x mix-blend-overlay pointer-events-none" />
+          <CardTitle className="text-2xl font-extrabold tracking-tight relative z-10">
             Create Account
           </CardTitle>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground relative z-10">
             Join TripGenius to start planning smarter trips
           </p>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-4">
           <div className="mb-6 rounded-xl bg-primary/5 p-4 border border-primary/10">
             <div className="flex gap-3 items-start">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">

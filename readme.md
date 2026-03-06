@@ -16,8 +16,8 @@
   <a href="#-installation"><img src="https://img.shields.io/badge/Package_Manager-pnpm-f59e0b?style=flat-square&logo=pnpm" alt="pnpm" /></a>
   <a href="#-license"><img src="https://img.shields.io/badge/License-MIT-22c55e?style=flat-square" alt="MIT" /></a>
   <a href="https://github.com/Puspaldas17/TripGenius"><img src="https://img.shields.io/badge/Author-Puspal%20Das-8b5cf6?style=flat-square&logo=github" alt="Author" /></a>
-  <img src="https://img.shields.io/badge/Pages-13-0ea5e9?style=flat-square" alt="Pages" />
-  <img src="https://img.shields.io/badge/Features-30%2B-22c55e?style=flat-square" alt="Features" />
+  <img src="https://img.shields.io/badge/Pages-14-0ea5e9?style=flat-square" alt="Pages" />
+  <img src="https://img.shields.io/badge/Features-35%2B-22c55e?style=flat-square" alt="Features" />
 </p>
 
 <br />
@@ -28,7 +28,7 @@
 
 ## 📌 Overview
 
-**TripGenius** is a full-stack, production-ready travel planning application powered by AI. Enter your origin, destination, dates, budget, and travel style — and get a complete day-by-day itinerary in seconds. Packed with 30+ professional features including live weather, budget forecasting, group trip collaboration, destination comparison, a travel safety hub, trip sharing, a travel journal, calendar export, and more.
+**TripGenius** is a full-stack, production-ready travel planning application powered by AI. Enter your origin, destination, dates, budget, and travel style — and get a complete day-by-day itinerary in seconds. Packed with 35+ professional features including live weather, an interactive route map, a smart packing list, a collaborative group trip planner, comprehensive trip statistics, a travel safety hub, and more.
 
 > See [`PROJECTDETAILS.md`](./PROJECTDETAILS.md) for a full breakdown of every feature, route, and component.
 
@@ -36,18 +36,23 @@
 
 ## ✨ Key Features at a Glance
 
-| Category         | Features                                                                         |
-| ---------------- | -------------------------------------------------------------------------------- |
-| 🤖 AI Planning   | Itinerary generation, AI Chat Widget, Trip Score Analysis, Destination Quiz      |
-| 🗺️ Travel Tools  | Weather, Maps, Transport Options, Nearby Places, Visa Info, Passport Tracker     |
-| 💰 Budget        | Budget Overview, Forecast Chart, Currency Converter, Carbon Footprint Tracker    |
-| 📅 Scheduling    | Drag-and-Drop Calendar, Trip Timeline, Google Calendar Export, Countdown Widget  |
-| 🔗 Social        | Trip Sharing (public links), Travel Journal, Trip Reviews                        |
-| 👥 Collaboration | Group Trip Planner (invite, vote, split expenses, group chat)                    |
-| ⚖️ Discovery     | Side-by-side Destination Comparison (8 destinations, 6 metrics)                  |
-| 🛡️ Safety        | Emergency Numbers for 15 countries, Personal Contacts, Pre-trip Safety Checklist |
-| 📊 Analytics     | Profile Badges, Spending Charts, Budget Forecasting                              |
-| 🔔 UX            | Onboarding Wizard, Keyboard Shortcuts, PWA Installable, Dark/Light Mode, i18n    |
+| Category         | Features                                                                                           |
+| ---------------- | -------------------------------------------------------------------------------------------------- |
+| 🤖 AI Planning   | Itinerary generator, AI Chat Widget, Trip Score Analysis, Smart Packing List                       |
+| 🗺️ Travel Tools  | Interactive Map, Weather, Transport Options, Nearby Places, Passport Tracker                       |
+| 💰 Budget        | Budget Overview, Forecast Chart, Currency Converter, Carbon Footprint Tracker                      |
+| 📅 Scheduling    | Drag-and-Drop Calendar, Trip Timeline, Google Calendar Export, Countdown Widget                    |
+| 🗺️ Map           | Real-time Map Integration (Visualize routes from origin to destination dynamically)                |
+| 💰 Monetization  | Custom `/pricing` showcase page w/ Pro Badge freemium styling                                      |
+| 🌍 Currency      | Global Currency Matcher (Quick-select USD/EUR/INR toggle automatically applied to budgets)         |
+| 📶 Offline       | Offline PWA Engine (`OfflineIndicator` and intelligent App Shell caching for true portability)     |
+| 🤖 AI Fallback   | AI Resilience Fallback (Elegant Offline Mock Templates gracefully substitute broken API endpoints) |
+| 🔗 Social        | Trip Sharing (public links), Travel Journal, Trip Reviews                                          |
+| 👥 Collaboration | Group Trip Planner (invite, vote, split expenses, group chat)                                      |
+| ⚖️ Discovery     | Side-by-side Destination Comparison (8 destinations, 6 metrics)                                    |
+| 🛡️ Safety        | Emergency Numbers for 15 countries, Personal Contacts, Pre-trip Safety Checklist                   |
+| 📊 Analytics     | Dedicated Stats Dashboard, Profile Badges, Spending Charts, Budget Forecasting                     |
+| 🔔 UX            | Push Reminders, Onboarding Wizard, Keyboard Shortcuts, Dark Mode, PWA, i18n                        |
 
 ---
 
@@ -66,6 +71,7 @@
 | [Zustand](https://zustand-demo.pmnd.rs/)        | Global state             |
 | [React Query](https://tanstack.com/query)       | Data fetching & caching  |
 | [Recharts](https://recharts.org)                | Analytics charts         |
+| [React Leaflet](https://react-leaflet.js.org/)  | Interactive mapping      |
 | [Lucide Icons](https://lucide.dev)              | Icon set                 |
 | [react-i18next](https://react.i18next.com)      | Internationalization     |
 

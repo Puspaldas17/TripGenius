@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, lazy, Suspense } from "react";
 import { Loader2 } from "lucide-react";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 
 // Lazy-load pages for code splitting
 const Index = lazy(() => import("./pages/Index"));
@@ -24,6 +25,8 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const GroupTrips = lazy(() => import("./pages/GroupTrips"));
 const EmergencyContacts = lazy(() => import("./pages/EmergencyContacts"));
 const TripComparison = lazy(() => import("./pages/TripComparison"));
+const TripStats = lazy(() => import("./pages/TripStats"));
+const Pricing = lazy(() => import("./pages/Pricing"));
 
 const PageLoader = () => (
   <div className="flex min-h-[50vh] items-center justify-center">
@@ -132,6 +135,8 @@ const AppRoutes = () => (
         }
       />
       <Route path="/compare" element={<TripComparison />} />
+      <Route path="/stats" element={<TripStats />} />
+      <Route path="/pricing" element={<Pricing />} />
       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
       <Route path="*" element={<NotFound />} />
     </Routes>
@@ -139,32 +144,41 @@ const AppRoutes = () => (
 );
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <AuthProvider>
-          <BrowserRouter>
-            <div className="flex min-h-screen flex-col">
-              <Navbar />
-              <ErrorBoundary>
-                <main className="flex-1">
-                  <PageTransition>
-                    <AppRoutes />
-                  </PageTransition>
-                  <GlobalErrorTrap />
-                </main>
-              </ErrorBoundary>
-              <Footer />
-              <AIChatWidget />
-              <OnboardingModal />
-            </div>
-          </BrowserRouter>
-        </AuthProvider>
-      </TooltipProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
+  <HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <TooltipProvider>
+          <Helmet>
+            <title>TripGenius — AI Travel Planner</title>
+            <meta
+              name="description"
+              content="Plan smarter, travel better. From idea to itinerary in minutes with TripGenius AI."
+            />
+          </Helmet>
+          <Toaster />
+          <Sonner />
+          <AuthProvider>
+            <BrowserRouter>
+              <div className="flex min-h-screen flex-col">
+                <Navbar />
+                <ErrorBoundary>
+                  <main className="flex-1">
+                    <PageTransition>
+                      <AppRoutes />
+                    </PageTransition>
+                    <GlobalErrorTrap />
+                  </main>
+                </ErrorBoundary>
+                <Footer />
+                <AIChatWidget />
+                <OnboardingModal />
+              </div>
+            </BrowserRouter>
+          </AuthProvider>
+        </TooltipProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  </HelmetProvider>
 );
 
 createRoot(document.getElementById("root")!).render(<App />);

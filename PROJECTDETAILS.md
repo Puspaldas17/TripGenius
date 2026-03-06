@@ -4,7 +4,7 @@
 
 **A complete breakdown of every feature, page, component, and route in TripGenius.**
 
-_30+ features across 13 pages._
+_35+ features across 14 pages._
 
 </div>
 
@@ -12,21 +12,22 @@ _30+ features across 13 pages._
 
 ## 🗺️ Pages & Routes
 
-| Route                | Page                   | Access    | Description                                   |
-| -------------------- | ---------------------- | --------- | --------------------------------------------- |
-| `/`                  | Home / Landing         | Public    | Hero section, feature highlights, stats, CTA  |
-| `/planner`           | Trip Planner           | Protected | Full AI trip planning workspace (tabbed)      |
-| `/dashboard`         | Dashboard              | Protected | Trip overview, stats, weather, widgets        |
-| `/profile`           | Profile                | Protected | User stats, badges, spending charts           |
-| `/journal`           | Travel Journal         | Protected | Personal day-by-day travel diary with mood    |
-| `/reviews`           | Trip Reviews           | Protected | Write and browse destination reviews          |
-| `/group-trips`       | Group Trip Planner     | Protected | Collaborative planning with friends ★ NEW     |
-| `/compare`           | Destination Comparison | Public    | Side-by-side comparison of destinations ★ NEW |
-| `/emergency`         | Travel Safety Hub      | Protected | Emergency numbers, contacts, checklist ★ NEW  |
-| `/trip/share/:token` | Shared Trip View       | Public    | Read-only shareable itinerary link            |
-| `/login`             | Login                  | Public    | Email/password authentication                 |
-| `/signup`            | Sign Up                | Public    | New account registration                      |
-| `*`                  | 404 Not Found          | Public    | Animated not-found page                       |
+| Route                | Page                   | Access    | Description                                        |
+| -------------------- | ---------------------- | --------- | -------------------------------------------------- |
+| `/`                  | Home / Landing         | Public    | Hero section, feature highlights, stats, CTA       |
+| `/planner`           | Trip Planner           | Protected | Full AI trip planning workspace (tabbed)           |
+| `/dashboard`         | Dashboard              | Protected | Trip overview, stats, weather, widgets             |
+| `/profile`           | Profile                | Protected | User stats, badges, spending charts                |
+| `/journal`           | Travel Journal         | Protected | Personal day-by-day travel diary with mood         |
+| `/reviews`           | Trip Reviews           | Protected | Write and browse destination reviews               |
+| `/group-trips`       | Group Trip Planner     | Protected | Collaborative planning with friends ★ NEW          |
+| `/compare`           | Destination Comparison | Public    | Side-by-side comparison of destinations ★ NEW      |
+| `/emergency`         | Travel Safety Hub      | Protected | Emergency numbers, contacts, checklist ★ NEW       |
+| `/stats`             | Trip Statistics        | Protected | Analytics, charts, and history for all trips ★ NEW |
+| `/trip/share/:token` | Shared Trip View       | Public    | Read-only shareable itinerary link                 |
+| `/login`             | Login                  | Public    | Email/password authentication                      |
+| `/signup`            | Sign Up                | Public    | New account registration                           |
+| `*`                  | 404 Not Found          | Public    | Animated not-found page                            |
 
 ---
 
@@ -39,6 +40,30 @@ _30+ features across 13 pages._
 - Accepts: destination, origin, days, budget, members, travel style/mood
 - Returns structured day-by-day itinerary with activities, meals, and notes
 - Results displayed in tabbed Planner UI with calendar integration
+
+## Phase 6: Enterprise Polish (Completed)
+
+30. **Monetization (Freemium UI)**
+    - Pro Badge indicators and a stunning `/pricing` upgrade page
+    - Shows Explorer (Free) vs TripGenius Pro tiers with mock interactive toast popups.
+
+31. **Global Multi-Currency Switcher**
+    - Dynamic currency toggle integrated directly into the Navbar
+    - Real-time conversion across the Planner budget, Itinerary Stats, and Group expenses.
+
+32. **Flight & Hotel Booking Mock Integrations**
+    - Added an end-of-itinerary call-to-action for Flights and Hotels
+    - UI intelligently adapts based on the generated destination for deep immersion.
+
+33. **AI Error Fallback & Resilience**
+    - Seamless error handling if the AI service goes down or is rate-limited.
+    - Instead of breaking, it gracefully loads a "Mock Offline Template" so users can still preview the app's power.
+
+34. **Advanced SEO & Accessibility**
+    - Integrated `react-helmet-async` for dynamic page titles and meta-descriptions.
+    - Added an `OfflineIndicator` pill that warns users immediately when they lose network connection.
+
+---
 
 ### 2. AI Chat Widget
 
@@ -60,36 +85,51 @@ _30+ features across 13 pages._
 - 4-step quiz: Climate → Activity Type → Vibe → Budget Tier
 - Matches answers to curated destination list; result card has a **"Plan →"** deep link to Planner
 
+### 5. Smart AI Packing List ★ NEW
+
+- **File:** `client/components/planner/PackingList.tsx`
+- Dynamically generates packing lists based on destination, weather temps, travel duration, and chosen mood.
+- Categories: Clothes, Toiletries, Documents, Health, Tech, Gear.
+- Shows total estimated luggage weight and tracks completion progress.
+
 ---
 
 ## 🌦️ Travel Information Features
 
-### 5. Live Weather Forecast
+### 6. Interactive Route Map ★ NEW
+
+- **File:** `client/components/TripMap.tsx` — Planner 'Map' tab
+- Powered by `react-leaflet` and Leaflet.js with free OpenStreetMap tiles.
+- Plots origin and destination with custom animated markers and weather tooltips.
+- Connects points with a glowing arc polyline and plots nearby places with pins.
+- **Geocoding:** Uses free Nominatim API to convert city names to coordinates instantly.
+
+### 7. Live Weather Forecast
 
 - **Route:** `GET /api/weather?location=<city>`
 - **File:** `server/routes/weather.ts`, displayed in `Planner.tsx`
 - OpenWeatherMap API: temperature, humidity, wind, 5-day forecast
 - Smart fallback data if API key is absent
 
-### 6. Nearby Places of Interest
+### 8. Nearby Places of Interest
 
 - **Route:** `GET /api/places?lat=<lat>&lon=<lon>`
 - **File:** `server/routes/places.ts`
 - Powered by Wikipedia Geosearch API — returns name, description, distance, thumbnail, Wikipedia link
 
-### 7. Transport Options
+### 9. Transport Options
 
 - **Route:** `GET /api/travel/options`
 - **File:** `server/routes/travel.ts`
 - Calculates ✈️ Flight / 🚆 Train / 🚗 Car / 🚢 Ferry options with Haversine distance + pricing
 
-### 8. Visa Requirements Lookup
+### 10. Visa Requirements Lookup
 
 - **Route:** `GET /api/visa`
 - **File:** `server/routes/visa.ts`, `client/components/planner/VisaChecker.tsx`
 - Displays visa requirements based on origin country in Planner's "Trip Prep" tab
 
-### 9. Carbon Footprint Tracker
+### 11. Carbon Footprint Tracker
 
 - **File:** `client/components/CarbonTracker.tsx`
 - Calculates CO₂ emissions by transport mode (flight / train / bus / car) × distance
@@ -99,18 +139,18 @@ _30+ features across 13 pages._
 
 ## 💰 Budget Features
 
-### 10. Budget Overview
+### 12. Budget Overview
 
 - **File:** `client/pages/Planner.tsx` — Budget tab
 - Per-day and per-person spending breakdown; auto-adjusts by group size and duration
 
-### 11. Budget Forecast Chart
+### 13. Budget Forecast Chart
 
 - **File:** `client/components/BudgetForecast.tsx` — Dashboard
 - Recharts **area chart**: projected vs. planned cumulative spend
 - Status badge: ✅ Under Budget / ⚠️ On Track / 🔴 Over Budget + 3 money-saving tips
 
-### 12. Currency Converter
+### 14. Currency Converter
 
 - **Route:** `GET /api/currency/convert`
 - **File:** `server/routes/currency.ts`
@@ -207,6 +247,10 @@ _30+ features across 13 pages._
 
 ---
 
+### 11. Subscription & Pricing `/pricing`
+
+A stunning glassmorphic and dynamically animated pricing tier screen comparing the Free and Pro capabilities of TripGenius. Includes a primary CTA for potential monetization or signups.
+
 ## 👤 Profile & Gamification
 
 ### 23. User Profile Page
@@ -225,6 +269,13 @@ _30+ features across 13 pages._
 - **File:** `client/pages/Profile.tsx` — Analytics tab
 - Recharts **Pie chart**: spending by category (Accommodation, Food, Transport, Activities)
 - Recharts **Bar chart**: per-trip budget vs. actual spend
+
+### 26. Trip Statistics Page ★ NEW
+
+- **Route:** `/stats` — `client/pages/TripStats.tsx`
+- Dedicated full-page analytics dashboard aggregating all past and future trips.
+- Stat summary cards: total countries visited, trips taken, days traveled, lifetime spend.
+- **Recharts Data Visualizations**: Line chart for trips over time, Bar chart for budget forecasting, Pie chart for travel mood distribution.
 
 ---
 
@@ -257,6 +308,13 @@ _30+ features across 13 pages._
 
 - **File:** `client/lib/i18n.ts`
 - `react-i18next` with English and Spanish translations for core UI elements
+
+### 31. Trip Reminder Notifications ★ NEW
+
+- **File:** `client/components/TripReminders.tsx` — Mounted on Dashboard
+- Scans `localStorage` for upcoming trips within the next 7 days.
+- Displays urgent/soon dismissable banners with direct links to the itinerary.
+- Integrated with the **Browser Notification API** to push system-level notifications for departing trips.
 
 ---
 
@@ -301,7 +359,7 @@ _30+ features across 13 pages._
 ### CI/CD & Quality
 
 - **GitHub Actions** (`.github/workflows/ci.yml`): typecheck + lint + test on every PR
-- **Playwright** E2E tests in `e2e/` directory
+- **Playwright** E2E test suite in `e2e/` (comprehensive user flows: Auth, Dashboard, Planner). Run via `npx playwright test`.
 - **Sentry** error monitoring (frontend runtime tracking)
 
 ---
@@ -325,6 +383,8 @@ client/components/
 │   ├── TripTimeline.tsx        — Activity timeline for Planner tab
 │   ├── LocalGuides.tsx         — Local guides listing
 │   └── PackingList.tsx         — Smart packing checklist generator
+├── TripMap.tsx                 — Interactive Leaflet map for routes/places
+├── TripReminders.tsx           — Imminent trip notification banners
 ├── AIChatWidget.tsx            — Floating AI chat bubble (global, every page)
 ├── OnboardingModal.tsx         — 3-step first-login wizard
 ├── TripScore.tsx               — AI trip grade (S/A/B/C/D) with 5 dimensions

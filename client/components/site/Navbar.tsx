@@ -13,11 +13,16 @@ import {
   ChevronDown,
   Scale,
   ShieldCheck,
+  BarChart3,
+  WifiOff,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ProBadge } from "@/components/ui/ProBadge";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { CurrencySelector } from "@/components/ui/CurrencySelector";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,6 +45,20 @@ export default function Navbar() {
       window.matchMedia("(prefers-color-scheme: dark)").matches;
     return prefersDark ? "dark" : "light";
   });
+  const [isOffline, setIsOffline] = useState(
+    typeof navigator !== "undefined" ? !navigator.onLine : false,
+  );
+
+  useEffect(() => {
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
   useEffect(() => {
     const root = document.documentElement;
     if (theme === "dark") root.classList.add("dark");
@@ -60,6 +79,7 @@ export default function Navbar() {
     { to: "/group-trips", label: "Group Trips", icon: Users },
     { to: "/compare", label: "Compare Destinations", icon: Scale },
     { to: "/emergency", label: "Safety Hub", icon: ShieldCheck },
+    { to: "/stats", label: "Trip Stats", icon: BarChart3 },
     { to: "/profile", label: "Profile", icon: Map },
   ];
 
@@ -124,6 +144,12 @@ export default function Navbar() {
           </DropdownMenu>
         </div>
         <div className="flex items-center gap-1.5">
+          {isOffline && (
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-semibold mr-2 animate-pulse">
+              <WifiOff className="h-3.5 w-3.5" />
+              Offline Mode
+            </div>
+          )}
           <Button
             variant="ghost"
             size="icon"
@@ -138,57 +164,87 @@ export default function Navbar() {
             )}
           </Button>
 
+          <CurrencySelector />
+
           {isLoading ? (
             <Button variant="ghost" disabled>
               Loading...
             </Button>
           ) : user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="hidden md:inline-flex gap-2">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
-                    {user.name[0]?.toUpperCase()}
+            <div className="flex items-center gap-2">
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="hidden lg:flex h-8 gap-1.5 border-amber-500/30 bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300 transition-colors"
+              >
+                <Link to="/pricing">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Upgrade Pro
+                </Link>
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="hidden md:inline-flex gap-2"
+                  >
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground relative">
+                      {user.name[0]?.toUpperCase()}
+                    </div>
+                    {user.name}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-52">
+                  <div className="px-2 py-1.5 flex items-center justify-between">
+                    <p className="text-xs font-medium text-muted-foreground truncate mr-2">
+                      {user.email}
+                    </p>
+                    <ProBadge />
                   </div>
-                  {user.name}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-52">
-                <div className="px-2 py-1.5">
-                  <p className="text-xs font-medium text-muted-foreground">
-                    {user.email}
-                  </p>
-                </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link to="/profile" className="flex items-center gap-2">
-                    <Users className="h-4 w-4" /> Profile
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/dashboard" className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4" /> Dashboard
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/journal" className="flex items-center gap-2">
-                    <BookOpen className="h-4 w-4" /> Travel Journal
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/reviews" className="flex items-center gap-2">
-                    <Star className="h-4 w-4" /> Trip Reviews
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={logout}
-                  className="text-red-600 cursor-pointer"
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    asChild
+                    className="lg:hidden text-amber-600 dark:text-amber-400 focus:text-amber-700 dark:focus:text-amber-300"
+                  >
+                    <Link
+                      to="/pricing"
+                      className="flex items-center gap-2 font-medium"
+                    >
+                      <Sparkles className="h-4 w-4" /> Upgrade to Pro
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile" className="flex items-center gap-2">
+                      <Users className="h-4 w-4" /> Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/dashboard" className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4" /> Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/journal" className="flex items-center gap-2">
+                      <BookOpen className="h-4 w-4" /> Travel Journal
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/reviews" className="flex items-center gap-2">
+                      <Star className="h-4 w-4" /> Trip Reviews
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={logout}
+                    className="text-red-600 cursor-pointer"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           ) : isGuest ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

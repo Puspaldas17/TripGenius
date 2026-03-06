@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Helmet } from "react-helmet-async";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
@@ -24,15 +25,24 @@ import {
 
 export default function Index() {
   return (
-    <div className="flex flex-col overflow-x-hidden">
-      <HeroSection />
-      <LogoBar />
-      <FeaturesSection />
-      <HowItWorks />
-      <StatsSection />
-      <TestimonialsSection />
-      <CTASection />
-    </div>
+    <>
+      <Helmet>
+        <title>TripGenius — Your AI Travel Agent</title>
+        <meta
+          name="description"
+          content="Build your perfect travel itinerary in seconds with TripGenius AI."
+        />
+      </Helmet>
+      <div className="flex flex-col w-full overflow-hidden bg-background">
+        <HeroSection />
+        <LogoBar />
+        <FeaturesSection />
+        <HowItWorks />
+        <StatsSection />
+        <TestimonialsSection />
+        <CTASection />
+      </div>
+    </>
   );
 }
 

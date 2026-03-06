@@ -24,8 +24,10 @@ import {
 import type { WeatherResponse } from "@shared/api";
 import CountdownWidget from "@/components/CountdownWidget";
 import DestinationDiscovery from "@/components/DestinationDiscovery";
+import { Helmet } from "react-helmet-async";
 import TripScore from "@/components/TripScore";
 import BudgetForecast from "@/components/BudgetForecast";
+import TripReminders from "@/components/TripReminders";
 
 function safeNumber(n: any, d = 0) {
   const v = Number(n);
@@ -213,307 +215,325 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-3 py-8 sm:px-4 md:px-6 md:py-10">
-      {/* Page Header */}
-      <div className="mb-8 animate-fade-in">
-        <h1 className="text-3xl font-extrabold tracking-tight">Dashboard</h1>
-        <p className="mt-1 text-muted-foreground">
-          Overview of your travel plans and activity
-        </p>
-      </div>
+    <>
+      <Helmet>
+        <title>My Dashboard | TripGenius</title>
+        <meta
+          name="description"
+          content="Manage your planned trips and travel statistics."
+        />
+      </Helmet>
+      <div className="mx-auto w-full max-w-7xl px-3 py-8 sm:px-4 md:px-6 md:py-10">
+        {/* Page Header */}
+        <div className="mb-8 animate-fade-in">
+          <h1 className="text-3xl font-extrabold tracking-tight">Dashboard</h1>
+          <p className="mt-1 text-muted-foreground">
+            Overview of your travel plans and activity
+          </p>
+        </div>
 
-      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 animate-in slide-in-from-bottom-8 duration-700">
-        <Card className="hover-lift group glass-card border-primary/20 backdrop-blur-xl bg-background/60 shadow-lg relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-          <CardHeader className="pb-3 relative z-10">
-            <CardTitle className="flex items-center gap-2 text-sm font-semibold">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/20 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 shadow-sm border border-primary/30">
-                <FolderKanban className="h-4 w-4" />
-              </div>
-              Quick Actions
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="grid grid-cols-1 gap-2 relative z-10">
-            <Button
-              asChild
-              className="shadow-md shadow-primary/20 hover:scale-[1.02] transition-transform"
-            >
-              <Link to="/planner" className="w-full">
-                <Plus className="mr-2 h-4 w-4" />
-                New Trip
-              </Link>
-            </Button>
-            <Button
-              variant="outline"
-              onClick={exportLast}
-              disabled={!saved.length}
-              className="w-full border-primary/20 hover:bg-primary/10"
-            >
-              <FileDown className="mr-2 h-4 w-4" /> Export last plan
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="mb-6 animate-in slide-in-from-bottom-4 duration-700">
+          <TripReminders />
+        </div>
 
-        <Card className="hover-lift group glass-card border-accent/20 backdrop-blur-xl bg-background/60 shadow-lg relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-          <CardHeader className="pb-3 relative z-10">
-            <CardTitle className="flex items-center gap-2 text-sm font-semibold">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent/20 text-accent group-hover:bg-accent group-hover:text-primary-foreground transition-all duration-300 shadow-sm border border-accent/30">
-                <CalendarDays className="h-4 w-4" />
+        <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 animate-in slide-in-from-bottom-8 duration-700">
+          <Card className="hover-lift group glass-card border-primary/20 backdrop-blur-xl bg-background/60 shadow-lg relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            <CardHeader className="pb-3 relative z-10">
+              <CardTitle className="flex items-center gap-2 text-sm font-semibold">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/20 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 shadow-sm border border-primary/30">
+                  <FolderKanban className="h-4 w-4" />
+                </div>
+                Quick Actions
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 gap-2 relative z-10">
+              <Button
+                asChild
+                className="shadow-md shadow-primary/20 hover:scale-[1.02] transition-transform"
+              >
+                <Link to="/planner" className="w-full">
+                  <Plus className="mr-2 h-4 w-4" />
+                  New Trip
+                </Link>
+              </Button>
+              <Button
+                variant="outline"
+                onClick={exportLast}
+                disabled={!saved.length}
+                className="w-full border-primary/20 hover:bg-primary/10"
+              >
+                <FileDown className="mr-2 h-4 w-4" /> Export last plan
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="hover-lift group glass-card border-accent/20 backdrop-blur-xl bg-background/60 shadow-lg relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            <CardHeader className="pb-3 relative z-10">
+              <CardTitle className="flex items-center gap-2 text-sm font-semibold">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent/20 text-accent group-hover:bg-accent group-hover:text-primary-foreground transition-all duration-300 shadow-sm border border-accent/30">
+                  <CalendarDays className="h-4 w-4" />
+                </div>
+                Insights
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 gap-3 relative z-10">
+              <div className="rounded-xl border border-accent/20 bg-accent/5 p-3 text-center transition-colors group-hover:bg-accent/10">
+                <div className="text-2xl font-bold text-accent">
+                  {stats.trips}
+                </div>
+                <div className="text-xs text-muted-foreground">Trips</div>
               </div>
-              Insights
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-3 relative z-10">
-            <div className="rounded-xl border border-accent/20 bg-accent/5 p-3 text-center transition-colors group-hover:bg-accent/10">
-              <div className="text-2xl font-bold text-accent">
-                {stats.trips}
+              <div className="rounded-xl border border-accent/20 bg-accent/5 p-3 text-center transition-colors group-hover:bg-accent/10">
+                <div className="text-2xl font-bold text-accent">
+                  {stats.days}
+                </div>
+                <div className="text-xs text-muted-foreground">Days</div>
               </div>
-              <div className="text-xs text-muted-foreground">Trips</div>
-            </div>
-            <div className="rounded-xl border border-accent/20 bg-accent/5 p-3 text-center transition-colors group-hover:bg-accent/10">
-              <div className="text-2xl font-bold text-accent">{stats.days}</div>
-              <div className="text-xs text-muted-foreground">Days</div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="hover-lift group">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-sm font-semibold">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                <CloudSun className="h-4 w-4" />
-              </div>
-              Upcoming Weather
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {weather ? (
-              <div className="space-y-2 text-sm">
-                {weather.alerts?.length ? (
-                  <div className="rounded-md border bg-amber-50 p-2 text-amber-800 dark:bg-amber-900/20 dark:text-amber-200 text-xs">
-                    ⚠️ Alerts:{" "}
-                    {weather.alerts.map((a) => a.description).join(", ")}
-                  </div>
-                ) : (
-                  <div className="text-muted-foreground text-sm">
-                    No alerts.
-                  </div>
-                )}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {weather.daily.slice(0, 3).map((d) => (
-                    <div key={d.date} className="rounded-md border p-2 text-xs">
-                      <div className="font-medium">
-                        {new Date(d.date).toLocaleDateString()}
+            </CardContent>
+          </Card>
+          <Card className="hover-lift group">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-sm font-semibold">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                  <CloudSun className="h-4 w-4" />
+                </div>
+                Upcoming Weather
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {weather ? (
+                <div className="space-y-2 text-sm">
+                  {weather.alerts?.length ? (
+                    <div className="rounded-md border bg-amber-50 p-2 text-amber-800 dark:bg-amber-900/20 dark:text-amber-200 text-xs">
+                      ⚠️ Alerts:{" "}
+                      {weather.alerts.map((a) => a.description).join(", ")}
+                    </div>
+                  ) : (
+                    <div className="text-muted-foreground text-sm">
+                      No alerts.
+                    </div>
+                  )}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {weather.daily.slice(0, 3).map((d) => (
+                      <div
+                        key={d.date}
+                        className="rounded-md border p-2 text-xs"
+                      >
+                        <div className="font-medium">
+                          {new Date(d.date).toLocaleDateString()}
+                        </div>
+                        <div className="text-muted-foreground">{d.summary}</div>
+                        <div>
+                          {Math.round(d.tempMin)}° / {Math.round(d.tempMax)}°C
+                        </div>
                       </div>
-                      <div className="text-muted-foreground">{d.summary}</div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="text-muted-foreground text-sm">
+                  Save a trip to see weather for it.
+                </div>
+              )}
+            </CardContent>
+          </Card>
+          <Card className="hover-lift group">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-sm font-semibold">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                  <Bell className="h-4 w-4" />
+                </div>
+                Notifications
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="text-sm text-muted-foreground">
+              <div className="flex flex-col items-center justify-center py-4 text-center">
+                <Bell className="h-8 w-8 text-muted-foreground/30 mb-2" />
+                <p>No notifications yet.</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <Card className="overflow-hidden">
+            <CardHeader className="border-b bg-muted/20">
+              <CardTitle className="text-base">Saved Plans</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="mb-3 flex items-center gap-2">
+                <Input
+                  placeholder="Search by name or destination"
+                  value={query}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    setPage(1);
+                  }}
+                />
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    localStorage.removeItem("tg_saved_trips");
+                    setSaved([]);
+                  }}
+                  disabled={!saved.length}
+                >
+                  <Trash2 className="mr-2 h-4 w-4" /> Clear
+                </Button>
+              </div>
+              {loadingTrips ? (
+                <div className="space-y-2">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <Skeleton key={i} className="h-16 w-full" />
+                  ))}
+                </div>
+              ) : saved.length ? (
+                (() => {
+                  const filtered = saved.filter((t) =>
+                    (t.name + " " + t.destination)
+                      .toLowerCase()
+                      .includes(query.toLowerCase()),
+                  );
+                  const total = filtered.length;
+                  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+                  const cur = Math.min(page, totalPages);
+                  const start = (cur - 1) * pageSize;
+                  const pageItems = filtered.slice(start, start + pageSize);
+                  return (
+                    <>
+                      <div className="space-y-2">
+                        {pageItems.map((t) => (
+                          <div
+                            key={t.id}
+                            className="flex items-center justify-between rounded-xl border p-3 text-sm hover:bg-muted/30 transition-colors"
+                          >
+                            <div>
+                              <div className="font-medium">
+                                {t.name}{" "}
+                                <Badge variant="secondary" className="ml-2">
+                                  {t.days} days
+                                </Badge>
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                {t.destination} •{" "}
+                                {new Date(t.createdAt).toLocaleDateString()}
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Button asChild variant="outline">
+                                <Link
+                                  to="/planner"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    openTrip(t.id);
+                                  }}
+                                >
+                                  Open
+                                </Link>
+                              </Button>
+                              <Button
+                                variant="destructive"
+                                onClick={() => deleteTrip(t.id)}
+                              >
+                                <Trash2 className="mr-2 h-4 w-4" /> Delete
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <Pagination className="mt-3">
+                        <PaginationContent>
+                          <PaginationItem>
+                            <PaginationPrevious
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setPage((p) => Math.max(1, p - 1));
+                              }}
+                            />
+                          </PaginationItem>
+                          <PaginationItem>
+                            <PaginationNext
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setPage((p) => Math.min(totalPages, p + 1));
+                              }}
+                            />
+                          </PaginationItem>
+                        </PaginationContent>
+                      </Pagination>
+                    </>
+                  );
+                })()
+              ) : (
+                <div className="text-sm text-muted-foreground">
+                  No saved plans yet. Create one from the Planner.
+                </div>
+              )}
+            </CardContent>
+          </Card>
+          <Card className="overflow-hidden">
+            <CardHeader className="border-b bg-muted/20">
+              <CardTitle className="text-base">Recent Activity</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {activity.length ? (
+                <div className="space-y-2 text-sm">
+                  {activity.slice(0, 10).map((a) => (
+                    <div
+                      key={a.id}
+                      className="flex items-center justify-between rounded-xl border p-3 hover:bg-muted/30 transition-colors"
+                    >
                       <div>
-                        {Math.round(d.tempMin)}° / {Math.round(d.tempMax)}°C
+                        <div>{a.message}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {new Date(a.at).toLocaleString()}
+                        </div>
                       </div>
                     </div>
                   ))}
-                </div>
-              </div>
-            ) : (
-              <div className="text-muted-foreground text-sm">
-                Save a trip to see weather for it.
-              </div>
-            )}
-          </CardContent>
-        </Card>
-        <Card className="hover-lift group">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-sm font-semibold">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                <Bell className="h-4 w-4" />
-              </div>
-              Notifications
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm text-muted-foreground">
-            <div className="flex flex-col items-center justify-center py-4 text-center">
-              <Bell className="h-8 w-8 text-muted-foreground/30 mb-2" />
-              <p>No notifications yet.</p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <Card className="overflow-hidden">
-          <CardHeader className="border-b bg-muted/20">
-            <CardTitle className="text-base">Saved Plans</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="mb-3 flex items-center gap-2">
-              <Input
-                placeholder="Search by name or destination"
-                value={query}
-                onChange={(e) => {
-                  setQuery(e.target.value);
-                  setPage(1);
-                }}
-              />
-              <Button
-                variant="outline"
-                onClick={() => {
-                  localStorage.removeItem("tg_saved_trips");
-                  setSaved([]);
-                }}
-                disabled={!saved.length}
-              >
-                <Trash2 className="mr-2 h-4 w-4" /> Clear
-              </Button>
-            </div>
-            {loadingTrips ? (
-              <div className="space-y-2">
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <Skeleton key={i} className="h-16 w-full" />
-                ))}
-              </div>
-            ) : saved.length ? (
-              (() => {
-                const filtered = saved.filter((t) =>
-                  (t.name + " " + t.destination)
-                    .toLowerCase()
-                    .includes(query.toLowerCase()),
-                );
-                const total = filtered.length;
-                const totalPages = Math.max(1, Math.ceil(total / pageSize));
-                const cur = Math.min(page, totalPages);
-                const start = (cur - 1) * pageSize;
-                const pageItems = filtered.slice(start, start + pageSize);
-                return (
-                  <>
-                    <div className="space-y-2">
-                      {pageItems.map((t) => (
-                        <div
-                          key={t.id}
-                          className="flex items-center justify-between rounded-xl border p-3 text-sm hover:bg-muted/30 transition-colors"
-                        >
-                          <div>
-                            <div className="font-medium">
-                              {t.name}{" "}
-                              <Badge variant="secondary" className="ml-2">
-                                {t.days} days
-                              </Badge>
-                            </div>
-                            <div className="text-xs text-muted-foreground">
-                              {t.destination} •{" "}
-                              {new Date(t.createdAt).toLocaleDateString()}
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Button asChild variant="outline">
-                              <Link
-                                to="/planner"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  openTrip(t.id);
-                                }}
-                              >
-                                Open
-                              </Link>
-                            </Button>
-                            <Button
-                              variant="destructive"
-                              onClick={() => deleteTrip(t.id)}
-                            >
-                              <Trash2 className="mr-2 h-4 w-4" /> Delete
-                            </Button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <Pagination className="mt-3">
-                      <PaginationContent>
-                        <PaginationItem>
-                          <PaginationPrevious
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setPage((p) => Math.max(1, p - 1));
-                            }}
-                          />
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationNext
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setPage((p) => Math.min(totalPages, p + 1));
-                            }}
-                          />
-                        </PaginationItem>
-                      </PaginationContent>
-                    </Pagination>
-                  </>
-                );
-              })()
-            ) : (
-              <div className="text-sm text-muted-foreground">
-                No saved plans yet. Create one from the Planner.
-              </div>
-            )}
-          </CardContent>
-        </Card>
-        <Card className="overflow-hidden">
-          <CardHeader className="border-b bg-muted/20">
-            <CardTitle className="text-base">Recent Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {activity.length ? (
-              <div className="space-y-2 text-sm">
-                {activity.slice(0, 10).map((a) => (
-                  <div
-                    key={a.id}
-                    className="flex items-center justify-between rounded-xl border p-3 hover:bg-muted/30 transition-colors"
-                  >
-                    <div>
-                      <div>{a.message}</div>
-                      <div className="text-xs text-muted-foreground">
-                        {new Date(a.at).toLocaleString()}
-                      </div>
-                    </div>
+                  <div className="pt-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        localStorage.removeItem("tg_activity");
+                        setActivity([]);
+                      }}
+                    >
+                      Clear activity
+                    </Button>
                   </div>
-                ))}
-                <div className="pt-2">
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      localStorage.removeItem("tg_activity");
-                      setActivity([]);
-                    }}
-                  >
-                    Clear activity
-                  </Button>
                 </div>
-              </div>
-            ) : (
-              <div className="text-sm text-muted-foreground">
-                Nothing here yet. Start planning to see activity.
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+              ) : (
+                <div className="text-sm text-muted-foreground">
+                  Nothing here yet. Start planning to see activity.
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
 
-      {/* --- Countdown + Discovery Row --- */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 mt-6">
-        <CountdownWidget />
-        <DestinationDiscovery />
-      </div>
+        {/* --- Countdown + Discovery Row --- */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 mt-6">
+          <CountdownWidget />
+          <DestinationDiscovery />
+        </div>
 
-      {/* --- Trip Score + Budget Forecast Row --- */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 mt-6">
-        <TripScore
-          destination={saved[0]?.destination || "Your Trip"}
-          days={saved[0]?.days || 7}
-        />
-        <BudgetForecast
-          destination={saved[0]?.destination || "your trip"}
-          days={saved[0]?.days || 7}
-        />
+        {/* --- Trip Score + Budget Forecast Row --- */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 mt-6">
+          <TripScore
+            destination={saved[0]?.destination || "Your Trip"}
+            days={saved[0]?.days || 7}
+          />
+          <BudgetForecast
+            destination={saved[0]?.destination || "your trip"}
+            days={saved[0]?.days || 7}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }

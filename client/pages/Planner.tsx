@@ -729,7 +729,21 @@ export default function Planner() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ name: entry.name, itinerary }),
+          body: JSON.stringify({
+            destination: form.destination,
+            origin: origin,
+            startDate: dateRange.from
+              ? dateRange.from.toISOString()
+              : new Date().toISOString(),
+            endDate: dateRange.to
+              ? dateRange.to.toISOString()
+              : new Date(Date.now() + form.days * 86400000).toISOString(),
+            days: form.days,
+            budget: form.budget,
+            members: members || 1,
+            mood: form.mood || "adventure",
+            itinerary: itinerary,
+          }),
         });
       }
     } catch {}

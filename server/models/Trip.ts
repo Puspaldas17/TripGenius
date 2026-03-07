@@ -38,5 +38,6 @@ const TripSchema: Schema = new Schema(
 
 // Compound index for fast user-specific queries
 TripSchema.index({ userId: 1, createdAt: -1 });
-
-export const Trip = mongoose.model<ITrip>("Trip", TripSchema);
+export const Trip =
+  (mongoose.models.Trip as mongoose.Model<ITrip>) ||
+  mongoose.model<ITrip>("Trip", TripSchema);
